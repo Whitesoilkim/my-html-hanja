@@ -42,7 +42,6 @@
         .word-detail { font-size: 16px; color: #2980b9; text-align: center; margin-bottom: 10px; white-space: pre-line; line-height: 1.4; }
         .word-meaning { background: #f1f2f6; padding: 15px; border-radius: 8px; font-size: 15px; line-height: 1.4; text-align: center; margin-bottom: 15px; border: 1px solid #dfe4ea; word-break: keep-all; }
         
-        /* 💡 상단 버튼 그룹 */
         .top-btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
         .top-btn-group button { flex: 1; max-width: 160px; padding: 10px; border-radius: 8px; color: white; border: none; font-weight: bold; font-size: 14px; cursor: pointer; }
         .btn-stroke { background: #8e44ad; }
@@ -72,12 +71,10 @@
         .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
         .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
-        /* 💡 팝업(모달) 창 공통 스타일 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
         
-        /* 점수 모달 전용 */
         .score-details { text-align: left; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dcdde1; }
         .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
         .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
@@ -92,8 +89,12 @@
         .btn-submit { background: #3498db; color: white; }
         .btn-close { background: #95a5a6; color: white; width: 100%; }
 
-        /* 💡 추가됨: 그림 보기 모달 전용 스타일 */
         #image-modal-img { max-width: 100%; max-height: 50vh; border-radius: 8px; margin-bottom: 15px; object-fit: contain; }
+        
+        /* 💡 추가됨: 이미지 삽입 영역 스타일 */
+        #image-upload-area { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #bdc3c7; }
+        .upload-label { background: #3498db; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-block; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .upload-label:active { background: #2980b9; }
     </style>
 </head>
 <body>
@@ -156,13 +157,25 @@
     </div>
 
     <div id="image-modal" class="modal-overlay">
-        <div class="modal-content" style="width: auto;">
+        <div class="modal-content" style="width: auto; min-width: 280px;">
             <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
-            <img id="image-modal-img" src="" alt="단어 그림">
-            <button class="btn-close" onclick="closeImageModal()">닫기</button>
+            <img id="image-modal-img" src="" alt="단어 그림" style="display:none;">
+            
+            <!-- 💡 추가됨: 이미지 파일이 없을 때 나타나는 파일 업로드 영역 -->
+            <div id="image-upload-area" style="display:none;">
+                <p style="font-size: 13px; color: #7f8c8d; margin-top:0; margin-bottom:15px; line-height:1.4;">
+                    서버에 등록된 그림이 없습니다.<br>기기에서 사진을 찾아 직접 넣어보세요!
+                </p>
+                <label for="image-upload-input" class="upload-label">📸 앨범에서 사진 찾기</label>
+                <!-- 이미지 파일만 선택하도록 설정 -->
+                <input type="file" id="image-upload-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            </div>
+
+            <button class="btn-close" onclick="closeImageModal()" style="margin-top:10px;">닫기</button>
         </div>
     </div>
 
+    <!-- 점수 모달창 -->
     <div id="score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
@@ -460,16 +473,58 @@
 
         function openImageModal() {
             document.getElementById('image-modal-title').innerText = currentWordName + " 그림";
+            
             const imgEl = document.getElementById('image-modal-img');
+            const uploadArea = document.getElementById('image-upload-area');
+            
+            imgEl.style.display = 'block';
+            uploadArea.style.display = 'none';
+
+            const savedImage = localStorage.getItem('HanjaApp_Img_' + currentWordName);
+            
+            if (savedImage) {
+                imgEl.src = savedImage;
+                document.getElementById('image-modal').style.display = 'flex';
+                return;
+            }
+
             imgEl.src = currentWordName + '.png';
+            
             imgEl.onerror = function() {
-                this.src = 'https://via.placeholder.com/300x200?text=이미지+준비중';
+                this.style.display = 'none';
+                uploadArea.style.display = 'block';
             };
+            
             document.getElementById('image-modal').style.display = 'flex';
         }
 
         function closeImageModal() {
             document.getElementById('image-modal').style.display = 'none';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Img = e.target.result;
+                const imgEl = document.getElementById('image-modal-img');
+                const uploadArea = document.getElementById('image-upload-area');
+                
+                imgEl.src = base64Img;
+                imgEl.style.display = 'block';
+                uploadArea.style.display = 'none';
+
+                try {
+                    localStorage.setItem('HanjaApp_Img_' + currentWordName, base64Img);
+                } catch(err) {
+                    alert("기기 저장 공간이 부족하여 이미지를 저장할 수 없습니다.");
+                }
+            };
+            reader.readAsDataURL(file);
+            
+            event.target.value = '';
         }
 
         function openDetail(word, data) {
@@ -694,10 +749,22 @@
 
         function submitScoreModal() {
             let initials = document.getElementById('player-initials').value.trim();
+            
             if(!initials) {
                 alert("이니셜을 입력해주세요.");
                 return;
             }
+
+            const forbiddenWords = ['바보', '멍청이', '씨발', '시발', '개새끼', '병신', '지랄', '미친', '존나', '새끼'];
+            for (let word of forbiddenWords) {
+                if (initials.includes(word)) {
+                    alert("비속어나 바르지 않은 단어가 포함되어 있습니다. 고운 말을 사용해주세요! 😊");
+                    document.getElementById('player-initials').value = ''; 
+                    document.getElementById('player-initials').focus();
+                    return; 
+                }
+            }
+
             let wordName = document.getElementById('detail-title').innerText.split(' ')[0];
             saveRanking(window.currentFinalScore, wordName, initials);
             
