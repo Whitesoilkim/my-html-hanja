@@ -604,26 +604,32 @@
             if (targetPixels === 0 || hitPixels === 0) return;
             
             let charLen = currentHanjaWord.length;
+            let completionRate = hitPixels / targetPixels;
+            let normalizedCompletion = Math.min(1.0, completionRate * 1.35);
 
-            let targetStroke = charLen * 8; 
-            let strokeScore = 30;
-            if (strokeCount > targetStroke * 1.5) {
-                strokeScore -= Math.min(30, (strokeCount - targetStroke*1.5) * 1.5);
-            } else if (strokeCount < targetStroke * 0.3) {
-                strokeScore -= 10;
+            let strokeScore = 30 * normalizedCompletion;
+            let expectedStrokes = charLen * 9; 
+            let currentExpected = expectedStrokes * normalizedCompletion;
+            
+            if (strokeCount < currentExpected * 0.4) {
+                strokeScore -= 10 * normalizedCompletion; 
+            } else if (strokeCount > currentExpected * 3.0) {
+                strokeScore -= 10 * normalizedCompletion; 
             }
             strokeScore = Math.max(0, Math.round(strokeScore));
 
-            let readScore = 25 - (missPixels / targetPixels) * 15;
-            readScore = Math.max(0, Math.min(25, Math.round(readScore)));
+            let readScore = (25 * normalizedCompletion) - (missPixels / targetPixels) * 15;
+            readScore = Math.max(0, Math.round(readScore));
 
-            let shapeScore = (hitPixels / targetPixels) * 35; 
-            shapeScore = Math.max(0, Math.min(25, Math.round(shapeScore)));
+            let shapeScore = 25 * normalizedCompletion;
+            shapeScore = Math.max(0, Math.round(shapeScore));
 
             let bonusScore = 0;
-            if (charLen === 1) bonusScore = 10;
-            else if (charLen === 2) bonusScore = 15;
-            else bonusScore = 20;
+            if (normalizedCompletion > 0.7) {
+                if (charLen === 1) bonusScore = 10;
+                else if (charLen === 2) bonusScore = 15;
+                else bonusScore = 20;
+            }
 
             let finalScore = strokeScore + readScore + shapeScore + bonusScore;
             finalScore = Math.min(100, finalScore);
