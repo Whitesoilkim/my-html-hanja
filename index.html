@@ -418,7 +418,7 @@
         let isDrawing = false;
         let lastPos = {x:0, y:0};
         let lastTime = 0;
-        let lastWidth = 10;
+        let lastWidth = 7; // 기본 굵기 조정됨
         
         drawCtx.strokeStyle = '#2c3e50';
         drawCtx.lineCap = 'round';
@@ -514,7 +514,7 @@
             const pos = getPos(e);
             lastPos = pos;
             lastTime = Date.now();
-            lastWidth = 10;
+            lastWidth = 7; // 기본 굵기 조정됨
             
             drawCtx.beginPath();
             drawCtx.moveTo(pos.x, pos.y);
@@ -535,7 +535,8 @@
             const dist = Math.hypot(pos.x - lastPos.x, pos.y - lastPos.y);
             const speed = dist / dt;
             
-            let targetWidth = Math.max(3, 15 - speed * 8); 
+            // 💡 수정됨: 이전 공식 (Math.max(3, 15 - speed*8))의 70% 수준으로 조절
+            let targetWidth = Math.max(2, 10.5 - speed * 5.6); 
             lastWidth = lastWidth + (targetWidth - lastWidth) * 0.2; 
             
             drawCtx.lineWidth = lastWidth;
