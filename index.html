@@ -42,15 +42,16 @@
         .word-detail { font-size: 16px; color: #2980b9; text-align: center; margin-bottom: 10px; white-space: pre-line; line-height: 1.4; }
         .word-meaning { background: #f1f2f6; padding: 15px; border-radius: 8px; font-size: 15px; line-height: 1.4; text-align: center; margin-bottom: 15px; border: 1px solid #dfe4ea; word-break: keep-all; }
         
-        .example-text {
-            background: #e8f4f8; padding: 15px; border-radius: 8px; font-size: 15px; color: #2c3e50; 
-            margin-bottom: 10px; text-align: center; line-height: 1.4; word-break: keep-all; font-weight: bold; display: block;
-        }
+        /* 💡 상단 버튼 그룹 */
+        .top-btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
+        .top-btn-group button { flex: 1; max-width: 160px; padding: 10px; border-radius: 8px; color: white; border: none; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .btn-stroke { background: #8e44ad; }
+        .btn-image { background: #3498db; }
 
+        .example-text { background: #e8f4f8; padding: 15px; border-radius: 8px; font-size: 15px; color: #2c3e50; text-align: center; line-height: 1.4; word-break: keep-all; font-weight: bold; display: block; margin-bottom: 10px; }
         .writer-container { display: none; justify-content: center; gap: 10px; margin-bottom: 10px; min-height: 80px; }
         .hanja-box { width: 75px; height: 75px; border: 2px dashed #bdc3c7; border-radius: 8px; cursor: pointer; background: #fff; display: flex; justify-content: center; align-items: center; }
         .hanja-box:active { background: #f1f2f6; }
-        .toggle-btn { background: #8e44ad; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin: 0 auto 15px auto; display: block; }
         
         .canvas-container { display: flex; flex-direction: column; align-items: center; }
         .canvas-label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #e74c3c; text-align: center; }
@@ -71,9 +72,12 @@
         .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
         .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
+        /* 💡 팝업(모달) 창 공통 스타일 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
+        
+        /* 점수 모달 전용 */
         .score-details { text-align: left; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dcdde1; }
         .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
         .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
@@ -86,7 +90,10 @@
         .modal-buttons { display: flex; gap: 10px; }
         .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-submit { background: #3498db; color: white; }
-        .btn-close { background: #95a5a6; color: white; }
+        .btn-close { background: #95a5a6; color: white; width: 100%; }
+
+        /* 💡 추가됨: 그림 보기 모달 전용 스타일 */
+        #image-modal-img { max-width: 100%; max-height: 50vh; border-radius: 8px; margin-bottom: 15px; object-fit: contain; }
     </style>
 </head>
 <body>
@@ -124,7 +131,10 @@
         <h1 id="detail-title" class="word-title"></h1>
         <div id="detail-hanja" class="word-detail"></div>
         
-        <button id="toggle-btn" class="toggle-btn" onclick="toggleExampleStroke()">▶ 획순서 보기</button>
+        <div class="top-btn-group">
+            <button id="toggle-btn" class="btn-stroke" onclick="toggleExampleStroke()">▶ 획순서 보기</button>
+            <button class="btn-image" onclick="openImageModal()">🖼️ 그림 보기</button>
+        </div>
         
         <div id="detail-example" class="example-text"></div>
         <div id="writer-container" class="writer-container"></div>
@@ -145,6 +155,14 @@
         </div>
     </div>
 
+    <div id="image-modal" class="modal-overlay">
+        <div class="modal-content" style="width: auto;">
+            <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
+            <img id="image-modal-img" src="" alt="단어 그림">
+            <button class="btn-close" onclick="closeImageModal()">닫기</button>
+        </div>
+    </div>
+
     <div id="score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
@@ -161,7 +179,7 @@
             </div>
             <div class="modal-buttons">
                 <button id="modal-submit-btn" class="btn-submit" onclick="submitScoreModal()">등록하기</button>
-                <button class="btn-close" onclick="closeScoreModal()">닫기 (다시 쓰기)</button>
+                <button class="btn-close" onclick="closeScoreModal()" style="width:auto;">닫기 (다시 쓰기)</button>
             </div>
         </div>
     </div>
@@ -404,11 +422,11 @@
             });
         }
 
+        let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
         let scoreRecorded = false; 
         window.currentFinalScore = 0;
-        let isShowingExample = true; 
 
         const bgCanvas = document.getElementById('bgCanvas');
         const bgCtx = bgCanvas.getContext('2d', { willReadFrequently: true });
@@ -425,20 +443,33 @@
         drawCtx.lineJoin = 'round';
 
         function toggleExampleStroke() {
-            isShowingExample = !isShowingExample;
             const btn = document.getElementById('toggle-btn');
             const exDiv = document.getElementById('detail-example');
             const wrDiv = document.getElementById('writer-container');
 
-            if(isShowingExample) {
-                exDiv.style.display = 'block';
-                wrDiv.style.display = 'none';
-                btn.innerHTML = '▶ 획순서 보기';
-            } else {
+            if (exDiv.style.display !== 'none') {
                 exDiv.style.display = 'none';
                 wrDiv.style.display = 'flex';
                 btn.innerHTML = '📖 예문 다시 보기';
+            } else {
+                exDiv.style.display = 'block';
+                wrDiv.style.display = 'none';
+                btn.innerHTML = '▶ 획순서 보기';
             }
+        }
+
+        function openImageModal() {
+            document.getElementById('image-modal-title').innerText = currentWordName + " 그림";
+            const imgEl = document.getElementById('image-modal-img');
+            imgEl.src = currentWordName + '.png';
+            imgEl.onerror = function() {
+                this.src = 'https://via.placeholder.com/300x200?text=이미지+준비중';
+            };
+            document.getElementById('image-modal').style.display = 'flex';
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').style.display = 'none';
         }
 
         function openDetail(word, data) {
@@ -447,6 +478,7 @@
             document.getElementById('detail-view').style.display = 'flex'; 
             window.scrollTo(0,0);
             
+            currentWordName = word;
             currentHanjaWord = data.hanja;
             strokeCount = 0;
             scoreRecorded = false;
@@ -454,10 +486,8 @@
             document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
             document.getElementById('detail-hanja').innerText = data.detail;
             document.getElementById('detail-meaning').innerText = data.meaning;
-            
             document.getElementById('detail-example').innerText = data.ex || "등록된 예문이 없습니다.";
 
-            isShowingExample = true;
             document.getElementById('detail-example').style.display = 'block';
             document.getElementById('writer-container').style.display = 'none';
             document.getElementById('toggle-btn').innerHTML = '▶ 획순서 보기';
