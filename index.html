@@ -9,7 +9,7 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", "PingFang SC", "Hiragino Sans GB", sans-serif; }
         body { margin: 0; padding: 0; background-color: #f4f6f9; color: #333; overscroll-behavior-y: none; }
         
-        header { 
+        #main-header { 
             display: flex; position: sticky; top: 0; z-index: 10; 
             background: #f4f6f9; padding: 10px; gap: 10px; border-bottom: 2px solid #ecf0f1;
         }
@@ -17,9 +17,10 @@
             flex: 1; text-align: center; padding: 12px 5px; font-size: 15px; 
             font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
-        .header-math { background-color: #3498db; color: white; }
-        .header-sci { background-color: #ecf0f1; color: #7f8c8d; }
-        .header-rank { background-color: #f39c12; color: white; }
+        .tab-active-main { background-color: #3498db; color: white; }
+        .tab-active-game { background-color: #8e44ad; color: white; }
+        .tab-active-rank { background-color: #f39c12; color: white; }
+        .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
 
         .list-container { display: flex; gap: 10px; padding: 10px; }
         .col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
@@ -63,6 +64,34 @@
         .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         
+        /* 💡 짝맞추기 게임용 스타일 개편 */
+        #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
+        .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
+        
+        #game-board { 
+            flex: 1; background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; 
+            padding: 10px; display: grid; gap: 8px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            /* 모바일 화면에 맞춰 4열로 구성 */
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(70px, auto);
+        }
+        
+        .match-card {
+            background: white; border: 2px solid #95a5a6; border-radius: 8px;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            font-weight: bold; color: #2c3e50; cursor: pointer; transition: 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 5px; word-break: keep-all;
+        }
+        .match-card:active { transform: scale(0.95); }
+        .match-card.selected { border-color: #e74c3c; background: #fadbd8; color: #c0392b; transform: scale(0.95); box-shadow: none; }
+        .match-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
+        .card-hanja { font-size: 32px; font-weight: normal; }
+        .card-meaning { font-size: 13px; line-height: 1.2; }
+
+        #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #game-start-btn:active { background: #9b59b6; }
+
+        /* 랭킹 뷰 스타일 */
         #ranking-view { display: none; padding: 20px; text-align: center; }
         .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
         .ranking-table { width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -71,6 +100,7 @@
         .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
         .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
+        /* 모달 공통 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
@@ -90,33 +120,41 @@
         .btn-close { background: #95a5a6; color: white; width: 100%; }
 
         #image-modal-img { max-width: 100%; max-height: 50vh; border-radius: 8px; margin-bottom: 15px; object-fit: contain; }
-        
-        /* 💡 추가됨: 이미지 삽입 영역 스타일 */
         #image-upload-area { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #bdc3c7; }
         .upload-label { background: #3498db; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-block; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .upload-label:active { background: #2980b9; }
     </style>
 </head>
 <body>
 
+    <!-- 통합 상단 탭 -->
+    <header id="main-header">
+        <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학 & 과학</div>
+        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">미니 게임</div>
+        <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆 랭킹</div>
+    </header>
+
+    <!-- 1. 메인 리스트 뷰 -->
     <div id="main-app">
-        <header>
-            <div class="header-tab header-math" onclick="window.scrollTo(0,0)">수학</div>
-            <div class="header-tab header-sci" onclick="window.scrollTo(0,0)">과학</div>
-            <div class="header-tab header-rank" onclick="showRanking()">🏆 랭킹</div>
-        </header>
         <div class="list-container" id="list-container">
             <div id="col-math" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 수학 단어</div></div>
             <div id="col-sci" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 과학 단어</div></div>
         </div>
     </div>
 
+    <!-- 2. 짝맞추기 미니 게임 뷰 -->
+    <div id="game-view">
+        <div class="game-stats">
+            <span id="game-time">⏱️ 60초</span>
+            <span id="game-score">🎯 0 / 12쌍</span>
+        </div>
+        <div id="game-board">
+            <!-- 카드가 동적으로 생성됨 -->
+        </div>
+        <button id="game-start-btn" onclick="startGame()">새 게임 시작</button>
+    </div>
+
+    <!-- 3. 랭킹 뷰 -->
     <div id="ranking-view">
-        <header>
-            <div class="header-tab header-math" style="background:#ecf0f1; color:#7f8c8d;" onclick="closeRanking()">수학</div>
-            <div class="header-tab header-sci" style="background:#ecf0f1; color:#7f8c8d;" onclick="closeRanking()">과학</div>
-            <div class="header-tab header-rank" style="background:#f39c12; color:white;">🏆 랭킹</div>
-        </header>
         <h2 class="ranking-title">🌟 주간 명예의 전당 🌟</h2>
         <table class="ranking-table" id="ranking-table">
             <thead>
@@ -127,6 +165,7 @@
         <div class="ranking-info">※ 랭킹은 7일마다 자동으로 초기화됩니다.</div>
     </div>
 
+    <!-- 4. 상세 화면 (한자 그리기) -->
     <div id="detail-view">
         <button class="back-btn" onclick="closeDetail()">⬅ 목록으로 돌아가기</button>
         <h1 id="detail-title" class="word-title"></h1>
@@ -156,21 +195,18 @@
         </div>
     </div>
 
+    <!-- 이미지 모달 -->
     <div id="image-modal" class="modal-overlay">
         <div class="modal-content" style="width: auto; min-width: 280px;">
             <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
             <img id="image-modal-img" src="" alt="단어 그림" style="display:none;">
-            
-            <!-- 💡 추가됨: 이미지 파일이 없을 때 나타나는 파일 업로드 영역 -->
             <div id="image-upload-area" style="display:none;">
                 <p style="font-size: 13px; color: #7f8c8d; margin-top:0; margin-bottom:15px; line-height:1.4;">
                     서버에 등록된 그림이 없습니다.<br>기기에서 사진을 찾아 직접 넣어보세요!
                 </p>
                 <label for="image-upload-input" class="upload-label">📸 앨범에서 사진 찾기</label>
-                <!-- 이미지 파일만 선택하도록 설정 -->
                 <input type="file" id="image-upload-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
             </div>
-
             <button class="btn-close" onclick="closeImageModal()" style="margin-top:10px;">닫기</button>
         </div>
     </div>
@@ -198,6 +234,7 @@
     </div>
 
     <script>
+        // --- 데이터 ---
         const mathData={
             "분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
             "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
@@ -417,9 +454,27 @@
             }, { passive: false });
         };
 
-        function closeRanking() {
+        function switchTab(tab) {
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('game-view').style.display = 'none';
             document.getElementById('ranking-view').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
+            
+            document.getElementById('tab-main').className = 'header-tab tab-inactive';
+            document.getElementById('tab-game').className = 'header-tab tab-inactive';
+            document.getElementById('tab-rank').className = 'header-tab tab-inactive';
+
+            if (tab === 'main') {
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('tab-main').className = 'header-tab tab-active-main';
+            } else if (tab === 'game') {
+                document.getElementById('game-view').style.display = 'flex';
+                document.getElementById('tab-game').className = 'header-tab tab-active-game';
+            } else if (tab === 'rank') {
+                document.getElementById('ranking-view').style.display = 'block';
+                document.getElementById('tab-rank').className = 'header-tab tab-active-rank';
+                showRankingList();
+            }
+            window.scrollTo(0,0);
         }
 
         function renderList(containerId, dataObj) {
@@ -435,6 +490,145 @@
             });
         }
 
+        // ==========================================
+        // 💡 짝맞추기 마작 미니 게임 로직
+        // ==========================================
+        let allCharPairs = [];
+        let gameCards = [];
+        let selectedCards = [];
+        let matchedPairsCount = 0;
+        let totalPairs = 12; // 총 12쌍 (24장)
+        let gameTimer;
+        let gameTimeLeft = 60;
+        let isGameRunning = false;
+
+        // 데이터를 쪼개서 한자-음뜻 쌍 만들기
+        function parseCharacters() {
+            const combined = {...mathData, ...scienceData};
+            const pairMap = new Map();
+            for(let key in combined) {
+                let details = combined[key].detail.split('\n');
+                details.forEach(line => {
+                    let parts = line.split(':');
+                    if(parts.length >= 2) {
+                        let h = parts[0].trim();
+                        let m = parts[1].trim();
+                        if(h && m) {
+                            pairMap.set(h, m);
+                        }
+                    }
+                });
+            }
+            allCharPairs = Array.from(pairMap, ([hanja, meaning]) => ({hanja, meaning}));
+        }
+
+        function startGame() {
+            if(isGameRunning) return;
+            
+            if(allCharPairs.length === 0) parseCharacters();
+            
+            let shuffledPairs = [...allCharPairs].sort(() => Math.random() - 0.5).slice(0, totalPairs);
+            
+            gameCards = [];
+            shuffledPairs.forEach((pair, index) => {
+                gameCards.push({ id: index, text: pair.hanja, type: 'hanja' });
+                gameCards.push({ id: index, text: pair.meaning, type: 'meaning' });
+            });
+            // 전체 카드 섞기
+            gameCards.sort(() => Math.random() - 0.5);
+            
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';
+            
+            gameCards.forEach((card, idx) => {
+                let el = document.createElement('div');
+                el.className = 'match-card';
+                if(card.type === 'hanja') el.classList.add('card-hanja');
+                else el.classList.add('card-meaning');
+                
+                el.innerText = card.text;
+                el.onclick = () => onCardClick(el, card, idx);
+                board.appendChild(el);
+                card.element = el;
+            });
+            
+            matchedPairsCount = 0;
+            selectedCards = [];
+            gameTimeLeft = 60;
+            isGameRunning = true;
+            updateGameUI();
+            
+            document.getElementById('game-start-btn').style.display = 'none';
+
+            gameTimer = setInterval(() => {
+                gameTimeLeft--;
+                updateGameUI();
+                if (gameTimeLeft <= 0) {
+                    endGame(false);
+                }
+            }, 1000);
+        }
+
+        function onCardClick(el, card, idx) {
+            if(!isGameRunning) return;
+            // 이미 2장 골랐거나, 맞춰진 카드거나, 똑같은 카드 또 누르면 무시
+            if(selectedCards.length >= 2 || el.classList.contains('matched') || el.classList.contains('selected')) return;
+
+            el.classList.add('selected');
+            selectedCards.push({ el, card });
+
+            if(selectedCards.length === 2) {
+                const [first, second] = selectedCards;
+                
+                // 둘의 짝이 맞는지 확인 (id가 같고, type이 서로 다르면 정답)
+                if(first.card.id === second.card.id && first.card.type !== second.card.type) {
+                    setTimeout(() => {
+                        first.el.classList.replace('selected', 'matched');
+                        second.el.classList.replace('selected', 'matched');
+                        matchedPairsCount++;
+                        updateGameUI();
+                        selectedCards = [];
+                        
+                        if(matchedPairsCount === totalPairs) {
+                            endGame(true);
+                        }
+                    }, 300);
+                } else {
+                    // 틀렸을 경우 원상복구
+                    setTimeout(() => {
+                        first.el.classList.remove('selected');
+                        second.el.classList.remove('selected');
+                        selectedCards = [];
+                    }, 500);
+                }
+            }
+        }
+
+        function updateGameUI() {
+            document.getElementById('game-time').innerText = `⏱️ ${gameTimeLeft}초`;
+            document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
+        }
+
+        function endGame(isWin) {
+            isGameRunning = false;
+            clearInterval(gameTimer);
+            
+            const startBtn = document.getElementById('game-start-btn');
+            startBtn.style.display = 'block';
+            startBtn.innerText = '다시 도전하기';
+
+            setTimeout(() => {
+                if (isWin) {
+                    alert(`🎉 완벽합니다! ${60 - gameTimeLeft}초 만에 모든 짝을 맞혔습니다!`);
+                } else {
+                    alert(`⏳ 아쉽게도 시간 초과! 총 ${matchedPairsCount}쌍을 맞혔습니다.`);
+                }
+            }, 100);
+        }
+
+        // ==========================================
+        // 상세 화면 뷰 및 캔버스
+        // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -530,6 +724,7 @@
         function openDetail(word, data) {
             document.getElementById('main-app').style.display = 'none'; 
             document.getElementById('ranking-view').style.display = 'none';
+            document.getElementById('main-header').style.display = 'none'; 
             document.getElementById('detail-view').style.display = 'flex'; 
             window.scrollTo(0,0);
             
@@ -591,6 +786,7 @@
 
         function closeDetail() {
             document.getElementById('detail-view').style.display = 'none'; 
+            document.getElementById('main-header').style.display = 'flex'; 
             document.getElementById('main-app').style.display = 'block'; 
         }
 
@@ -769,7 +965,8 @@
             saveRanking(window.currentFinalScore, wordName, initials);
             
             closeScoreModal();
-            showRanking(); 
+            closeDetail();
+            switchTab('rank');
         }
 
         const RANK_KEY = 'HanjaApp_WeeklyRanking';
@@ -793,11 +990,7 @@
             localStorage.setItem(RANK_KEY, JSON.stringify(data));
         }
 
-        function showRanking() {
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('detail-view').style.display = 'none';
-            document.getElementById('ranking-view').style.display = 'block';
-
+        function showRankingList() {
             const tbody = document.getElementById('ranking-body');
             tbody.innerHTML = ''; 
 
