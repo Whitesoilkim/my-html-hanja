@@ -186,7 +186,6 @@
         </div>
     </div>
 
-    <!-- 한자 공부 뷰 -->
     <div id="game-view">
         <div class="game-stats">
             <span id="game-time">⏱️ 60초</span>
@@ -240,7 +239,6 @@
         </div>
     </div>
 
-    <!-- 이미지 모달 -->
     <div id="image-modal" class="modal-overlay">
         <div class="modal-content" style="width: auto; min-width: 280px;">
             <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
@@ -256,7 +254,6 @@
         </div>
     </div>
 
-    <!-- 한자 쓰기 점수 모달창 -->
     <div id="score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
@@ -278,7 +275,6 @@
         </div>
     </div>
 
-    <!-- 짝맞추기 학습 점수 모달창 -->
     <div id="game-score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">학습 결과</h2>
@@ -424,7 +420,7 @@
             "결정":{hanja:"結晶",meaning:"원자, 이온, 분자들이 규칙적으로 맺어져 이루어진 고체 물질.",detail:"結 : 맺을 결\n晶 : 맑을 정",ex:"뜨거운 포화 수용액을 천천히 식히면 예쁜 모양의 백반 결정을 얻을 수 있습니다."},
             "촉매":{hanja:"觸媒",meaning:"자신은 변하지 않고 반응 속도를 조절해 주는 물질.",detail:"觸 : 닿을 촉\n媒 : 중매 매",ex:"자동차 배기가스 정화 장치에는 유해 가스가 빨리 분해되도록 돕는 백금 촉매가 들어 있습니다."},
             "발열":{hanja:"發熱",meaning:"화학 반응이 일어날 때 밖으로 열을 내보내는 현상.",detail:"發 : 필 발\n熱 : 더울 열",ex:"산과 염기가 섞일 때 용기가 뜨거워지는 것은 발열 반응이 일어났기 때문입니다."},
-            "흡열":{hanja:"吸熱",meaning:"화학 반응이 일어날 때 주변으로부터 열을 빨아들이는 현상.",detail:"吸 : 마실 흡\n熱 : 더울 열",ex:"더운 여름날 마당에 물을 뿌리면 시원해지는 것은 물이 증발하며 주변 열을 빼앗는 흡열 반응 덕분입니다."},
+            "흡열":{hanja:"吸热",meaning:"화학 반응이 일어날 때 주변으로부터 열을 빨아들이는 현상.",detail:"吸 : 마실 흡\n熱 : 더울 열",ex:"더운 여름날 마당에 물을 뿌리면 시원해지는 것은 물이 증발하며 주변 열을 빼앗는 흡열 반응 덕분입니다."},
             "반응":{hanja:"反應",meaning:"어떤 자극에 대응하여 일어나는 변화 현상.",detail:"反 : 돌이킬 반\n應 : 응할 응",ex:"식물은 햇빛이라는 자극에 반응하여 빛이 비치는 방향으로 굽어 자라는 성질이 있다."},
             "입자":{hanja:"粒子",meaning:"물질을 구성하는 미세한 크기의 객체.",detail:"粒 : 낟알 립\n子 : 입자 자",ex:"이 화장품은 입자가 고와서 피부에 부드럽게 잘 스며든다."},
             "원자":{hanja:"原子",meaning:"물질을 이루는 가장 기본적인 근원이 되는 입자.",detail:"原 : 근원 원\n子 : 입자 자",ex:"수소 원자 두 개와 산소 원자 한 개가 만나면 물 분자가 만들어집니다."},
@@ -556,9 +552,6 @@
             });
         }
 
-        // ==========================================
-        // 💡 짝맞추기 한자 공부 로직 (TTS 음성 변조 추가)
-        // ==========================================
         let allCharPairs = [];
         let gameCards = [];
         let selectedCards = [];
@@ -809,9 +802,6 @@
             startBtn.innerText = '다시 학습하기';
         }
 
-        // ==========================================
-        // 상세 화면 뷰 및 캔버스
-        // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -1005,14 +995,16 @@
             if (!isDrawing) return;
             
             const pos = getPos(e);
+            const lastP = points[points.length-1];
+            if (Math.hypot(pos.x - lastP.x, pos.y - lastP.y) < 2.5) return;
             points.push(pos);
             
             const now = Date.now();
             const dt = now - lastTime || 1;
-            const dist = Math.hypot(pos.x - points[points.length-2].x, pos.y - points[points.length-2].y);
+            const dist = Math.hypot(pos.x - lastP.x, pos.y - lastP.y);
             const speed = dist / dt;
             
-            let targetWidth = Math.max(1.2, 6.3 - speed * 3.6); 
+            let targetWidth = Math.max(1.3, 6.9 - speed * 3.9); 
             lastWidth = lastWidth + (targetWidth - lastWidth) * 0.2; 
             
             drawCtx.lineWidth = lastWidth;
