@@ -557,7 +557,7 @@
         }
 
         // ==========================================
-        // 💡 짝맞추기 한자 공부 로직
+        // 💡 짝맞추기 한자 공부 로직 (TTS 음성 추가)
         // ==========================================
         let allCharPairs = [];
         let gameCards = [];
@@ -568,6 +568,15 @@
         let gameTimeLeft = 60;
         let isGameRunning = false;
         window.currentGameFinalScore = 0;
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR'; 
+                utterance.rate = 1.0; 
+                window.speechSynthesis.speak(utterance);
+            }
+        }
 
         function parseCharacters() {
             const combined = {...mathData, ...scienceData};
@@ -649,6 +658,10 @@
                 const [first, second] = selectedCards;
                 
                 if(first.card.id === second.card.id && first.card.type !== second.card.type) {
+                    // 💡 정답 시 해당 한자의 뜻과 음을 음성으로 출력
+                    let matchedMeaning = first.card.type === 'meaning' ? first.card.text : second.card.text;
+                    speakText(matchedMeaning);
+
                     setTimeout(() => {
                         createMatchEffect(first.el);
                         createMatchEffect(second.el);
