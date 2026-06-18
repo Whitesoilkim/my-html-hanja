@@ -132,7 +132,7 @@
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
 
-        /* 💡 랭킹 뷰 탭 분리 스타일 */
+        /* 랭킹 뷰 스타일 */
         #ranking-view { display: none; padding: 20px; text-align: center; }
         .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 15px; }
         
@@ -196,7 +196,6 @@
         <button id="game-start-btn" onclick="startGame()">새 게임 시작</button>
     </div>
 
-    <!-- 💡 수정됨: 랭킹 뷰 (탭 분리) -->
     <div id="ranking-view">
         <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
         <div class="rank-toggle-container">
@@ -262,7 +261,7 @@
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
             <div class="score-details">
-                <p><span>올바른 획순 (덧칠/끊어쓰기 감점):</span> <span id="modal-stroke" style="color:#2c3e50;">0 / 30점</span></p>
+                <p><span>올바른 획순 (심한 덧칠 감점):</span> <span id="modal-stroke" style="color:#2c3e50;">0 / 30점</span></p>
                 <p><span>형태 정확성 (모양/두께):</span> <span id="modal-shape" style="color:#2c3e50;">0 / 25점</span></p>
                 <p><span>가독성 중심 (선 정돈):</span> <span id="modal-read" style="color:#2c3e50;">0 / 25점</span></p>
                 <p style="color:#3498db; margin-top:10px;"><span>글자수 보너스:</span> <span id="modal-bonus">+0점</span></p>
@@ -279,7 +278,7 @@
         </div>
     </div>
 
-    <!-- 💡 추가됨: 미니 게임 점수 모달창 -->
+    <!-- 미니 게임 점수 모달창 -->
     <div id="game-score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">게임 결과</h2>
@@ -613,7 +612,6 @@
                 else el.classList.add('card-meaning');
                 
                 el.innerText = card.text;
-                // 초기화 시 기존 스타일 제거
                 el.style.backgroundColor = '';
                 el.style.borderColor = '';
                 el.style.color = '#2c3e50';
@@ -738,18 +736,15 @@
             document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
         }
 
-        // 💡 수정됨: 미니게임 종료 로직 (오답 리뷰 강조 및 랭킹 부여)
         function endGame(isWin) {
             isGameRunning = false;
             clearInterval(gameTimer);
             
-            // 1. 선택된 카드 초기화
             selectedCards.forEach(item => {
                 item.el.classList.remove('selected');
             });
             selectedCards = [];
 
-            // 2. 남은 카드들을 짝에 맞춰 예쁜 파스텔 톤으로 칠해주기
             const pairColors = [
                 '#fadbd8', '#fdebd0', '#d5f5e3', '#d4efdf', '#d6eaf8', '#ebdef0', 
                 '#fad7a1', '#f5cba7', '#f1948a', '#e6b0aa', '#aed6f1', '#a2d9ce'
@@ -769,18 +764,15 @@
                 }
             });
 
-            // 3. 점수 계산 (1쌍당 10점 + 승리 시 남은 시간 보너스)
             let baseScore = matchedPairsCount * 10;
             let timeBonus = isWin ? gameTimeLeft : 0;
             let finalGameScore = baseScore + timeBonus;
             window.currentGameFinalScore = finalGameScore;
 
-            // 4. 모달 업데이트
             document.getElementById('game-modal-pairs').innerText = `${matchedPairsCount} / ${totalPairs}쌍 (기본 ${baseScore}점)`;
             document.getElementById('game-modal-time').innerText = `+${timeBonus}점 (남은 시간 보너스)`;
             document.getElementById('game-modal-total').innerText = `총점: ${finalGameScore}점`;
 
-            // 5. 게임 랭킹 진입 체크
             let data = JSON.parse(localStorage.getItem('HanjaApp_GameRanking')) || { ranks: [] };
             let ranks = data.ranks;
             let isTop5 = finalGameScore > 0 && (ranks.length < 5 || finalGameScore > ranks[ranks.length - 1].score);
@@ -794,7 +786,6 @@
                 document.getElementById('game-modal-submit-btn').style.display = 'none';
             }
 
-            // 6. 사용자가 색상 변환된 보드를 잠깐 훑어볼 수 있도록 1.5초 딜레이 후 모달 띄우기
             setTimeout(() => {
                 document.getElementById('game-score-modal').style.display = 'flex';
             }, 1500);
@@ -1080,17 +1071,27 @@
             let completionRate = hitPixels / targetPixels;
             let normalizedCompletion = Math.min(1.0, completionRate * 1.35);
 
-            let strokeScore = 30 * normalizedCompletion;
-            let expectedStrokes = charLen * 10; 
-            let currentExpected = expectedStrokes * normalizedCompletion;
+            // 💡 수정됨: 심한 덧칠 감점 완화 로직 (15점 보장 추가)
+            let baseStrokeScore = 30 * normalizedCompletion;
+            let strokeScore = baseStrokeScore;
             
-            if (strokeCount > currentExpected * 1.2) {
-                let excessStrokes = strokeCount - (currentExpected * 1.2);
-                strokeScore -= (excessStrokes * 4); 
-            } else if (strokeCount < currentExpected * 0.3) {
-                strokeScore -= 15; 
+            let expectedStrokes = charLen * 10; 
+            let maxAllowedStrokes = expectedStrokes * 5; 
+            
+            if (strokeCount > maxAllowedStrokes) {
+                let excess = strokeCount - maxAllowedStrokes;
+                strokeScore -= (excess * 2); 
+            } else {
+                if (normalizedCompletion > 0.5) {
+                    strokeScore = Math.max(15, baseStrokeScore);
+                }
             }
-            strokeScore = Math.max(0, Math.round(strokeScore));
+            
+            if (strokeCount > 0 && strokeCount <= charLen * 2) {
+                strokeScore -= 10;
+            }
+
+            strokeScore = Math.max(0, Math.min(30, Math.round(strokeScore)));
 
             let readScore = (25 * normalizedCompletion) - (missPixels / targetPixels) * 15;
             readScore = Math.max(0, Math.round(readScore));
@@ -1132,9 +1133,6 @@
             window.currentFinalScore = finalScore;
         }
 
-        // ==========================================
-        // 💡 랭킹 등록 및 탭 로직 
-        // ==========================================
         function closeScoreModal() {
             document.getElementById('score-modal').style.display = 'none';
         }
@@ -1206,7 +1204,6 @@
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
             document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
             
-            // 게임 랭킹일 때는 '단어' 대신 '기록' 등으로 컬럼명 변경 (자연스럽게 처리)
             document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
 
             const tbody = document.getElementById('ranking-body');
