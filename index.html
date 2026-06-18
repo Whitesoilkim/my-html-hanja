@@ -69,6 +69,7 @@
         .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
         
         #game-board { 
+            position: relative; /* 페널티 텍스트 기준점 */
             flex: 1; background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; 
             padding: 10px; display: grid; gap: 8px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
             grid-template-columns: repeat(4, 1fr);
@@ -85,9 +86,28 @@
         .match-card.selected { border-color: #e74c3c; background: #fadbd8; color: #c0392b; transform: scale(0.95); box-shadow: none; }
         .match-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
         
-        /* 💡 수정됨: 미니게임 폰트 크기 대폭 상향 */
-        .card-hanja { font-size: 48px; font-weight: normal; } /* 32px -> 48px (50% 확대) */
-        .card-meaning { font-size: 17px; line-height: 1.3; } /* 13px -> 17px (약 30% 확대) */
+        .card-hanja { font-size: 48px; font-weight: normal; } 
+        .card-meaning { font-size: 17px; line-height: 1.3; }
+
+        /* 💡 추가됨: 게임 페널티 시각 효과 */
+        .penalty-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #e74c3c;
+            font-size: 50px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            pointer-events: none;
+            z-index: 100;
+            animation: floatUp 0.8s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+        }
 
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
@@ -492,6 +512,9 @@
             });
         }
 
+        // ==========================================
+        // 💡 짝맞추기 미니 게임 로직
+        // ==========================================
         let allCharPairs = [];
         let gameCards = [];
         let selectedCards = [];
@@ -589,13 +612,32 @@
                         }
                     }, 300);
                 } else {
+                    // 💡 페널티: 틀렸을 경우 2초 삭감 및 팝업 애니메이션
+                    gameTimeLeft = Math.max(0, gameTimeLeft - 2);
+                    updateGameUI();
+                    showPenaltyText();
+
                     setTimeout(() => {
                         first.el.classList.remove('selected');
                         second.el.classList.remove('selected');
                         selectedCards = [];
+                        if (gameTimeLeft === 0) endGame(false);
                     }, 500);
                 }
             }
+        }
+
+        // 💡 페널티 애니메이션 표시 함수
+        function showPenaltyText() {
+            const board = document.getElementById('game-board');
+            const penalty = document.createElement('div');
+            penalty.className = 'penalty-text';
+            penalty.innerText = '-2초!';
+            board.appendChild(penalty);
+            
+            setTimeout(() => {
+                if(penalty.parentNode) penalty.parentNode.removeChild(penalty);
+            }, 800);
         }
 
         function updateGameUI() {
@@ -620,6 +662,9 @@
             }, 100);
         }
 
+        // ==========================================
+        // 상세 화면 뷰 및 캔버스
+        // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -634,7 +679,7 @@
         let isDrawing = false;
         let points = []; 
         let lastTime = 0;
-        let lastWidth = 3.5; 
+        let lastWidth = 4.2; // 💡 시작 굵기 1.2배 상향 (3.5 * 1.2)
         
         function toggleExampleStroke() {
             const btn = document.getElementById('toggle-btn');
@@ -784,6 +829,7 @@
             return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
+        // 💡 붓글씨 효과 1.2배 굵기 적용
         function startPosition(e) {
             if (e && e.cancelable) e.preventDefault(); 
             isDrawing = true;
@@ -792,7 +838,7 @@
             const pos = getPos(e);
             points = [pos, pos]; 
             lastTime = Date.now();
-            lastWidth = 3.5; 
+            lastWidth = 4.2; // 1.2배
             
             drawCtx.lineCap = 'round';
             drawCtx.lineJoin = 'round';
@@ -822,7 +868,8 @@
             const dist = Math.hypot(pos.x - points[points.length-2].x, pos.y - points[points.length-2].y);
             const speed = dist / dt;
             
-            let targetWidth = Math.max(1, 5.25 - speed * 3); 
+            // 💡 1.2배 두꺼워진 붓글씨 알고리즘 (Math.max 1.2, 6.3)
+            let targetWidth = Math.max(1.2, 6.3 - speed * 3.6); 
             lastWidth = lastWidth + (targetWidth - lastWidth) * 0.2; 
             
             drawCtx.lineWidth = lastWidth;
