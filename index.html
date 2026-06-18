@@ -64,6 +64,7 @@
         .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         
+        /* 짝맞추기 게임용 스타일 */
         #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
         .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
         
@@ -78,7 +79,7 @@
         .match-card {
             background: white; border: 2px solid #95a5a6; border-radius: 8px;
             display: flex; justify-content: center; align-items: center; text-align: center;
-            font-weight: bold; color: #2c3e50; cursor: pointer; transition: 0.1s;
+            font-weight: bold; color: #2c3e50; cursor: pointer; transition: background-color 0.3s, border-color 0.3s, transform 0.1s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 5px; word-break: keep-all;
         }
         .match-card:active { transform: scale(0.95); }
@@ -131,14 +132,21 @@
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
 
+        /* 💡 랭킹 뷰 탭 분리 스타일 */
         #ranking-view { display: none; padding: 20px; text-align: center; }
-        .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
+        .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 15px; }
+        
+        .rank-toggle-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .rank-tab-btn { padding: 10px 20px; font-size: 15px; font-weight: bold; border: 2px solid #f39c12; background: white; color: #f39c12; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .rank-tab-btn.active { background: #f39c12; color: white; }
+
         .ranking-table { width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ranking-table th, .ranking-table td { padding: 12px; border-bottom: 1px solid #ecf0f1; text-align: center; }
         .ranking-table th { background: #f39c12; color: white; font-weight: bold; }
         .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
         .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
+        /* 모달 공통 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
@@ -147,10 +155,10 @@
         .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
         .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
         
-        #rank-input-area { display: none; margin-bottom: 20px; }
+        .rank-input-area { display: none; margin-bottom: 20px; }
         .rank-msg { color: #f39c12; font-weight: bold; margin-bottom: 10px; font-size: 15px; }
-        #player-initials { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 18px; text-align: center; font-weight: bold; outline: none; }
-        #player-initials:focus { border-color: #3498db; }
+        .player-initials { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 18px; text-align: center; font-weight: bold; outline: none; }
+        .player-initials:focus { border-color: #3498db; }
         
         .modal-buttons { display: flex; gap: 10px; }
         .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
@@ -178,6 +186,7 @@
         </div>
     </div>
 
+    <!-- 미니 게임 뷰 -->
     <div id="game-view">
         <div class="game-stats">
             <span id="game-time">⏱️ 60초</span>
@@ -187,11 +196,16 @@
         <button id="game-start-btn" onclick="startGame()">새 게임 시작</button>
     </div>
 
+    <!-- 💡 수정됨: 랭킹 뷰 (탭 분리) -->
     <div id="ranking-view">
-        <h2 class="ranking-title">🌟 주간 명예의 전당 🌟</h2>
+        <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
+        <div class="rank-toggle-container">
+            <button id="rank-btn-draw" class="rank-tab-btn active" onclick="loadRank('draw')">✍️ 한자 쓰기</button>
+            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🎮 짝맞추기</button>
+        </div>
         <table class="ranking-table" id="ranking-table">
             <thead>
-                <tr><th>순위</th><th>이름</th><th>단어</th><th>점수</th></tr>
+                <tr><th>순위</th><th>이름</th><th id="rank-col-3">단어</th><th>점수</th></tr>
             </thead>
             <tbody id="ranking-body"></tbody>
         </table>
@@ -227,6 +241,7 @@
         </div>
     </div>
 
+    <!-- 이미지 모달 -->
     <div id="image-modal" class="modal-overlay">
         <div class="modal-content" style="width: auto; min-width: 280px;">
             <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
@@ -242,6 +257,7 @@
         </div>
     </div>
 
+    <!-- 한자 쓰기 점수 모달창 -->
     <div id="score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
@@ -252,13 +268,33 @@
                 <p style="color:#3498db; margin-top:10px;"><span>글자수 보너스:</span> <span id="modal-bonus">+0점</span></p>
             </div>
             <div class="modal-total" id="modal-total">총점: 0점</div>
-            <div id="rank-input-area">
+            <div id="rank-input-area" class="rank-input-area">
                 <div class="rank-msg">🎉 랭킹 TOP 5 진입! 🎉</div>
-                <input type="text" id="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
+                <input type="text" id="player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
             </div>
             <div class="modal-buttons">
                 <button id="modal-submit-btn" class="btn-submit" onclick="submitScoreModal()">등록하기</button>
                 <button class="btn-close" onclick="closeScoreModal()" style="width:auto;">닫기 (다시 쓰기)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 💡 추가됨: 미니 게임 점수 모달창 -->
+    <div id="game-score-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">게임 결과</h2>
+            <div class="score-details">
+                <p><span>맞힌 짝 (1쌍당 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0 / 12쌍</span></p>
+                <p style="color:#3498db; margin-top:10px;"><span>남은 시간 보너스:</span> <span id="game-modal-time">+0점</span></p>
+            </div>
+            <div class="modal-total" id="game-modal-total">총점: 0점</div>
+            <div id="game-rank-input-area" class="rank-input-area">
+                <div class="rank-msg">🎉 게임 랭킹 TOP 5 진입! 🎉</div>
+                <input type="text" id="game-player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button id="game-modal-submit-btn" class="btn-submit" onclick="submitGameScoreModal()">등록하기</button>
+                <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기 (결과 확인)</button>
             </div>
         </div>
     </div>
@@ -470,6 +506,8 @@
             "체계":{hanja:"體系",meaning:"여러 구성 요소가 일정한 원리에 따라 짜임새 있게 이루어진 전체.",detail:"體 : 몸 체\n系 : 이어맬 계",ex:"과학자들은 지구상의 모든 생물을 문, 강, 목, 과, 속, 종이라는 일정한 체계에 따라 분류했다."}
         };
 
+        let currentRankTab = 'draw';
+
         window.onload = () => {
             renderList('col-math', mathData);
             renderList('col-sci', scienceData);
@@ -501,7 +539,7 @@
             } else if (tab === 'rank') {
                 document.getElementById('ranking-view').style.display = 'block';
                 document.getElementById('tab-rank').className = 'header-tab tab-active-rank';
-                showRankingList();
+                loadRank(currentRankTab);
             }
             window.scrollTo(0,0);
         }
@@ -519,6 +557,9 @@
             });
         }
 
+        // ==========================================
+        // 💡 짝맞추기 미니 게임 로직
+        // ==========================================
         let allCharPairs = [];
         let gameCards = [];
         let selectedCards = [];
@@ -527,6 +568,7 @@
         let gameTimer;
         let gameTimeLeft = 60;
         let isGameRunning = false;
+        window.currentGameFinalScore = 0;
 
         function parseCharacters() {
             const combined = {...mathData, ...scienceData};
@@ -571,6 +613,11 @@
                 else el.classList.add('card-meaning');
                 
                 el.innerText = card.text;
+                // 초기화 시 기존 스타일 제거
+                el.style.backgroundColor = '';
+                el.style.borderColor = '';
+                el.style.color = '#2c3e50';
+
                 el.onclick = () => onCardClick(el, card, idx);
                 board.appendChild(el);
                 card.element = el;
@@ -691,23 +738,75 @@
             document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
         }
 
+        // 💡 수정됨: 미니게임 종료 로직 (오답 리뷰 강조 및 랭킹 부여)
         function endGame(isWin) {
             isGameRunning = false;
             clearInterval(gameTimer);
             
+            // 1. 선택된 카드 초기화
+            selectedCards.forEach(item => {
+                item.el.classList.remove('selected');
+            });
+            selectedCards = [];
+
+            // 2. 남은 카드들을 짝에 맞춰 예쁜 파스텔 톤으로 칠해주기
+            const pairColors = [
+                '#fadbd8', '#fdebd0', '#d5f5e3', '#d4efdf', '#d6eaf8', '#ebdef0', 
+                '#fad7a1', '#f5cba7', '#f1948a', '#e6b0aa', '#aed6f1', '#a2d9ce'
+            ];
+            let colorMap = {};
+            let colorIdx = 0;
+
+            gameCards.forEach(card => {
+                if (!card.element.classList.contains('matched')) {
+                    if (colorMap[card.id] === undefined) {
+                        colorMap[card.id] = pairColors[colorIdx % pairColors.length];
+                        colorIdx++;
+                    }
+                    card.element.style.backgroundColor = colorMap[card.id];
+                    card.element.style.borderColor = colorMap[card.id];
+                    card.element.style.color = '#2c3e50'; 
+                }
+            });
+
+            // 3. 점수 계산 (1쌍당 10점 + 승리 시 남은 시간 보너스)
+            let baseScore = matchedPairsCount * 10;
+            let timeBonus = isWin ? gameTimeLeft : 0;
+            let finalGameScore = baseScore + timeBonus;
+            window.currentGameFinalScore = finalGameScore;
+
+            // 4. 모달 업데이트
+            document.getElementById('game-modal-pairs').innerText = `${matchedPairsCount} / ${totalPairs}쌍 (기본 ${baseScore}점)`;
+            document.getElementById('game-modal-time').innerText = `+${timeBonus}점 (남은 시간 보너스)`;
+            document.getElementById('game-modal-total').innerText = `총점: ${finalGameScore}점`;
+
+            // 5. 게임 랭킹 진입 체크
+            let data = JSON.parse(localStorage.getItem('HanjaApp_GameRanking')) || { ranks: [] };
+            let ranks = data.ranks;
+            let isTop5 = finalGameScore > 0 && (ranks.length < 5 || finalGameScore > ranks[ranks.length - 1].score);
+
+            if (isTop5) {
+                document.getElementById('game-rank-input-area').style.display = 'block';
+                document.getElementById('game-modal-submit-btn').style.display = 'block';
+                document.getElementById('game-player-initials').value = '';
+            } else {
+                document.getElementById('game-rank-input-area').style.display = 'none';
+                document.getElementById('game-modal-submit-btn').style.display = 'none';
+            }
+
+            // 6. 사용자가 색상 변환된 보드를 잠깐 훑어볼 수 있도록 1.5초 딜레이 후 모달 띄우기
+            setTimeout(() => {
+                document.getElementById('game-score-modal').style.display = 'flex';
+            }, 1500);
+
             const startBtn = document.getElementById('game-start-btn');
             startBtn.style.display = 'block';
             startBtn.innerText = '다시 도전하기';
-
-            setTimeout(() => {
-                if (isWin) {
-                    alert(`🎉 완벽합니다! ${60 - gameTimeLeft}초 만에 모든 짝을 맞혔습니다!`);
-                } else {
-                    alert(`⏳ 아쉽게도 시간 초과! 총 ${matchedPairsCount}쌍을 맞혔습니다.`);
-                }
-            }, 100);
         }
 
+        // ==========================================
+        // 상세 화면 뷰 및 캔버스
+        // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -872,7 +971,6 @@
             return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
-        // 💡 붓글씨 보정 (유저 제안 quadraticCurveTo 로직 기반 완벽 이음선 구현)
         function startPosition(e) {
             if (e && e.cancelable) e.preventDefault(); 
             isDrawing = true;
@@ -915,10 +1013,8 @@
             drawCtx.lineWidth = lastWidth;
             drawCtx.strokeStyle = '#2c3e50';
             
-            // 제안해주신 로직을 반영한 곡선 보정 처리
             if (points.length >= 3) {
                 const ctrl = points[points.length - 2];
-                // 중간점을 계산하여 다음 렌더링이 부드럽게 이어지도록 끝점으로 설정
                 const end = {
                     x: (points[points.length - 2].x + points[points.length - 1].x) / 2,
                     y: (points[points.length - 2].y + points[points.length - 1].y) / 2
@@ -929,7 +1025,6 @@
                 drawCtx.quadraticCurveTo(ctrl.x, ctrl.y, end.x, end.y);
                 drawCtx.stroke();
                 
-                // 자연스러운 이음매를 위해 끝점을 다시 배열에 저장
                 points[points.length - 2] = end;
             }
             
@@ -1037,62 +1132,89 @@
             window.currentFinalScore = finalScore;
         }
 
+        // ==========================================
+        // 💡 랭킹 등록 및 탭 로직 
+        // ==========================================
         function closeScoreModal() {
             document.getElementById('score-modal').style.display = 'none';
+        }
+        function closeGameScoreModal() {
+            document.getElementById('game-score-modal').style.display = 'none';
         }
 
         function submitScoreModal() {
             let initials = document.getElementById('player-initials').value.trim();
-            
-            if(!initials) {
-                alert("이니셜을 입력해주세요.");
-                return;
-            }
-
-            const forbiddenWords = ['바보', '멍청이', '씨발', '시발', '개새끼', '병신', '지랄', '미친', '존나', '새끼'];
-            for (let word of forbiddenWords) {
-                if (initials.includes(word)) {
-                    alert("비속어나 바르지 않은 단어가 포함되어 있습니다. 고운 말을 사용해주세요! 😊");
-                    document.getElementById('player-initials').value = ''; 
-                    document.getElementById('player-initials').focus();
-                    return; 
-                }
-            }
+            if(!initials) { alert("이니셜을 입력해주세요."); return; }
+            if(!checkForbiddenWords(initials)) return;
 
             let wordName = document.getElementById('detail-title').innerText.split(' ')[0];
-            saveRanking(window.currentFinalScore, wordName, initials);
+            saveRanking(window.currentFinalScore, wordName, initials, 'HanjaApp_WeeklyRanking');
             
             closeScoreModal();
             closeDetail();
             switchTab('rank');
+            loadRank('draw');
+        }
+
+        function submitGameScoreModal() {
+            let initials = document.getElementById('game-player-initials').value.trim();
+            if(!initials) { alert("이니셜을 입력해주세요."); return; }
+            if(!checkForbiddenWords(initials)) return;
+
+            saveRanking(window.currentGameFinalScore, '스피드 짝맞추기', initials, 'HanjaApp_GameRanking');
+            
+            closeGameScoreModal();
+            switchTab('rank');
+            loadRank('game');
+        }
+
+        function checkForbiddenWords(text) {
+            const forbiddenWords = ['바보', '멍청이', '씨발', '시발', '개새끼', '병신', '지랄', '미친', '존나', '새끼'];
+            for (let word of forbiddenWords) {
+                if (text.includes(word)) {
+                    alert("비속어나 바르지 않은 단어가 포함되어 있습니다. 고운 말을 사용해주세요! 😊");
+                    return false; 
+                }
+            }
+            return true;
+        }
+
+        function checkWeeklyReset() {
+            [RANK_KEY, 'HanjaApp_GameRanking'].forEach(key => {
+                let data = JSON.parse(localStorage.getItem(key));
+                if (data && Date.now() - data.timestamp > WEEK_MS) {
+                    localStorage.removeItem(key);
+                }
+            });
         }
 
         const RANK_KEY = 'HanjaApp_WeeklyRanking';
         const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-        function checkWeeklyReset() {
-            let data = JSON.parse(localStorage.getItem(RANK_KEY));
-            if (!data) return;
-            if (Date.now() - data.timestamp > WEEK_MS) {
-                localStorage.removeItem(RANK_KEY);
-            }
-        }
-
-        function saveRanking(score, wordName, playerName) {
-            let data = JSON.parse(localStorage.getItem(RANK_KEY)) || { timestamp: Date.now(), ranks: [] };
+        function saveRanking(score, wordName, playerName, key) {
+            let data = JSON.parse(localStorage.getItem(key)) || { timestamp: Date.now(), ranks: [] };
             let ranks = data.ranks;
 
             ranks.push({ name: playerName, score: score, word: wordName });
             ranks.sort((a, b) => b.score - a.score);
             data.ranks = ranks.slice(0, 5);
-            localStorage.setItem(RANK_KEY, JSON.stringify(data));
+            localStorage.setItem(key, JSON.stringify(data));
         }
 
-        function showRankingList() {
+        function loadRank(type) {
+            currentRankTab = type;
+            document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
+            document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
+            
+            // 게임 랭킹일 때는 '단어' 대신 '기록' 등으로 컬럼명 변경 (자연스럽게 처리)
+            document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
+
             const tbody = document.getElementById('ranking-body');
             tbody.innerHTML = ''; 
 
-            let data = JSON.parse(localStorage.getItem(RANK_KEY));
+            const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
+            let data = JSON.parse(localStorage.getItem(rankKey));
+            
             if (!data || data.ranks.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">아직 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
                 return;
@@ -1109,6 +1231,10 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function showRankingList() {
+            loadRank(currentRankTab);
         }
     </script>
 </body>
