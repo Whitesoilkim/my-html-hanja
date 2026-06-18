@@ -64,7 +64,7 @@
         .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         
-        /* 짝맞추기 게임용 스타일 */
+        /* 짝맞추기 학습용 스타일 */
         #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
         .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
         
@@ -134,7 +134,7 @@
 
         /* 랭킹 뷰 스타일 */
         #ranking-view { display: none; padding: 20px; text-align: center; }
-        .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 15px; }
+        .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
         
         .rank-toggle-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .rank-tab-btn { padding: 10px 20px; font-size: 15px; font-weight: bold; border: 2px solid #f39c12; background: white; color: #f39c12; border-radius: 8px; cursor: pointer; transition: 0.2s; }
@@ -175,7 +175,7 @@
 
     <header id="main-header">
         <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학 & 과학</div>
-        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">미니 게임</div>
+        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">한자 공부</div>
         <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆 랭킹</div>
     </header>
 
@@ -186,21 +186,21 @@
         </div>
     </div>
 
-    <!-- 미니 게임 뷰 -->
+    <!-- 한자 공부(게임) 뷰 -->
     <div id="game-view">
         <div class="game-stats">
             <span id="game-time">⏱️ 60초</span>
             <span id="game-score">🎯 0 / 12쌍</span>
         </div>
         <div id="game-board"></div>
-        <button id="game-start-btn" onclick="startGame()">새 게임 시작</button>
+        <button id="game-start-btn" onclick="startGame()">학습 시작하기</button>
     </div>
 
     <div id="ranking-view">
         <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
         <div class="rank-toggle-container">
             <button id="rank-btn-draw" class="rank-tab-btn active" onclick="loadRank('draw')">✍️ 한자 쓰기</button>
-            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🎮 짝맞추기</button>
+            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🧩 짝맞추기 학습</button>
         </div>
         <table class="ranking-table" id="ranking-table">
             <thead>
@@ -278,17 +278,17 @@
         </div>
     </div>
 
-    <!-- 미니 게임 점수 모달창 -->
+    <!-- 짝맞추기 학습 점수 모달창 -->
     <div id="game-score-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title">게임 결과</h2>
+            <h2 class="modal-title">학습 결과</h2>
             <div class="score-details">
                 <p><span>맞힌 짝 (1쌍당 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0 / 12쌍</span></p>
                 <p style="color:#3498db; margin-top:10px;"><span>남은 시간 보너스:</span> <span id="game-modal-time">+0점</span></p>
             </div>
             <div class="modal-total" id="game-modal-total">총점: 0점</div>
             <div id="game-rank-input-area" class="rank-input-area">
-                <div class="rank-msg">🎉 게임 랭킹 TOP 5 진입! 🎉</div>
+                <div class="rank-msg">🎉 학습 랭킹 TOP 5 진입! 🎉</div>
                 <input type="text" id="game-player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
             </div>
             <div class="modal-buttons">
@@ -557,7 +557,7 @@
         }
 
         // ==========================================
-        // 💡 짝맞추기 미니 게임 로직
+        // 💡 짝맞추기 한자 공부 로직
         // ==========================================
         let allCharPairs = [];
         let gameCards = [];
@@ -792,7 +792,7 @@
 
             const startBtn = document.getElementById('game-start-btn');
             startBtn.style.display = 'block';
-            startBtn.innerText = '다시 도전하기';
+            startBtn.innerText = '다시 학습하기';
         }
 
         // ==========================================
@@ -1071,7 +1071,6 @@
             let completionRate = hitPixels / targetPixels;
             let normalizedCompletion = Math.min(1.0, completionRate * 1.35);
 
-            // 💡 수정됨: 심한 덧칠 감점 완화 로직 (15점 보장 추가)
             let baseStrokeScore = 30 * normalizedCompletion;
             let strokeScore = baseStrokeScore;
             
