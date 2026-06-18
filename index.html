@@ -84,8 +84,10 @@
         .match-card:active { transform: scale(0.95); }
         .match-card.selected { border-color: #e74c3c; background: #fadbd8; color: #c0392b; transform: scale(0.95); box-shadow: none; }
         .match-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
-        .card-hanja { font-size: 32px; font-weight: normal; }
-        .card-meaning { font-size: 13px; line-height: 1.2; }
+        
+        /* 💡 수정됨: 미니게임 폰트 크기 대폭 상향 */
+        .card-hanja { font-size: 48px; font-weight: normal; } /* 32px -> 48px (50% 확대) */
+        .card-meaning { font-size: 17px; line-height: 1.3; } /* 13px -> 17px (약 30% 확대) */
 
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
@@ -490,14 +492,11 @@
             });
         }
 
-        // ==========================================
-        // 💡 짝맞추기 미니 게임 로직
-        // ==========================================
         let allCharPairs = [];
         let gameCards = [];
         let selectedCards = [];
         let matchedPairsCount = 0;
-        let totalPairs = 12; // 12쌍 (총 24개 카드)
+        let totalPairs = 12; 
         let gameTimer;
         let gameTimeLeft = 60;
         let isGameRunning = false;
@@ -526,7 +525,6 @@
             
             if(allCharPairs.length === 0) parseCharacters();
             
-            // 랜덤으로 12쌍 추출
             let shuffledPairs = [...allCharPairs].sort(() => Math.random() - 0.5).slice(0, totalPairs);
             
             gameCards = [];
@@ -534,7 +532,6 @@
                 gameCards.push({ id: index, text: pair.hanja, type: 'hanja' });
                 gameCards.push({ id: index, text: pair.meaning, type: 'meaning' });
             });
-            // 카드 섞기
             gameCards.sort(() => Math.random() - 0.5);
             
             const board = document.getElementById('game-board');
@@ -571,7 +568,6 @@
 
         function onCardClick(el, card, idx) {
             if(!isGameRunning) return;
-            // 이미 2장이 골라졌거나, 이미 맞춰졌거나, 같은 카드를 또 누르면 무시
             if(selectedCards.length >= 2 || el.classList.contains('matched') || el.classList.contains('selected')) return;
 
             el.classList.add('selected');
@@ -580,7 +576,6 @@
             if(selectedCards.length === 2) {
                 const [first, second] = selectedCards;
                 
-                // 짝이 맞는지 확인 (서로 id가 같고, type이 다르면 정답)
                 if(first.card.id === second.card.id && first.card.type !== second.card.type) {
                     setTimeout(() => {
                         first.el.classList.replace('selected', 'matched');
@@ -594,7 +589,6 @@
                         }
                     }, 300);
                 } else {
-                    // 오답이면 원래대로
                     setTimeout(() => {
                         first.el.classList.remove('selected');
                         second.el.classList.remove('selected');
@@ -626,9 +620,6 @@
             }, 100);
         }
 
-        // ==========================================
-        // 상세 화면 뷰 및 캔버스
-        // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -641,9 +632,9 @@
         const drawCtx = drawCanvas.getContext('2d', { willReadFrequently: true });
         
         let isDrawing = false;
-        let points = []; // 💡 부드러운 붓글씨 보정을 위한 포인트 배열
+        let points = []; 
         let lastTime = 0;
-        let lastWidth = 3.5; // 💡 시작 굵기 50% 축소
+        let lastWidth = 3.5; 
         
         function toggleExampleStroke() {
             const btn = document.getElementById('toggle-btn');
@@ -793,7 +784,6 @@
             return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
-        // 💡 수정됨: 붓글씨 보정 (Bezier Curve) 및 50% 얇은 펜 적용
         function startPosition(e) {
             if (e && e.cancelable) e.preventDefault(); 
             isDrawing = true;
@@ -832,14 +822,12 @@
             const dist = Math.hypot(pos.x - points[points.length-2].x, pos.y - points[points.length-2].y);
             const speed = dist / dt;
             
-            // 선 굵기 최대치 50% 하향 조절 (붓글씨 터치감)
             let targetWidth = Math.max(1, 5.25 - speed * 3); 
             lastWidth = lastWidth + (targetWidth - lastWidth) * 0.2; 
             
             drawCtx.lineWidth = lastWidth;
             drawCtx.strokeStyle = '#2c3e50';
             
-            // 💡 붓글씨 곡선 보정 처리
             if (points.length >= 3) {
                 const p0 = points[points.length - 3];
                 const p1 = points[points.length - 2];
@@ -906,17 +894,15 @@
             let completionRate = hitPixels / targetPixels;
             let normalizedCompletion = Math.min(1.0, completionRate * 1.35);
 
-            // 💡 수정됨: 덧칠 및 끊어쓰기 엄격한 감점 로직
             let strokeScore = 30 * normalizedCompletion;
-            let expectedStrokes = charLen * 10; // 글자당 평균 10획으로 산정
+            let expectedStrokes = charLen * 10; 
             let currentExpected = expectedStrokes * normalizedCompletion;
             
-            // 획이 너무 많으면 (덧칠) 1회 초과당 4점씩 대폭 감점
             if (strokeCount > currentExpected * 1.2) {
                 let excessStrokes = strokeCount - (currentExpected * 1.2);
                 strokeScore -= (excessStrokes * 4); 
             } else if (strokeCount < currentExpected * 0.3) {
-                strokeScore -= 15; // 너무 적게 낙서하듯 그었을 때
+                strokeScore -= 15; 
             }
             strokeScore = Math.max(0, Math.round(strokeScore));
 
