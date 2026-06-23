@@ -188,9 +188,6 @@
             .bonus-choice-btn { padding: 10px; font-size: 14px; }
         }
     </style>
-    <!-- 🟢 1. 여기에 파이어베이스 라이브러리를 추가합니다 -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -335,22 +332,6 @@
     </div>
 
     <script>
-        // 🟢 2. 여기에 올려주신 사진에 있던 선생님의 파이어베이스 열쇠를 넣습니다
-        const firebaseConfig = {
-            apiKey: "AIzaSyCl125xoZ1FGWHs24Q0Xu1T1AHmpL5PYuI",
-            authDomain: "nadoo-9c703.firebaseapp.com",
-            projectId: "nadoo-9c703",
-            storageBucket: "nadoo-9c703.firebasestorage.app",
-            messagingSenderId: "3606715106",
-            appId: "1:3606715106:web:9e54219324183f8a459cbb"
-        };
-
-        // 파이어베이스 실행!
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // --------------------------------------------------
-        // 아래부터는 원래 있던 기존 데이터 코드입니다.
         const mathData={
             "분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
             "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
@@ -1033,7 +1014,11 @@
             document.getElementById('game-modal-bonus').innerText = `+${window.bonusQuizScore}점`;
             document.getElementById('game-modal-total').innerText = `총점: ${window.currentGameFinalScore}점`;
 
-            if (window.currentGameFinalScore > 0) {
+            let data = JSON.parse(localStorage.getItem('HanjaApp_GameRanking')) || { ranks: [] };
+            let ranks = data.ranks;
+            let isTop5 = window.currentGameFinalScore > 0 && (ranks.length < 5 || window.currentGameFinalScore > ranks[ranks.length - 1].score);
+
+            if (isTop5) {
                 document.getElementById('game-rank-input-area').style.display = 'block';
                 document.getElementById('game-modal-submit-btn').style.display = 'block';
                 document.getElementById('game-player-initials').value = '';
@@ -1379,7 +1364,11 @@
             document.getElementById('modal-bonus').innerText = `+${bonusScore}점 (${charLen}글자)`;
             document.getElementById('modal-total').innerText = `총점: ${finalScore}점`;
 
-            if (finalScore > 0) {
+            let data = JSON.parse(localStorage.getItem(RANK_KEY)) || { timestamp: Date.now(), ranks: [] };
+            let ranks = data.ranks;
+            let isTop5 = finalScore > 0 && (ranks.length < 5 || finalScore > ranks[ranks.length - 1].score);
+
+            if (isTop5) {
                 document.getElementById('rank-input-area').style.display = 'block';
                 document.getElementById('modal-submit-btn').style.display = 'block';
                 document.getElementById('player-initials').value = '';
@@ -1400,44 +1389,30 @@
             document.getElementById('game-score-modal').style.display = 'none';
         }
 
-        async function submitScoreModal() {
+        function submitScoreModal() {
             let initials = document.getElementById('player-initials').value.trim();
             if(!initials) { alert("이니셜을 입력해주세요."); return; }
             if(!checkForbiddenWords(initials)) return;
 
             let wordName = document.getElementById('detail-title').innerText.split(' ')[0];
+            saveRanking(window.currentFinalScore, wordName, initials, 'HanjaApp_WeeklyRanking');
             
-            // 등록 버튼 잠깐 비활성화 (여러번 눌림 방지)
-            const submitBtn = document.getElementById('modal-submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = '등록 중...';
-
-            await saveRanking(window.currentFinalScore, wordName, initials, 'HanjaApp_WeeklyRanking');
-            
-            submitBtn.disabled = false;
-            submitBtn.innerText = '등록하기';
-
             closeScoreModal();
             closeDetail();
             switchTab('rank');
+            loadRank('draw');
         }
 
-        async function submitGameScoreModal() {
+        function submitGameScoreModal() {
             let initials = document.getElementById('game-player-initials').value.trim();
             if(!initials) { alert("이니셜을 입력해주세요."); return; }
             if(!checkForbiddenWords(initials)) return;
 
-            const submitBtn = document.getElementById('game-modal-submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = '등록 중...';
-
-            await saveRanking(window.currentGameFinalScore, '스피드 학습 게임', initials, 'HanjaApp_GameRanking');
+            saveRanking(window.currentGameFinalScore, '스피드 학습 게임', initials, 'HanjaApp_GameRanking');
             
-            submitBtn.disabled = false;
-            submitBtn.innerText = '등록하기';
-
             closeGameScoreModal();
             switchTab('rank');
+            loadRank('game');
         }
 
         function checkForbiddenWords(text) {
@@ -1463,67 +1438,17 @@
         const RANK_KEY = 'HanjaApp_WeeklyRanking';
         const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-        // 서버에 랭킹을 저장하는 함수 (수정됨)
-        async function saveRanking(score, wordName, playerName, key) {
-            try {
-                await db.collection(key).add({
-                    name: playerName,
-                    score: score,
-                    word: wordName,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // 서버 시간 기준
-                });
-                console.log("DB 저장 성공!");
-            } catch (error) {
-                console.error("DB 저장 실패: ", error);
-                alert("랭킹 저장 중 오류가 발생했습니다.");
-            }
+        function saveRanking(score, wordName, playerName, key) {
+            let data = JSON.parse(localStorage.getItem(key)) || { timestamp: Date.now(), ranks: [] };
+            let ranks = data.ranks;
+
+            ranks.push({ name: playerName, score: score, word: wordName });
+            ranks.sort((a, b) => b.score - a.score);
+            data.ranks = ranks.slice(0, 5);
+            localStorage.setItem(key, JSON.stringify(data));
         }
 
-        // 서버에서 랭킹을 불러오는 함수 (수정됨)
-        async function loadRank(type) {
-            currentRankTab = type;
-            document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
-
-            const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
-
-            const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
-
-            try {
-                // 점수 내림차순으로 상위 5개만 가져오기
-                const snapshot = await db.collection(rankKey)
-                    .orderBy('score', 'desc')
-                    .limit(5)
-                    .get();
-
-                tbody.innerHTML = ''; 
-
-                if (snapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">아직 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
-                    return;
-                }
-
-                let index = 0;
-                snapshot.forEach((doc) => {
-                    const entry = doc.data();
-                    let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
-                    let tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${rankIcon}</td>
-                        <td>${entry.name}</td>
-                        <td style="font-size:12px;">${entry.word}</td>
-                        <td style="font-weight:bold;">${entry.score}점</td>
-                    `;
-                    tbody.appendChild(tr);
-                    index++;
-                });
-            } catch (error) {
-                console.error("랭킹 로드 에러:", error);
-                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다.</td></tr>';
-            }
-        }
+        function loadRank(type) {
             currentRankTab = type;
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
             document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
