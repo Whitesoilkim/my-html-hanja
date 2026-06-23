@@ -188,7 +188,6 @@
             .bonus-choice-btn { padding: 10px; font-size: 14px; }
         }
     </style>
-    <!-- 🟢 1. 여기에 파이어베이스 라이브러리를 추가합니다 -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
@@ -335,7 +334,7 @@
     </div>
 
     <script>
-        // 🟢 2. 여기에 올려주신 사진에 있던 선생님의 파이어베이스 열쇠를 넣습니다
+        // 파이어베이스 연결 설정
         const firebaseConfig = {
             apiKey: "AIzaSyCl125xoZ1FGWHs24Q0Xu1T1AHmpL5PYuI",
             authDomain: "nadoo-9c703.firebaseapp.com",
@@ -349,7 +348,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --------------------------------------------------
+        // 데이터 
         const mathData={
             "분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
             "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
@@ -487,7 +486,7 @@
             "환원":{hanja:"還元",meaning:"물질이 산소를 잃거나 전자를 얻어 원래 상태로 돌아오는 것.",detail:"還 : 돌아올 환\n元 : 본디 원",ex:"용광로에서 철광석에서 산소를 떼어내어 순수한 철을 얻는 과정을 환원이라고 합니다."},
             "물리학":{hanja:"物理學",meaning:"자연계의 물질과 에너지의 이치를 탐구하는 학문.",detail:"物 : 물건 물\n理 : 다스릴 리\n學 : 배울 학",ex:"아이작 뉴턴은 사과가 떨어지는 현상을 보고 만유인력의 법칙을 발견하여 고전 물리학의 기초를 세웠다."},
             "변위":{hanja:"變位",meaning:"물체의 처음 위치와 나중 위치 사이의 직선거리와 방향.",detail:"變 : 변할 변\n位 : 자리 위",ex:"운동장을 한 바퀴 돌아 제자리로 돌아오면 이동 거리는 트랙 한 바퀴 길이이지만, 위치가 변하지 않았으므로 변위는 0입니다."},
-            "탄성":{hanja:"彈性",meaning:"힘을 받아 변형된 물체가 원래 모양으로 돌아가려는 성질.",detail:"彈 : 퉁길 탄\n性 : 성품 성",ex:"트램펄린 위에서 높이 뛰어오를 수 있는 것은 용수철과 매트의 강한 탄성 때문입니다."},
+            "탄성":{hanja:"彈性",meaning:"힘을 받아 변형된 물체가 원래 모양으로 돌아가려는 성질.",detail:"彈 : 퉁길 탄\n性 : 성품 성",ex:"트램펄린 위에서 높이 뛰어오를 수 있는 초강력 탄성 때문입니다."},
             "진폭":{hanja:"振幅",meaning:"진동 중심에서 최대로 움직인 거리(폭).",detail:"振 : 떨릴 진\n幅 : 폭 폭",ex:"스피커의 볼륨을 크게 높이면 소리 파동의 진폭이 커져서 소리가 더 크게 들립니다."},
             "진동수":{hanja:"振動數",meaning:"1초 동안 파동이나 진동이 반복된 횟수.",detail:"振 : 떨릴 진\n動 : 움직일 동\n數 : 셈 수",ex:"피아노 건반에서 높은 음을 칠수록 1초당 공기가 떨리는 횟수인 진동수가 큽니다."},
             "굴절":{hanja:"屈折",meaning:"파동이 다른 매질을 만날 때 속도 차이로 꺾이는 현상.",detail:"屈 : 굽을 굴\n折 : 꺾을 절",ex:"수영장 바닥이 실제 깊이보다 얕아 보이는 것은 물속에서 공기로 나오는 빛의 굴절 현상 때문입니다."},
@@ -937,7 +936,7 @@
                     height: boxSize,
                     padding: 5,
                     showOutline: false,         
-                    showCharacter: false, // 투명한 상태에서 시작       
+                    showCharacter: false, // 투명한 상태에서 시작        
                     strokeAnimationSpeed: 0.5,
                     delayBetweenStrokes: 300,   
                     strokeColor: '#2c3e50'
@@ -1061,7 +1060,7 @@
         let isDrawing = false;
         let points = []; 
         let lastTime = 0;
-        let lastWidth = 12; 
+        let lastWidth = 9; 
         let smoothedSpeed = 0; 
         
         function toggleExampleStroke() {
@@ -1220,13 +1219,13 @@
             const pos = getPos(e);
             points = [pos]; 
             lastTime = Date.now();
-            lastWidth = 12; 
+            lastWidth = 9; 
             smoothedSpeed = 0; 
             
             drawCtx.lineCap = 'round';
             drawCtx.lineJoin = 'round';
-            drawCtx.shadowColor = 'rgba(44, 62, 80, 0.4)';
-            drawCtx.shadowBlur = 2;
+            drawCtx.shadowColor = 'rgba(44, 62, 80, 0.2)';
+            drawCtx.shadowBlur = 1;
 
             drawCtx.beginPath();
             drawCtx.fillStyle = '#2c3e50';
@@ -1250,7 +1249,7 @@
             const lastP = points[points.length-1];
             const dist = Math.hypot(pos.x - lastP.x, pos.y - lastP.y);
             
-            if (dist < 2) return;
+            if (dist < 4) return;
             
             points.push(pos);
             
@@ -1258,12 +1257,12 @@
             const dt = now - lastTime || 1;
             
             const currentSpeed = dist / dt;
-            smoothedSpeed = smoothedSpeed * 0.7 + currentSpeed * 0.3;
+            smoothedSpeed = smoothedSpeed * 0.85 + currentSpeed * 0.15;
             
-            let targetWidth = 24 * Math.exp(-smoothedSpeed * 0.5); 
-            targetWidth = Math.max(1.5, Math.min(targetWidth, 24));
+            let targetWidth = 18 * Math.exp(-smoothedSpeed * 0.6); 
+            targetWidth = Math.max(1.5, Math.min(targetWidth, 18));
             
-            lastWidth = lastWidth * 0.65 + targetWidth * 0.35; 
+            lastWidth = lastWidth * 0.85 + targetWidth * 0.15; 
             
             drawCtx.lineWidth = lastWidth;
             drawCtx.strokeStyle = '#2c3e50';
@@ -1406,7 +1405,6 @@
 
             let wordName = document.getElementById('detail-title').innerText.split(' ')[0];
             
-            // 등록 버튼 잠깐 비활성화 (여러번 눌림 방지)
             const submitBtn = document.getElementById('modal-submit-btn');
             submitBtn.disabled = true;
             submitBtn.innerText = '등록 중...';
@@ -1520,37 +1518,8 @@
                 });
             } catch (error) {
                 console.error("랭킹 로드 에러:", error);
-                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.</td></tr>';
             }
-        }
-            currentRankTab = type;
-            document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            
-            document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
-
-            const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = ''; 
-
-            const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
-            let data = JSON.parse(localStorage.getItem(rankKey));
-            
-            if (!data || data.ranks.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">아직 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
-                return;
-            }
-
-            data.ranks.forEach((entry, index) => {
-                let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${rankIcon}</td>
-                    <td>${entry.name}</td>
-                    <td style="font-size:12px;">${entry.word}</td>
-                    <td style="font-weight:bold;">${entry.score}점</td>
-                `;
-                tbody.appendChild(tr);
-            });
         }
 
         function showRankingList() {
