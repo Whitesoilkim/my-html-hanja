@@ -188,6 +188,7 @@
             .bonus-choice-btn { padding: 10px; font-size: 14px; }
         }
     </style>
+    <!-- Firebase 라이브러리 추가 -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
@@ -410,7 +411,7 @@
             "차수":{hanja:"次數",meaning:"단항식 안에 포함된 문자 인수의 개수.",detail:"次 : 버금 차\n數 : 셈 수",ex:"x^2y^3의 차수는 x에 대하여서는 2, y에 대하여서는 3이다."},
             "단항식":{hanja:"單項式",meaning:"숫자와 문자의 곱으로만 이루어진 하나의 항.",detail:"單 : 홀 단\n項 : 목 항\n式 : 법식 식",ex:"숫자와 몇 개의 문자의 곱으로만 이루어진다. 3ab, 3x 따위가 있다."},
             "다항식":{hanja:"多項式",meaning:"두 개 이상의 항을 더하기나 빼기로 결합한 식.",detail:"多 : 많을 다\n項 : 목 항\n式 : 법식 식",ex:"두 개 이상의 항을 '+', '-'로 결합한 식. a+b, 2ax+3by 따위가 있다."},
-            "동류항":{hanja:"同類項",meaning:"다항식에서 계수는 다르나 문자와 차수가 같은 항.",detail:"同 : 한가지 동\n類 : 무리 류\n項 : 목 항",ex:"7a^2 + ab^2 - b^3 - 3ab^2 에서 ab^2 과 -3ab^2 은 동류항이다."},
+            "동류항":{hanja:"同類항",meaning:"다항식에서 계수는 다르나 문자와 차수가 같은 항.",detail:"同 : 한가지 동\n類 : 무리 류\n項 : 목 항",ex:"7a^2 + ab^2 - b^3 - 3ab^2 에서 ab^2 과 -3ab^2 은 동류항이다."},
             "전개":{hanja:"展開",meaning:"곱의 형태로 표현된 식을 합의 형태로 고침.",detail:"展 : 펼 전\n開 : 열 개",ex:"곱의 형태로 표현된 식을 합의 형태로 고침. (x+1)(x+2)=x^2+3x+2"},
             "인수분해":{hanja:"因數分解",meaning:"정수나 식을 몇 개의 간단한 인수의 곱으로 나타냄.",detail:"因 : 인할 인\n數 : 셈 수\n分 : 나눌 분\n解 : 풀 해",ex:"정수 또는 정식을 몇 개의 인수의 곱의 꼴로 바꾸어 나타내는 일."},
             "방정식":{hanja:"方程式",meaning:"문자가 특정한 값을 취할 때에만 성립하는 등식.",detail:"方 : 네모 방\n程 : 한도 정\n式 : 법식 식",ex:"어떤 문자가 특정한 값을 취할 때에만 성립하는 등식."},
@@ -500,7 +501,7 @@
             "압력":{hanja:"壓力",meaning:"단위 면적에 수직으로 작용하는 누르는 힘.",detail:"壓 : 누를 압\n力 : 힘 력",ex:"압력솥은 내부의 압력을 높여 물이 100도보다 높은 온도에서 끓게 만들어 밥을 빠르게 익힌다."},
             "저항":{hanja:"抵抗",meaning:"도선에서 전류의 흐름을 방해하는 성질.",detail:"抵 : 막을 저\n抗 : 겨룰 항",ex:"전열기에 사용되는 니크롬선은 전기 저항이 커서 전류가 흐를 때 열이 많이 발생합니다."},
             "관성":{hanja:"慣性",meaning:"물체가 현재의 운동 상태를 그대로 유지하려는 성질.",detail:"慣 : 버릇 관\n性 : 성품 성",ex:"망치 자루를 바닥에 내리치면, 망치 머리가 계속 내려가려는 관성 때문에 자루에 단단히 박힙니다."},
-            "마찰력":{hanja:"摩擦力",meaning:"접촉한 두 물체 사이에서 운동을 방해하는 힘.",detail:"摩 : 문지를 마\n擦 : 비빌 찰\n力 : 힘 력",ex:"운동화 바닥에 울퉁불퉁한 무늬를 넣는 것은 바닥과의 마찰력을 높여 미끄러지지 않게 하려는 것입니다."},
+            "마찰력":{hanja:"摩擦力",meaning:"접촉한 두 물체 사이에서 운동을 방해하는 힘.",detail:"摩 : 문지를 마\n擦 : 비빌 찰\n力 : 힘 력",ex:"운동화 바닥에 울퉁불퉁한 무늬를 넣는 초강력 마찰력을 높여 미끄러지지 않게 하려는 것입니다."},
             "가속도":{hanja:"加速度",meaning:"시간에 따라 속도가 변하는 정도.",detail:"加 : 더할 가\n速 : 빠를 속\n度 : 법도 도",ex:"자유 낙하하는 공은 지구 중력에 의해 일정한 가속도가 붙어 떨어질수록 속력이 빨라집니다."},
             "속력":{hanja:"速力",meaning:"이동한 거리를 걸린 시간으로 나눈 값(빠르기).",detail:"速 : 빠를 속\n力 : 힘 력",ex:"빛은 우주에서 가장 빠른 속력을 가지고 있으며, 1초에 지구를 일곱 바퀴 반이나 돌 수 있다."},
             "속도":{hanja:"速度",meaning:"물체가 움직일 때의 빠르기와 방향.",detail:"速 : 빠를 속\n度 : 법도 도",ex:"낙하산은 공기 저항을 이용해 하늘에서 떨어지는 물체의 하강 속도를 안전하게 줄여준다."},
@@ -1060,7 +1061,7 @@
         let isDrawing = false;
         let points = []; 
         let lastTime = 0;
-        let lastWidth = 9; 
+        let lastWidth = 3; // 기본 선 굵기 대폭 감소 (25% 수준)
         let smoothedSpeed = 0; 
         
         function toggleExampleStroke() {
@@ -1219,7 +1220,7 @@
             const pos = getPos(e);
             points = [pos]; 
             lastTime = Date.now();
-            lastWidth = 9; 
+            lastWidth = 3; // 시작 굵기 25% 축소
             smoothedSpeed = 0; 
             
             drawCtx.lineCap = 'round';
@@ -1259,8 +1260,9 @@
             const currentSpeed = dist / dt;
             smoothedSpeed = smoothedSpeed * 0.85 + currentSpeed * 0.15;
             
-            let targetWidth = 18 * Math.exp(-smoothedSpeed * 0.6); 
-            targetWidth = Math.max(1.5, Math.min(targetWidth, 18));
+            // 최대 굵기를 6으로 축소, 최소 굵기 0.5 (25% 수준)
+            let targetWidth = 6 * Math.exp(-smoothedSpeed * 0.6); 
+            targetWidth = Math.max(0.5, Math.min(targetWidth, 6));
             
             lastWidth = lastWidth * 0.85 + targetWidth * 0.15; 
             
