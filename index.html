@@ -64,7 +64,7 @@
         .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
         
-        /* 짝맞추기 학습용 스타일 */
+        /* 1단계: 짝맞추기 학습용 스타일 */
         #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
         .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
         
@@ -88,10 +88,7 @@
         .card-hanja { font-size: 48px; font-weight: normal; } 
         .card-meaning { font-size: 17px; line-height: 1.3; }
 
-        .match-card.matched { 
-            animation: popOut 0.4s ease-out forwards; 
-            pointer-events: none; 
-        }
+        .match-card.matched { animation: popOut 0.4s ease-out forwards; pointer-events: none; }
 
         @keyframes popOut {
             0% { transform: scale(1); opacity: 1; }
@@ -132,14 +129,34 @@
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
 
+        /* 💡 2단계: 보너스 스테이지 (캐치마인드) 전용 스타일 */
+        #bonus-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; background: #2c3e50; color: white; border-radius: 12px; }
+        .bonus-header { text-align: center; color: #f1c40f; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
+        .bonus-desc { font-size: 14px; color: #ecf0f1; text-align: center; margin-bottom: 15px; word-break: keep-all; }
+        
+        .bonus-timer-container { width: 100%; height: 12px; background: #34495e; position: relative; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+        .bonus-timer-bar { height: 100%; background: #2ecc71; width: 100%; transition: width 0.1s linear, background-color 0.3s; }
+        .bonus-timer-bar.warning { background: #e74c3c; }
+
+        #bonus-draw-area { display: flex; gap: 8px; background: #ecf0f1; padding: 20px; border-radius: 12px; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3); justify-content: center; align-items: center; flex-wrap: wrap; position: relative; }
+        .hanja-box-catchmind { border: 2px dashed #bdc3c7; border-radius: 8px; background: #fff; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        
+        .bonus-choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
+        .bonus-choice-btn { 
+            background: #ecf0f1; color: #2c3e50; border: none; padding: 15px; border-radius: 12px; 
+            font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.1s;
+            box-shadow: 0 4px 0 #bdc3c7; word-break: keep-all; line-height: 1.4; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .bonus-choice-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #bdc3c7; }
+        .bonus-choice-btn.correct { background: #2ecc71; color: white; box-shadow: 0 4px 0 #27ae60; }
+        .bonus-choice-btn.wrong { background: #e74c3c; color: white; box-shadow: 0 4px 0 #c0392b; animation: shake 0.3s; }
+
         /* 랭킹 뷰 스타일 */
         #ranking-view { display: none; padding: 20px; text-align: center; }
         .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
-        
         .rank-toggle-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .rank-tab-btn { padding: 10px 20px; font-size: 15px; font-weight: bold; border: 2px solid #f39c12; background: white; color: #f39c12; border-radius: 8px; cursor: pointer; transition: 0.2s; }
         .rank-tab-btn.active { background: #f39c12; color: white; }
-
         .ranking-table { width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ranking-table th, .ranking-table td { padding: 12px; border-bottom: 1px solid #ecf0f1; text-align: center; }
         .ranking-table th { background: #f39c12; color: white; font-weight: bold; }
@@ -147,19 +164,16 @@
         .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
         /* 모달 공통 */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
-        
         .score-details { text-align: left; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dcdde1; }
         .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
         .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
-        
         .rank-input-area { display: none; margin-bottom: 20px; }
         .rank-msg { color: #f39c12; font-weight: bold; margin-bottom: 10px; font-size: 15px; }
         .player-initials { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 18px; text-align: center; font-weight: bold; outline: none; }
         .player-initials:focus { border-color: #3498db; }
-        
         .modal-buttons { display: flex; gap: 10px; }
         .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-submit { background: #3498db; color: white; }
@@ -169,6 +183,10 @@
         #image-upload-area { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #bdc3c7; }
         .upload-label { background: #3498db; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-block; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .upload-label:active { background: #2980b9; }
+
+        @media (max-width: 400px) {
+            .bonus-choice-btn { padding: 10px; font-size: 14px; }
+        }
     </style>
 </head>
 <body>
@@ -186,21 +204,36 @@
         </div>
     </div>
 
-    <!-- 한자 공부 뷰 -->
     <div id="game-view">
         <div class="game-stats">
             <span id="game-time">⏱️ 60초</span>
             <span id="game-score">🎯 0 / 12쌍</span>
         </div>
         <div id="game-board"></div>
-        <button id="game-start-btn" onclick="startGame()">학습 시작하기</button>
+        <button id="game-start-btn" onclick="startMatchingGame()">학습 시작하기</button>
+    </div>
+
+    <div id="bonus-view">
+        <h2 class="bonus-header">✨ 보너스 퀴즈 ✨</h2>
+        <p class="bonus-desc">동시에 그려지는 모든 한자를 보고 가장 빠르게 단어를 고르세요! (틀리면 즉시 실패)</p>
+        
+        <div style="display:flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-weight:bold; color:#f1c40f;">남은 시간: <span id="bonus-time-text">15</span>초</span>
+        </div>
+        <div class="bonus-timer-container">
+            <div id="bonus-timer-bar" class="bonus-timer-bar"></div>
+        </div>
+
+        <div id="bonus-draw-area" id="draw-area"></div>
+        <div id="bonus-choices-area" class="bonus-choices-grid"></div>
+        <div id="bonus-status-msg" class="status-msg"></div>
     </div>
 
     <div id="ranking-view">
         <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
         <div class="rank-toggle-container">
             <button id="rank-btn-draw" class="rank-tab-btn active" onclick="loadRank('draw')">✍️ 한자 쓰기</button>
-            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🧩 짝맞추기 학습</button>
+            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🧩 학습 게임 통합</button>
         </div>
         <table class="ranking-table" id="ranking-table">
             <thead>
@@ -240,7 +273,6 @@
         </div>
     </div>
 
-    <!-- 이미지 모달 -->
     <div id="image-modal" class="modal-overlay">
         <div class="modal-content" style="width: auto; min-width: 280px;">
             <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
@@ -256,7 +288,6 @@
         </div>
     </div>
 
-    <!-- 한자 쓰기 점수 모달창 -->
     <div id="score-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">채점 결과</h2>
@@ -278,13 +309,15 @@
         </div>
     </div>
 
-    <!-- 짝맞추기 학습 점수 모달창 -->
     <div id="game-score-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title">학습 결과</h2>
+            <h2 class="modal-title">최종 학습 결과</h2>
             <div class="score-details">
-                <p><span>맞힌 짝 (1쌍당 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0 / 12쌍</span></p>
-                <p style="color:#3498db; margin-top:10px;"><span>남은 시간 보너스:</span> <span id="game-modal-time">+0점</span></p>
+                <p><span>1단계 맞힌 짝 (1쌍 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0점</span></p>
+                <p><span>1단계 남은 시간 보너스:</span> <span id="game-modal-time" style="color:#2c3e50;">+0점</span></p>
+                <p style="color:#8e44ad; margin-top:10px; border-top:1px dashed #ccc; padding-top:10px;">
+                    <span>✨ 보너스 캐치마인드:</span> <span id="game-modal-bonus">+0점</span>
+                </p>
             </div>
             <div class="modal-total" id="game-modal-total">총점: 0점</div>
             <div id="game-rank-input-area" class="rank-input-area">
@@ -293,7 +326,7 @@
             </div>
             <div class="modal-buttons">
                 <button id="game-modal-submit-btn" class="btn-submit" onclick="submitGameScoreModal()">등록하기</button>
-                <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기 (결과 확인)</button>
+                <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기</button>
             </div>
         </div>
     </div>
@@ -523,6 +556,7 @@
         function switchTab(tab) {
             document.getElementById('main-app').style.display = 'none';
             document.getElementById('game-view').style.display = 'none';
+            document.getElementById('bonus-view').style.display = 'none';
             document.getElementById('ranking-view').style.display = 'none';
             
             document.getElementById('tab-main').className = 'header-tab tab-inactive';
@@ -557,7 +591,7 @@
         }
 
         // ==========================================
-        // 💡 짝맞추기 한자 공부 로직
+        // 💡 1단계: 짝맞추기 게임
         // ==========================================
         let allCharPairs = [];
         let gameCards = [];
@@ -567,6 +601,11 @@
         let gameTimer;
         let gameTimeLeft = 60;
         let isGameRunning = false;
+        
+        // 💡 통합 게임 점수
+        window.baseGameScore = 0;
+        window.timeBonusScore = 0;
+        window.bonusQuizScore = 0;
         window.currentGameFinalScore = 0;
 
         function speakText(text) {
@@ -598,7 +637,7 @@
             allCharPairs = Array.from(pairMap, ([hanja, meaning]) => ({hanja, meaning}));
         }
 
-        function startGame() {
+        function startMatchingGame() {
             if(isGameRunning) return;
             
             if(allCharPairs.length === 0) parseCharacters();
@@ -635,15 +674,19 @@
             selectedCards = [];
             gameTimeLeft = 60;
             isGameRunning = true;
+            window.baseGameScore = 0;
+            window.timeBonusScore = 0;
+            window.bonusQuizScore = 0;
+            window.currentGameFinalScore = 0;
+
             updateGameUI();
-            
             document.getElementById('game-start-btn').style.display = 'none';
 
             gameTimer = setInterval(() => {
                 gameTimeLeft--;
                 updateGameUI();
                 if (gameTimeLeft <= 0) {
-                    endGame(false);
+                    endMatchingGame(false);
                 }
             }, 1000);
         }
@@ -659,7 +702,6 @@
                 const [first, second] = selectedCards;
                 
                 if(first.card.id === second.card.id && first.card.type !== second.card.type) {
-                    
                     let matchedMeaning = first.card.type === 'meaning' ? first.card.text : second.card.text;
                     speakText(matchedMeaning);
 
@@ -677,7 +719,7 @@
                         selectedCards = [];
                         
                         if(matchedPairsCount === totalPairs) {
-                            setTimeout(() => endGame(true), 500); 
+                            setTimeout(() => endMatchingGame(true), 500); 
                         }
                     }, 200);
                 } else {
@@ -689,7 +731,7 @@
                         first.el.classList.remove('selected');
                         second.el.classList.remove('selected');
                         selectedCards = [];
-                        if (gameTimeLeft === 0) endGame(false);
+                        if (gameTimeLeft === 0) endMatchingGame(false);
                     }, 500);
                 }
             }
@@ -750,13 +792,11 @@
             document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
         }
 
-        function endGame(isWin) {
+        function endMatchingGame(isWin) {
             isGameRunning = false;
             clearInterval(gameTimer);
             
-            selectedCards.forEach(item => {
-                item.el.classList.remove('selected');
-            });
+            selectedCards.forEach(item => { item.el.classList.remove('selected'); });
             selectedCards = [];
 
             const pairColors = [
@@ -778,18 +818,205 @@
                 }
             });
 
-            let baseScore = matchedPairsCount * 10;
-            let timeBonus = isWin ? gameTimeLeft : 0;
-            let finalGameScore = baseScore + timeBonus;
-            window.currentGameFinalScore = finalGameScore;
+            window.baseGameScore = matchedPairsCount * 10;
+            window.timeBonusScore = isWin ? gameTimeLeft : 0;
+            
+            const startBtn = document.getElementById('game-start-btn');
+            startBtn.style.display = 'block';
+            startBtn.innerText = '다시 학습하기';
 
-            document.getElementById('game-modal-pairs').innerText = `${matchedPairsCount} / ${totalPairs}쌍 (기본 ${baseScore}점)`;
-            document.getElementById('game-modal-time').innerText = `+${timeBonus}점 (남은 시간 보너스)`;
-            document.getElementById('game-modal-total').innerText = `총점: ${finalGameScore}점`;
+            // 💡 1단계를 클리어했다면 2단계(보너스 스테이지)로 진입!
+            if (isWin) {
+                setTimeout(() => {
+                    alert("🎉 1단계 클리어! 보너스 퀴즈로 이동합니다!");
+                    document.getElementById('game-view').style.display = 'none';
+                    document.getElementById('bonus-view').style.display = 'flex';
+                    generateBonusQuestion();
+                }, 1000);
+            } else {
+                // 실패했다면 바로 모달창 표시
+                setTimeout(showFinalGameModal, 1500);
+            }
+        }
+
+        // ==========================================
+        // 💡 2단계: 보너스 캐치마인드 로직
+        // ==========================================
+        let bonusTarget = null;
+        let bonusWriters = [];
+        let isBonusAnimating = false;
+        let bonusTimerInterval;
+        let maxBonusTime = 15; 
+        let bonusTimeLeft = maxBonusTime;
+        let canBonusClick = false;
+
+        async function generateBonusQuestion() {
+            canBonusClick = true;
+            bonusTimeLeft = maxBonusTime;
+            window.bonusQuizScore = 0;
+            updateBonusTimerBar();
+
+            const allWords = {...mathData, ...scienceData};
+            const allKeys = Object.keys(allWords);
+            
+            // 정답 단어 랜덤 픽
+            let targetKey = allKeys[Math.floor(Math.random() * allKeys.length)];
+            bonusTarget = { name: targetKey, ...allWords[targetKey] };
+            let targetLen = bonusTarget.hanja.length;
+
+            // 💡 오답 보기 추출 (정답과 글자 수가 같은 것만 필터링)
+            let sameLenKeys = allKeys.filter(k => allWords[k].hanja.length === targetLen && k !== targetKey);
+            
+            // 만약 글자수가 같은 단어가 3개가 안 된다면 부득이하게 전체에서 랜덤 추가 (데이터상 거의 없음)
+            let pool = sameLenKeys.length >= 3 ? sameLenKeys : allKeys.filter(k => k !== targetKey);
+            let wrongOptions = pool.sort(() => 0.5 - Math.random()).slice(0, 3);
+            let choices = [targetKey, ...wrongOptions].sort(() => 0.5 - Math.random());
+
+            const choicesArea = document.getElementById('bonus-choices-area');
+            choicesArea.innerHTML = '';
+            choices.forEach(choice => {
+                let btn = document.createElement('button');
+                btn.className = 'bonus-choice-btn';
+                btn.innerHTML = `<span style="color:#e74c3c; font-size:18px;">${choice}</span><br><span style="font-size:13px; font-weight:normal; margin-top:5px;">${allWords[choice].meaning}</span>`;
+                btn.onclick = () => handleBonusGuess(choice, btn);
+                choicesArea.appendChild(btn);
+            });
+
+            clearInterval(bonusTimerInterval);
+            bonusTimerInterval = setInterval(() => {
+                bonusTimeLeft -= 0.1;
+                updateBonusTimerBar();
+                if (bonusTimeLeft <= 0) {
+                    handleBonusTimeout();
+                }
+            }, 100);
+
+            // 💡 모든 글자를 렌더링
+            await startBonusDrawing(bonusTarget.hanja);
+        }
+
+        async function startBonusDrawing(hanjaStr) {
+            isBonusAnimating = true;
+            const container = document.getElementById('bonus-draw-area');
+            container.innerHTML = '';
+            bonusWriters = [];
+
+            // 글자 길이에 맞춰 박스 크기 자동 조절
+            let boxSize = window.innerWidth > 400 ? 110 : 80;
+            if (hanjaStr.length === 3) boxSize = window.innerWidth > 400 ? 90 : 70;
+            if (hanjaStr.length === 4) boxSize = window.innerWidth > 400 ? 75 : 60;
+            if (hanjaStr.length >= 5) boxSize = window.innerWidth > 400 ? 65 : 50;
+
+            for (let i = 0; i < hanjaStr.length; i++) {
+                let box = document.createElement('div');
+                box.className = 'hanja-box-catchmind';
+                box.style.width = boxSize + 'px';
+                box.style.height = boxSize + 'px';
+                container.appendChild(box);
+
+                let writer = HanziWriter.create(box, hanjaStr[i], {
+                    width: boxSize,
+                    height: boxSize,
+                    padding: 5,
+                    showOutline: false,         
+                    showCharacter: false, // 투명한 상태에서 시작       
+                    strokeAnimationSpeed: 0.5,
+                    delayBetweenStrokes: 300,   
+                    strokeColor: '#2c3e50'
+                });
+                bonusWriters.push(writer);
+            }
+
+            // 모든 글자 동시 애니메이션 시작
+            bonusWriters.forEach(writer => {
+                if (isBonusAnimating) writer.animateCharacter();
+            });
+        }
+
+        function updateBonusTimerBar() {
+            const bar = document.getElementById('bonus-timer-bar');
+            document.getElementById('bonus-time-text').innerText = Math.ceil(bonusTimeLeft);
+            
+            let percentage = (bonusTimeLeft / maxBonusTime) * 100;
+            bar.style.width = percentage + '%';
+
+            if (percentage < 30) {
+                bar.classList.add('warning');
+            } else {
+                bar.classList.remove('warning');
+            }
+        }
+
+        function handleBonusGuess(selectedWord, btnEl) {
+            if (!canBonusClick) return;
+
+            canBonusClick = false;
+            clearInterval(bonusTimerInterval);
+            isBonusAnimating = false; 
+            bonusWriters.forEach(w => w.showCharacter()); // 강제 공개
+
+            if (selectedWord === bonusTarget.name) {
+                btnEl.classList.add('correct');
+
+                let points = 10;
+                if (bonusTimeLeft >= 10) points = 50;
+                else if (bonusTimeLeft >= 5) points = 30;
+
+                window.bonusQuizScore = points;
+                showBonusStatusMsg(`정답!\n+${points}점 획득!`, 'show-correct');
+            } else {
+                btnEl.classList.add('wrong');
+                window.bonusQuizScore = 0;
+                showBonusStatusMsg('오답!\n보너스 실패', 'show-wrong');
+            }
+
+            setTimeout(showFinalGameModal, 2000);
+        }
+
+        function handleBonusTimeout() {
+            canBonusClick = false;
+            clearInterval(bonusTimerInterval);
+            isBonusAnimating = false;
+            bonusTimeLeft = 0;
+            updateBonusTimerBar();
+
+            bonusWriters.forEach(w => w.showCharacter());
+            
+            const buttons = document.querySelectorAll('.bonus-choice-btn');
+            buttons.forEach(btn => {
+                if(btn.innerHTML.includes(bonusTarget.name)) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            window.bonusQuizScore = 0;
+            showBonusStatusMsg('시간 초과!\n보너스 실패', 'show-timeout');
+            setTimeout(showFinalGameModal, 2000);
+        }
+
+        function showBonusStatusMsg(text, className) {
+            const msgEl = document.getElementById('bonus-status-msg');
+            msgEl.innerText = text;
+            msgEl.className = 'status-msg'; 
+            void msgEl.offsetWidth; 
+            msgEl.classList.add(className);
+        }
+
+        // 💡 최종 게임 점수 합산 및 모달 표시
+        function showFinalGameModal() {
+            document.getElementById('bonus-view').style.display = 'none';
+            document.getElementById('game-view').style.display = 'flex'; // 뒤 배경을 다시 1단계 뷰로
+
+            window.currentGameFinalScore = window.baseGameScore + window.timeBonusScore + window.bonusQuizScore;
+
+            document.getElementById('game-modal-pairs').innerText = `${window.baseGameScore}점`;
+            document.getElementById('game-modal-time').innerText = `+${window.timeBonusScore}점`;
+            document.getElementById('game-modal-bonus').innerText = `+${window.bonusQuizScore}점`;
+            document.getElementById('game-modal-total').innerText = `총점: ${window.currentGameFinalScore}점`;
 
             let data = JSON.parse(localStorage.getItem('HanjaApp_GameRanking')) || { ranks: [] };
             let ranks = data.ranks;
-            let isTop5 = finalGameScore > 0 && (ranks.length < 5 || finalGameScore > ranks[ranks.length - 1].score);
+            let isTop5 = window.currentGameFinalScore > 0 && (ranks.length < 5 || window.currentGameFinalScore > ranks[ranks.length - 1].score);
 
             if (isTop5) {
                 document.getElementById('game-rank-input-area').style.display = 'block';
@@ -800,17 +1027,11 @@
                 document.getElementById('game-modal-submit-btn').style.display = 'none';
             }
 
-            setTimeout(() => {
-                document.getElementById('game-score-modal').style.display = 'flex';
-            }, 1500);
-
-            const startBtn = document.getElementById('game-start-btn');
-            startBtn.style.display = 'block';
-            startBtn.innerText = '다시 학습하기';
+            document.getElementById('game-score-modal').style.display = 'flex';
         }
 
         // ==========================================
-        // 💡 붓글씨 보정 업데이트 (Jitter smoothing + 1.1배 굵기)
+        // 상세 화면 뷰 및 캔버스
         // ==========================================
         let currentWordName = "";
         let currentHanjaWord = "";
@@ -826,8 +1047,8 @@
         let isDrawing = false;
         let points = []; 
         let lastTime = 0;
-        let lastWidth = 12; // 시작 굵기
-        let smoothedSpeed = 0; // 부드러운 속도 계산용
+        let lastWidth = 12; 
+        let smoothedSpeed = 0; 
         
         function toggleExampleStroke() {
             const btn = document.getElementById('toggle-btn');
@@ -985,13 +1206,11 @@
             const pos = getPos(e);
             points = [pos]; 
             lastTime = Date.now();
-            lastWidth = 12; // 묵직한 시작 두께
-            smoothedSpeed = 0;
+            lastWidth = 12; 
+            smoothedSpeed = 0; 
             
             drawCtx.lineCap = 'round';
             drawCtx.lineJoin = 'round';
-            
-            // 💡 먹물 번짐 효과
             drawCtx.shadowColor = 'rgba(44, 62, 80, 0.4)';
             drawCtx.shadowBlur = 2;
 
@@ -1017,7 +1236,6 @@
             const lastP = points[points.length-1];
             const dist = Math.hypot(pos.x - lastP.x, pos.y - lastP.y);
             
-            // 💡 너무 작은 움직임(떨림)은 무시하여 곡선을 매끄럽게 유지
             if (dist < 2) return;
             
             points.push(pos);
@@ -1026,10 +1244,8 @@
             const dt = now - lastTime || 1;
             
             const currentSpeed = dist / dt;
-            // 속도 변화를 부드럽게 (관성 효과)
             smoothedSpeed = smoothedSpeed * 0.7 + currentSpeed * 0.3;
             
-            // 💡 지수 감소 함수(Math.exp)를 사용하여 서예 붓의 삐침/파임 극대화 (기존대비 1.1배 이상 굵게 24px까지 허용)
             let targetWidth = 24 * Math.exp(-smoothedSpeed * 0.5); 
             targetWidth = Math.max(1.5, Math.min(targetWidth, 24));
             
@@ -1040,7 +1256,6 @@
             
             if (points.length >= 3) {
                 const ctrl = points[points.length - 2];
-                // 중간점을 계산해 부드러운 이음매 생성
                 const end = {
                     x: (points[points.length - 2].x + points[points.length - 1].x) / 2,
                     y: (points[points.length - 2].y + points[points.length - 1].y) / 2
@@ -1051,7 +1266,6 @@
                 drawCtx.quadraticCurveTo(ctrl.x, ctrl.y, end.x, end.y);
                 drawCtx.stroke();
                 
-                // 자연스러운 이음매를 위해 끝점을 다시 배열에 보존
                 points[points.length - 2] = end;
             }
             
@@ -1194,7 +1408,7 @@
             if(!initials) { alert("이니셜을 입력해주세요."); return; }
             if(!checkForbiddenWords(initials)) return;
 
-            saveRanking(window.currentGameFinalScore, '스피드 짝맞추기', initials, 'HanjaApp_GameRanking');
+            saveRanking(window.currentGameFinalScore, '스피드 학습 게임', initials, 'HanjaApp_GameRanking');
             
             closeGameScoreModal();
             switchTab('rank');
