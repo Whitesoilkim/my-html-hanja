@@ -14,10 +14,11 @@
             background: #f4f6f9; padding: 10px; gap: 10px; border-bottom: 2px solid #ecf0f1;
         }
         .header-tab { 
-            flex: 1; text-align: center; padding: 12px 5px; font-size: 15px; 
+            flex: 1; text-align: center; padding: 12px 5px; font-size: 14px; 
             font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
         .tab-active-main { background-color: #3498db; color: white; }
+        .tab-active-gosa { background-color: #27ae60; color: white; } /* 고사성어 탭 색상 */
         .tab-active-game { background-color: #8e44ad; color: white; }
         .tab-active-rank { background-color: #f39c12; color: white; }
         .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
@@ -49,7 +50,7 @@
         .btn-image { background: #3498db; }
 
         .example-text { background: #e8f4f8; padding: 15px; border-radius: 8px; font-size: 15px; color: #2c3e50; text-align: center; line-height: 1.4; word-break: keep-all; font-weight: bold; display: block; margin-bottom: 10px; }
-        .writer-container { display: none; justify-content: center; gap: 10px; margin-bottom: 10px; min-height: 80px; }
+        .writer-container { display: none; justify-content: center; gap: 10px; margin-bottom: 10px; min-height: 80px; flex-wrap: wrap; }
         .hanja-box { width: 75px; height: 75px; border: 2px dashed #bdc3c7; border-radius: 8px; cursor: pointer; background: #fff; display: flex; justify-content: center; align-items: center; }
         .hanja-box:active { background: #f1f2f6; }
         
@@ -129,7 +130,7 @@
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
 
-        /* 💡 2단계: 보너스 스테이지 (캐치마인드) 전용 스타일 */
+        /* 2단계: 보너스 스테이지 (캐치마인드) 전용 스타일 */
         #bonus-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; background: #2c3e50; color: white; border-radius: 12px; }
         .bonus-header { text-align: center; color: #f1c40f; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
         .bonus-desc { font-size: 14px; color: #ecf0f1; text-align: center; margin-bottom: 15px; word-break: keep-all; }
@@ -186,24 +187,31 @@
 
         @media (max-width: 400px) {
             .bonus-choice-btn { padding: 10px; font-size: 14px; }
+            .header-tab { font-size: 12px; padding: 10px 2px; }
         }
     </style>
-    <!-- Firebase 라이브러리 추가 -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
     <header id="main-header">
-        <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학 & 과학</div>
-        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">한자 공부</div>
-        <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆 랭킹</div>
+        <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학&과학</div>
+        <div id="tab-gosa" class="header-tab tab-inactive" onclick="switchTab('gosa')">📚고사성어</div>
+        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">한자 게임</div>
+        <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆랭킹</div>
     </header>
 
     <div id="main-app">
         <div class="list-container" id="list-container">
             <div id="col-math" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 수학 단어</div></div>
             <div id="col-sci" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 과학 단어</div></div>
+        </div>
+    </div>
+
+    <div id="gosa-app" style="display: none;">
+        <div class="list-container" id="list-container-gosa">
+            <div id="col-gosa" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 재미있는 고사성어</div></div>
         </div>
     </div>
 
@@ -349,7 +357,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 데이터 
+        // 기존 수학 & 과학 데이터
         const mathData={
             "분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
             "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
@@ -556,11 +564,76 @@
             "체계":{hanja:"體系",meaning:"여러 구성 요소가 일정한 원리에 따라 짜임새 있게 이루어진 전체.",detail:"體 : 몸 체\n系 : 이어맬 계",ex:"과학자들은 지구상의 모든 생물을 문, 강, 목, 과, 속, 종이라는 일정한 체계에 따라 분류했다."}
         };
 
+        // 새롭게 추가된 어린이용 고사성어 데이터
+        const gosaData = {
+            "일석이조": {
+                hanja: "一石二鳥",
+                meaning: "옛날 중국에서 새를 잡는 사냥꾼이 돌 하나를 던져 두 마리의 새를 동시에 잡았다는 데서 유래했다고 전해집니다.",
+                detail: "一 : 한 일\n石 : 돌 석\n二 : 두 이\n鳥 : 새 조",
+                ex: "오늘 숙제도 다 하고 엄마한테 칭찬도 받고, 완전 일석이조야! 😆"
+            },
+            "죽마고우": {
+                hanja: "竹馬故友",
+                meaning: "🎋👫 대나무 말을 같이 타고 놀던 옛 친구라는 뜻으로, 어릴 때부터 아주 친한 단짝 친구를 말해요.",
+                detail: "竹 : 대나무 죽\n馬 : 말 마\n故 : 옛 고\n友 : 벗 우",
+                ex: "나랑 지훈이는 유치원 때부터 매일 붙어 다니는 죽마고우야! 🤝"
+            },
+            "동문서답": {
+                hanja: "東問西答",
+                meaning: "🗣️❓ 동쪽을 묻는데 서쪽을 대답한다는 뜻으로, 질문과 전혀 상관없는 엉뚱한 대답을 할 때 써요.",
+                detail: "東 : 동녘 동\n問 : 물을 문\n西 : 서녘 서\n答 : 대답할 답",
+                ex: "저녁 뭐 먹을 거냐고 물었는데, 내일 날씨 맑다고 동문서답을 하네? 😅"
+            },
+            "구사일생": {
+                hanja: "九死一生",
+                meaning: "열 번 중 아홉 번은 죽을 수밖에 없는 상황에서 간신히 한 번 살아남았다.",
+                detail: "九 : 아홉 구\n死 : 죽을 사\n一 : 한 일\n生 : 살 생",
+                ex: "자전거를 타고 가다 넘어질 뻔했는데, 푹신한 풀밭에 떨어져서 구사일생으로 안 다쳤어! 💦"
+            },
+            "마이동풍": {
+                hanja: "馬耳東風",
+                meaning: "🐴💨 말의 귀에 동풍이 분다는 뜻으로, 남의 말을 전혀 듣지 않고 흘려버리는 얄미운 모습을 말해요.",
+                detail: "馬 : 말 마\n耳 : 귀 이\n東 : 동녘 동\n風 : 바람 풍",
+                ex: "《좌전》 양공 24년 조의 기록에서 비롯되었으며, 춘추시대 진나라 장군 백기가 포위된 병사들을 구출하면서 “아홉 번 죽을 고비를 넘기고 겨우 살아났다”고 말한 데서 유래했다고 합니다. 그 후로 죽음의 위기를 간신히 넘긴 상황을 ‘구사일생’이라 부르게 되었습니다."
+            },
+            "다재다능": {
+                hanja: "多才多能",
+                meaning: "🎨⚽️🎹 재주도 많고 능력도 많아서 이것저것 다 잘한다는 뜻이에요.",
+                detail: "多 : 많을 다\n才 : 재주 재\n多 : 많을 다\n能 : 능할 능",
+                ex: "우리 반 반장이는 노래도 잘하고 체육도 잘해. 정말 다재다능한 친구야! ✨"
+            },
+            "유비무환": {
+                hanja: "有備無患",
+                meaning: "☂️😊 미리 준비가 되어 있으면 걱정할 것이 없다는 뜻이에요.",
+                detail: "有 : 있을 유\n備 : 갖출 비\n無 : 없을 무\n患 : 근심 환",
+                ex: "내일 비가 온다고 해서 가방에 우산을 챙겼지. 유비무환이니까! ☔"
+            },
+            "역지사지": {
+                hanja: "易地思之",
+                meaning: "🔄🤔 입장을 바꾸어 다른 사람의 처지에서 생각해 본다는 뜻이에요.",
+                detail: "易 : 바꿀 역\n地 : 땅 지\n思 : 생각할 사\n之 : 갈 지(그것 지)",
+                ex: "친구가 왜 화가 났는지 역지사지의 마음으로 곰곰이 생각해 보았어. 🥺"
+            },
+            "설상가상": {
+                hanja: "雪上加霜",
+                meaning: "☃️❄️ 눈 위에 서리가 또 내린다는 뜻으로, 안 좋은 일에 또 안 좋은 일이 겹쳤을 때 써요.",
+                detail: "雪 : 눈 설\n上 : 윗 상\n加 : 더할 가\n霜 : 서리 상",
+                ex: "아이스크림을 땅에 떨어뜨렸는데, 설상가상으로 넘어지기까지 했어. 😭"
+            },
+            "금상첨화": {
+                hanja: "錦上添花",
+                meaning: "🌸🍰 비단 위에 꽃을 더한다는 뜻으로, 좋은 일에 좋은 일이 더해져 완벽해질 때 써요.",
+                detail: "錦 : 비단 금\n上 : 윗 상\n添 : 더할 첨\n花 : 꽃 화",
+                ex: "떡볶이만 먹어도 맛있는데, 치즈까지 듬뿍 올리니 완전 금상첨화야! 😋"
+            }
+        };
+
         let currentRankTab = 'draw';
 
         window.onload = () => {
             renderList('col-math', mathData);
             renderList('col-sci', scienceData);
+            renderList('col-gosa', gosaData); // 고사성어 리스트 추가
             checkWeeklyReset(); 
             
             document.body.addEventListener("touchstart", function (e) {
@@ -573,17 +646,22 @@
 
         function switchTab(tab) {
             document.getElementById('main-app').style.display = 'none';
+            document.getElementById('gosa-app').style.display = 'none'; // 고사성어 영역 숨김
             document.getElementById('game-view').style.display = 'none';
             document.getElementById('bonus-view').style.display = 'none';
             document.getElementById('ranking-view').style.display = 'none';
             
             document.getElementById('tab-main').className = 'header-tab tab-inactive';
+            document.getElementById('tab-gosa').className = 'header-tab tab-inactive'; // 고사성어 탭 비활성화
             document.getElementById('tab-game').className = 'header-tab tab-inactive';
             document.getElementById('tab-rank').className = 'header-tab tab-inactive';
 
             if (tab === 'main') {
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('tab-main').className = 'header-tab tab-active-main';
+            } else if (tab === 'gosa') {
+                document.getElementById('gosa-app').style.display = 'block';
+                document.getElementById('tab-gosa').className = 'header-tab tab-active-gosa';
             } else if (tab === 'game') {
                 document.getElementById('game-view').style.display = 'flex';
                 document.getElementById('tab-game').className = 'header-tab tab-active-game';
@@ -637,7 +715,8 @@
         }
 
         function parseCharacters() {
-            const combined = {...mathData, ...scienceData};
+            // 고사성어 데이터 병합
+            const combined = {...mathData, ...scienceData, ...gosaData}; 
             const pairMap = new Map();
             for(let key in combined) {
                 let details = combined[key].detail.split('\n');
@@ -874,7 +953,8 @@
             window.bonusQuizScore = 0;
             updateBonusTimerBar();
 
-            const allWords = {...mathData, ...scienceData};
+            // 고사성어 데이터 병합
+            const allWords = {...mathData, ...scienceData, ...gosaData}; 
             const allKeys = Object.keys(allWords);
             
             // 정답 단어 랜덤 픽
@@ -1138,6 +1218,7 @@
 
         function openDetail(word, data) {
             document.getElementById('main-app').style.display = 'none'; 
+            document.getElementById('gosa-app').style.display = 'none'; 
             document.getElementById('ranking-view').style.display = 'none';
             document.getElementById('main-header').style.display = 'none'; 
             document.getElementById('detail-view').style.display = 'flex'; 
@@ -1202,7 +1283,13 @@
         function closeDetail() {
             document.getElementById('detail-view').style.display = 'none'; 
             document.getElementById('main-header').style.display = 'flex'; 
-            document.getElementById('main-app').style.display = 'block'; 
+            
+            // 어떤 탭이 활성화되어있는지 확인해서 해당 뷰만 열기
+            if(document.getElementById('tab-gosa').classList.contains('tab-active-gosa')) {
+                document.getElementById('gosa-app').style.display = 'block';
+            } else {
+                document.getElementById('main-app').style.display = 'block'; 
+            }
         }
 
         function getPos(e) {
@@ -1462,7 +1549,7 @@
         const RANK_KEY = 'HanjaApp_WeeklyRanking';
         const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-        // 서버에 랭킹을 저장하는 함수 (수정됨)
+        // 서버에 랭킹을 저장하는 함수
         async function saveRanking(score, wordName, playerName, key) {
             try {
                 await db.collection(key).add({
@@ -1478,7 +1565,7 @@
             }
         }
 
-        // 서버에서 랭킹을 불러오는 함수 (수정됨)
+        // 서버에서 랭킹을 불러오는 함수
         async function loadRank(type) {
             currentRankTab = type;
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
@@ -1530,3 +1617,4 @@
     </script>
 </body>
 </html>
+
