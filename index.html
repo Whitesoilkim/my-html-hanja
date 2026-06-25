@@ -332,7 +332,7 @@
             </div>
             <div class="modal-total" id="game-modal-total">총점: 0점</div>
             <div id="game-rank-input-area" class="rank-input-area">
-                <div class="rank-msg">🎉 학습 랭킹 TOP 5 진입! 🎉</div>
+                <div class="rank-msg">🎉 학습 랭킹 TOP 10 진입! 🎉</div>
                 <input type="text" id="game-player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
             </div>
             <div class="modal-buttons">
@@ -1588,10 +1588,13 @@
             const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
             try {
-                // 점수 내림차순으로 상위 5개만 가져오기
+                // 게임 랭킹일 경우 10명, 한자 쓰기일 경우 5명 설정
+                const limitCount = (type === 'game') ? 10 : 5;
+
+                // 점수 내림차순으로 가져오기
                 const snapshot = await db.collection(rankKey)
                     .orderBy('score', 'desc')
-                    .limit(5)
+                    .limit(limitCount) // <--- 숫자가 아닌 변수로 변경
                     .get();
 
                 tbody.innerHTML = ''; 
