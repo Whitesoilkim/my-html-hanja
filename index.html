@@ -142,7 +142,7 @@
         #bonus-draw-area { display: flex; gap: 8px; background: #ecf0f1; padding: 20px; border-radius: 12px; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3); justify-content: center; align-items: center; flex-wrap: wrap; position: relative; }
         .hanja-box-catchmind { border: 2px dashed #bdc3c7; border-radius: 8px; background: #fff; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         
-        /* 텍스트(지문) 추론 영역 스타일 추가 */
+        /* 텍스트(지문) 추론 영역 스타일 */
         #bonus-text-area { display: none; text-align: center; font-size: 18px; padding: 25px 15px; background: #fff; border-radius: 12px; min-height: 120px; word-break: keep-all; line-height: 1.6; color: #2c3e50; font-weight: bold; border: 2px solid #bdc3c7; align-items: center; justify-content: center; }
 
         .bonus-choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
@@ -257,7 +257,7 @@
             </thead>
             <tbody id="ranking-body"></tbody>
         </table>
-        <div class="ranking-info">※ 랭킹은 7일마다 자동으로 초기화됩니다.</div>
+        <div class="ranking-info">※ 랭킹은 매주 일요일 자정에 초기화됩니다.</div>
     </div>
 
     <div id="detail-view">
@@ -361,7 +361,6 @@
     </div>
 
     <script>
-        // 파이어베이스 연결 설정
         const firebaseConfig = {
             apiKey: "AIzaSyCl125xoZ1FGWHs24Q0Xu1T1AHmpL5PYuI",
             authDomain: "nadoo-9c703.firebaseapp.com",
@@ -374,7 +373,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 기존 수학 & 과학 데이터
         const mathData={
             "분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
             "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
@@ -510,7 +508,7 @@
             "승화":{hanja:"昇華",meaning:"고체가 액체를 거치지 않고 바로 기체로 변하거나 그 반대의 현상.",detail:"昇 : 오를 승\n華 : 빛날 화",ex:"아이스크림 포장에 쓰이는 드라이아이스가 하얀 김을 내며 작아지는 것은 승화 현상입니다."},
             "산화":{hanja:"酸化",meaning:"물질이 산소와 결합하거나 전자를 잃는 반응.",detail:"酸 : 실 산\n化 : 될 화",ex:"오래된 철 대문에 붉은 녹이 스는 것은 철이 공기 중의 산소와 만나 산화되었기 때문입니다."},
             "환원":{hanja:"還元",meaning:"물질이 산소를 잃거나 전자를 얻어 원래 상태로 돌아오는 것.",detail:"還 : 돌아올 환\n元 : 본디 원",ex:"용광로에서 철광석에서 산소를 떼어내어 순수한 철을 얻는 과정을 환원이라고 합니다."},
-            "물리학":{hanja:"物理學",meaning:"자연계의 물질과 에너지의 이치를 탐구하는 학문.",detail:"物 : 물건 물\n理 : 다스릴 리\n學 : 배울 학",ex:"아이작 뉴턴은 사과가 떨어지는 현상을 보고 만유인력의 법칙을 발견하여 고전 물리학의 기초를 세웠다."},
+            "물리학":{hanja:"物理學",meaning:"자연계의 물질과 에너지의 이치를 탐구하는 학문.",detail:"物 : 물건 물\n理 : 다스릴 리\n學 : 배울 학",ex:"아이작 뉴턴은 사과가 떨어지는 현상을 보고 만유인력의 법칙을 발견하여 고전 물리학의 기초 세웠다."},
             "변위":{hanja:"變位",meaning:"물체의 처음 위치와 나중 위치 사이의 직선거리와 방향.",detail:"變 : 변할 변\n位 : 자리 위",ex:"운동장을 한 바퀴 돌아 제자리로 돌아오면 이동 거리는 트랙 한 바퀴 길이이지만, 위치가 변하지 않았으므로 변위는 0입니다."},
             "탄성":{hanja:"彈性",meaning:"힘을 받아 변형된 물체가 원래 모양으로 돌아가려는 성질.",detail:"彈 : 퉁길 탄\n性 : 성품 성",ex:"트램펄린 위에서 높이 뛰어오를 수 있는 초강력 탄성 때문입니다."},
             "진폭":{hanja:"振幅",meaning:"진동 중심에서 최대로 움직인 거리(폭).",detail:"振 : 떨릴 진\n幅 : 폭 폭",ex:"스피커의 볼륨을 크게 높이면 소리 파동의 진폭이 커져서 소리가 더 크게 들립니다."},
@@ -1623,8 +1621,10 @@
             return true;
         }
 
+        // 로컬 스토리지 정리용 함수 (서버 로직과는 별개로 유지)
         function checkWeeklyReset() {
-            [RANK_KEY, 'HanjaApp_GameRanking'].forEach(key => {
+            const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+            ['HanjaApp_WeeklyRanking', 'HanjaApp_GameRanking'].forEach(key => {
                 let data = JSON.parse(localStorage.getItem(key));
                 if (data && Date.now() - data.timestamp > WEEK_MS) {
                     localStorage.removeItem(key);
@@ -1632,8 +1632,17 @@
             });
         }
 
-        const RANK_KEY = 'HanjaApp_WeeklyRanking';
-        const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+        // 매주 일요일 자정 구하는 함수 추가
+        function getThisSundayMidnight() {
+            const now = new Date();
+            const day = now.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
+            
+            const sunday = new Date(now);
+            sunday.setDate(now.getDate() - day);
+            sunday.setHours(0, 0, 0, 0); 
+            
+            return sunday;
+        }
 
         async function saveRanking(score, wordName, playerName, key) {
             try {
@@ -1641,7 +1650,7 @@
                     name: playerName,
                     score: score,
                     word: wordName,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                    timestamp: new Date() // 서버 시간이 아닌 현재 JS 시간 사용 (쿼리 안정성 위함)
                 });
                 console.log("DB 저장 성공!");
             } catch (error) {
@@ -1650,6 +1659,7 @@
             }
         }
 
+        // 랭킹 불러올 때 일요일 자정 이후 데이터만 필터링하도록 수정
         async function loadRank(type) {
             currentRankTab = type;
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
@@ -1663,8 +1673,11 @@
 
             try {
                 const limitCount = (type === 'game') ? 10 : 5;
+                const sundayMidnight = getThisSundayMidnight();
 
                 const snapshot = await db.collection(rankKey)
+                    .where('timestamp', '>=', sundayMidnight)
+                    .orderBy('timestamp', 'desc')
                     .orderBy('score', 'desc')
                     .limit(limitCount) 
                     .get();
@@ -1672,7 +1685,7 @@
                 tbody.innerHTML = ''; 
 
                 if (snapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">아직 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
                     return;
                 }
 
@@ -1692,7 +1705,7 @@
                 });
             } catch (error) {
                 console.error("랭킹 로드 에러:", error);
-                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.<br><span style="font-size:12px">(초기 설정 시 콘솔창의 인덱스 생성 링크를 클릭해야 할 수 있습니다.)</span></td></tr>';
             }
         }
 
