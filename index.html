@@ -1250,14 +1250,14 @@
             }
         }
 
-        async function loadRank(type) { /* ... 기존과 동일 ... */
+        async function loadRank(type) {
             currentRankTab = type;
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
             document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
             document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
 
             const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">불러오는 중...</td></tr>';
 
             const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
@@ -1266,16 +1266,14 @@
                 const sundayMidnight = getThisSundayMidnight();
 
                 const snapshot = await db.collection(rankKey)
-                    .where('timestamp', '>=', sundayMidnight)
-                    .orderBy('timestamp', 'desc')
                     .orderBy('score', 'desc')
-                    .limit(limitCount) 
+                    .limit(5)
                     .get();
 
-                tbody.innerHTML = ''; 
+                tbody.innerHTML = '';
 
                 if (snapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
+                    tbody.innerHTML = '<tr><td colspan="4" style="padding:20px;">등록된 랭킹이 없습니다.</td></tr>';
                     return;
                 }
 
@@ -1284,20 +1282,15 @@
                     const entry = doc.data();
                     let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
                     let tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${rankIcon}</td>
-                        <td>${entry.name}</td>
-                        <td style="font-size:12px;">${entry.word}</td>
-                        <td style="font-weight:bold;">${entry.score}점</td>
-                    `;
+                    tr.innerHTML = `<td>${rankIcon}</td><td>${entry.name}</td><td style="font-size:12px;">${entry.word || '-'}</td><td style="font-weight:bold;">${entry.score}점</td>`;
                     tbody.appendChild(tr);
                     index++;
-                });
-            } catch (error) {
-                console.error("랭킹 로드 에러:", error);
-                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.<br><span style="font-size:12px">(초기 설정 시 콘솔창의 인덱스 생성 링크를 클릭해야 할 수 있습니다.)</span></td></tr>';
-            }
-        }
+                 });
+             } catch (error) {
+                 console.error("랭킹 로드 에러:", error);
+                 tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c;">에러 발생</td></tr>';
+              }
+          }
     </script>
 </body>
 </html>
