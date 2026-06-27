@@ -1134,21 +1134,18 @@
             let bonusMessage = ""; // 화면에 띄울 보너스 안내 메시지
             if (normalizedCompletion > 0.8) { // 80% 이상 그려야만 보너스 제공
                 let strokeBonus = 0;
-                // 획수 기반 보너스
                 if (totalExpectedStrokes < 10) strokeBonus = 2;
                 else if (totalExpectedStrokes < 20) strokeBonus = 5;
                 else if (totalExpectedStrokes < 30) strokeBonus = 10;
-                else strokeBonus = 15; // 30획 이상
+                else strokeBonus = 15; 
 
                 let lengthBonus = 0;
-                // 단어 길이 기반 보너스
                 if (charLen === 1) lengthBonus = 2;
                 else if (charLen === 2) lengthBonus = 4;
                 else if (charLen === 3) lengthBonus = 6;
-                else lengthBonus = 8; // 4글자 이상
+                else lengthBonus = 8;
 
-                bonusScore = strokeBonus + lengthBonus; 
-                bonusMessage = `+${bonusScore}점 (약 ${totalExpectedStrokes}획)`;
+                bonusScore = strokeBonus + lengthBonus;
             } else {
                 // 80% 미만일 경우 사용자에게 피드백 제공
                 bonusMessage = `+0점 (형태를 80% 이상 채워주세요)`; 
