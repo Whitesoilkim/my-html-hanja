@@ -18,7 +18,7 @@
             font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
         .tab-active-main { background-color: #3498db; color: white; }
-        .tab-active-gosa { background-color: #27ae60; color: white; } /* 고사성어 탭 색상 */
+        .tab-active-gosa { background-color: #27ae60; color: white; }
         .tab-active-game { background-color: #8e44ad; color: white; }
         .tab-active-rank { background-color: #f39c12; color: white; }
         .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
@@ -130,7 +130,7 @@
         #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         #game-start-btn:active { background: #9b59b6; }
 
-        /* 2단계: 보너스 스테이지 (캐치마인드) 전용 스타일 */
+        /* 2단계: 보너스 스테이지 전용 스타일 */
         #bonus-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; background: #2c3e50; color: white; border-radius: 12px; }
         .bonus-header { text-align: center; color: #f1c40f; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
         .bonus-desc { font-size: 14px; color: #ecf0f1; text-align: center; margin-bottom: 15px; word-break: keep-all; }
@@ -142,6 +142,9 @@
         #bonus-draw-area { display: flex; gap: 8px; background: #ecf0f1; padding: 20px; border-radius: 12px; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3); justify-content: center; align-items: center; flex-wrap: wrap; position: relative; }
         .hanja-box-catchmind { border: 2px dashed #bdc3c7; border-radius: 8px; background: #fff; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         
+        /* 텍스트(지문) 추론 영역 스타일 추가 */
+        #bonus-text-area { display: none; text-align: center; font-size: 18px; padding: 25px 15px; background: #fff; border-radius: 12px; min-height: 120px; word-break: keep-all; line-height: 1.6; color: #2c3e50; font-weight: bold; border: 2px solid #bdc3c7; align-items: center; justify-content: center; }
+
         .bonus-choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
         .bonus-choice-btn { 
             background: #ecf0f1; color: #2c3e50; border: none; padding: 15px; border-radius: 12px; 
@@ -226,7 +229,7 @@
 
     <div id="bonus-view">
         <h2 class="bonus-header">✨ 보너스 퀴즈 ✨</h2>
-        <p class="bonus-desc">동시에 그려지는 모든 한자를 보고 가장 빠르게 단어를 고르세요! (틀리면 즉시 실패)</p>
+        <p class="bonus-desc">가장 빠르게 정답을 고르세요! (틀리면 즉시 실패)</p>
         
         <div style="display:flex; justify-content: space-between; margin-bottom: 5px;">
             <span style="font-weight:bold; color:#f1c40f;">남은 시간: <span id="bonus-time-text">15</span>초</span>
@@ -235,7 +238,9 @@
             <div id="bonus-timer-bar" class="bonus-timer-bar"></div>
         </div>
 
-        <div id="bonus-draw-area" id="draw-area"></div>
+        <div id="bonus-draw-area"></div>
+        <div id="bonus-text-area"></div>
+        
         <div id="bonus-choices-area" class="bonus-choices-grid"></div>
         <div id="bonus-status-msg" class="status-msg"></div>
     </div>
@@ -327,7 +332,7 @@
                 <p><span>1단계 맞힌 짝 (1쌍 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0점</span></p>
                 <p><span>1단계 남은 시간 보너스:</span> <span id="game-modal-time" style="color:#2c3e50;">+0점</span></p>
                 <p style="color:#8e44ad; margin-top:10px; border-top:1px dashed #ccc; padding-top:10px;">
-                    <span>✨ 보너스 캐치마인드:</span> <span id="game-modal-bonus">+0점</span>
+                    <span>✨ 보너스 퀴즈:</span> <span id="game-modal-bonus">+0점</span>
                 </p>
             </div>
             <div class="modal-total" id="game-modal-total">총점: 0점</div>
@@ -338,6 +343,19 @@
             <div class="modal-buttons">
                 <button id="game-modal-submit-btn" class="btn-submit" onclick="submitGameScoreModal()">등록하기</button>
                 <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bonus-mode-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">보너스 스테이지 선택</h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d; font-size: 14px; word-break:keep-all; line-height:1.4;">
+                1단계 클리어를 축하합니다!<br>어떤 방식의 보너스 게임을 진행할까요?
+            </p>
+            <div class="modal-buttons" style="flex-direction: column; gap: 12px;">
+                <button class="btn-submit" onclick="selectBonusMode('draw')" style="background:#8e44ad;">✍️ 한자 쓰기 (그림 유추)</button>
+                <button class="btn-submit" onclick="selectBonusMode('text')" style="background:#3498db;">📖 지문 빈칸 (설명 유추)</button>
             </div>
         </div>
     </div>
@@ -353,7 +371,6 @@
             appId: "1:3606715106:web:9e54219324183f8a459cbb"
         };
 
-        // 파이어베이스 실행!
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
@@ -564,7 +581,6 @@
             "체계":{hanja:"體系",meaning:"여러 구성 요소가 일정한 원리에 따라 짜임새 있게 이루어진 전체.",detail:"體 : 몸 체\n系 : 이어맬 계",ex:"과학자들은 지구상의 모든 생물을 문, 강, 목, 과, 속, 종이라는 일정한 체계에 따라 분류했다."}
         };
 
-        // 새롭게 추가된 어린이용 고사성어 데이터
         const gosaData = {
             "일석이조": {
                 hanja: "一石二鳥",
@@ -643,7 +659,7 @@
         window.onload = () => {
             renderList('col-math', mathData);
             renderList('col-sci', scienceData);
-            renderList('col-gosa', gosaData); // 고사성어 리스트 추가
+            renderList('col-gosa', gosaData); 
             checkWeeklyReset(); 
             
             document.body.addEventListener("touchstart", function (e) {
@@ -656,13 +672,13 @@
 
         function switchTab(tab) {
             document.getElementById('main-app').style.display = 'none';
-            document.getElementById('gosa-app').style.display = 'none'; // 고사성어 영역 숨김
+            document.getElementById('gosa-app').style.display = 'none'; 
             document.getElementById('game-view').style.display = 'none';
             document.getElementById('bonus-view').style.display = 'none';
             document.getElementById('ranking-view').style.display = 'none';
             
             document.getElementById('tab-main').className = 'header-tab tab-inactive';
-            document.getElementById('tab-gosa').className = 'header-tab tab-inactive'; // 고사성어 탭 비활성화
+            document.getElementById('tab-gosa').className = 'header-tab tab-inactive'; 
             document.getElementById('tab-game').className = 'header-tab tab-inactive';
             document.getElementById('tab-rank').className = 'header-tab tab-inactive';
 
@@ -708,7 +724,6 @@
         let gameTimeLeft = 60;
         let isGameRunning = false;
         
-        // 💡 통합 게임 점수
         window.baseGameScore = 0;
         window.timeBonusScore = 0;
         window.bonusQuizScore = 0;
@@ -725,7 +740,6 @@
         }
 
         function parseCharacters() {
-            // 고사성어 데이터 병합
             const combined = {...mathData, ...scienceData, ...gosaData}; 
             const pairMap = new Map();
             for(let key in combined) {
@@ -899,6 +913,21 @@
             document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
         }
 
+        // ==========================================
+        // 💡 2단계: 보너스 스테이지 (모드 선택 및 로직)
+        // ==========================================
+        let bonusTarget = null;
+        let bonusWriters = [];
+        let isBonusAnimating = false;
+        let bonusTimerInterval;
+        let maxBonusTime = 15; 
+        let bonusTimeLeft = maxBonusTime;
+        let canBonusClick = false;
+        let currentBonusMode = 'draw'; 
+        
+        let originalTextArray = [];
+        let hiddenTextIndices = [];
+
         function endMatchingGame(isWin) {
             isGameRunning = false;
             clearInterval(gameTimer);
@@ -932,30 +961,22 @@
             startBtn.style.display = 'block';
             startBtn.innerText = '다시 학습하기';
 
-            // 💡 1단계를 클리어했다면 2단계(보너스 스테이지)로 진입!
             if (isWin) {
                 setTimeout(() => {
-                    alert("🎉 1단계 클리어! 보너스 퀴즈로 이동합니다!");
-                    document.getElementById('game-view').style.display = 'none';
-                    document.getElementById('bonus-view').style.display = 'flex';
-                    generateBonusQuestion();
+                    document.getElementById('bonus-mode-modal').style.display = 'flex';
                 }, 1000);
             } else {
-                // 실패했다면 바로 모달창 표시
                 setTimeout(showFinalGameModal, 1500);
             }
         }
 
-        // ==========================================
-        // 💡 2단계: 보너스 캐치마인드 로직
-        // ==========================================
-        let bonusTarget = null;
-        let bonusWriters = [];
-        let isBonusAnimating = false;
-        let bonusTimerInterval;
-        let maxBonusTime = 15; 
-        let bonusTimeLeft = maxBonusTime;
-        let canBonusClick = false;
+        function selectBonusMode(mode) {
+            currentBonusMode = mode;
+            document.getElementById('bonus-mode-modal').style.display = 'none';
+            document.getElementById('game-view').style.display = 'none';
+            document.getElementById('bonus-view').style.display = 'flex';
+            generateBonusQuestion();
+        }
 
         async function generateBonusQuestion() {
             canBonusClick = true;
@@ -963,19 +984,14 @@
             window.bonusQuizScore = 0;
             updateBonusTimerBar();
 
-            // 고사성어 데이터 병합
             const allWords = {...mathData, ...scienceData, ...gosaData}; 
             const allKeys = Object.keys(allWords);
             
-            // 정답 단어 랜덤 픽
             let targetKey = allKeys[Math.floor(Math.random() * allKeys.length)];
             bonusTarget = { name: targetKey, ...allWords[targetKey] };
             let targetLen = bonusTarget.hanja.length;
 
-            // 💡 오답 보기 추출 (정답과 글자 수가 같은 것만 필터링)
             let sameLenKeys = allKeys.filter(k => allWords[k].hanja.length === targetLen && k !== targetKey);
-            
-            // 만약 글자수가 같은 단어가 3개가 안 된다면 부득이하게 전체에서 랜덤 추가 (데이터상 거의 없음)
             let pool = sameLenKeys.length >= 3 ? sameLenKeys : allKeys.filter(k => k !== targetKey);
             let wrongOptions = pool.sort(() => 0.5 - Math.random()).slice(0, 3);
             let choices = [targetKey, ...wrongOptions].sort(() => 0.5 - Math.random());
@@ -985,22 +1001,76 @@
             choices.forEach(choice => {
                 let btn = document.createElement('button');
                 btn.className = 'bonus-choice-btn';
-                btn.innerHTML = `<span style="color:#e74c3c; font-size:18px;">${choice}</span><br><span style="font-size:13px; font-weight:normal; margin-top:5px;">${allWords[choice].meaning}</span>`;
+                
+                if(currentBonusMode === 'text') {
+                    btn.innerHTML = `<span style="color:#2c3e50; font-size:20px; font-weight:bold;">${choice} (${allWords[choice].hanja})</span>`;
+                } else {
+                    btn.innerHTML = `<span style="color:#e74c3c; font-size:18px;">${choice}</span><br><span style="font-size:13px; font-weight:normal; margin-top:5px;">${allWords[choice].meaning}</span>`;
+                }
+                
                 btn.onclick = () => handleBonusGuess(choice, btn);
                 choicesArea.appendChild(btn);
             });
+
+            if(currentBonusMode === 'draw') {
+                document.getElementById('bonus-draw-area').style.display = 'flex';
+                document.getElementById('bonus-text-area').style.display = 'none';
+                await startBonusDrawing(bonusTarget.hanja);
+            } else {
+                document.getElementById('bonus-draw-area').style.display = 'none';
+                document.getElementById('bonus-text-area').style.display = 'flex';
+                startBonusTextReveal(bonusTarget);
+            }
 
             clearInterval(bonusTimerInterval);
             bonusTimerInterval = setInterval(() => {
                 bonusTimeLeft -= 0.1;
                 updateBonusTimerBar();
+
+                if (currentBonusMode === 'text' && isBonusAnimating && hiddenTextIndices.length > 0) {
+                    let totalTicks = maxBonusTime * 10;
+                    let currentTick = Math.floor(bonusTimeLeft * 10);
+                    let shouldRevealCount = Math.floor(originalTextArray.length * (1 - (currentTick / totalTicks)));
+                    
+                    let revealedNow = originalTextArray.length - hiddenTextIndices.length;
+                    if (shouldRevealCount > revealedNow && hiddenTextIndices.length > 0) {
+                        hiddenTextIndices.pop(); 
+                        renderHiddenText();
+                    }
+                }
+
                 if (bonusTimeLeft <= 0) {
                     handleBonusTimeout();
                 }
             }, 100);
+        }
 
-            // 💡 모든 글자를 렌더링
-            await startBonusDrawing(bonusTarget.hanja);
+        function startBonusTextReveal(target) {
+            isBonusAnimating = true;
+            let text = target.ex || target.meaning; 
+            originalTextArray = text.split('');
+            hiddenTextIndices = [];
+
+            for(let i=0; i<originalTextArray.length; i++) {
+                let char = originalTextArray[i];
+                if(char !== ' ' && char !== '.' && char !== ',' && char !== '!' && char !== '?' && char !== '(' && char !== ')') {
+                    hiddenTextIndices.push(i);
+                }
+            }
+            hiddenTextIndices.sort(() => 0.5 - Math.random());
+            renderHiddenText();
+        }
+
+        function renderHiddenText() {
+            let str = "";
+            for(let i=0; i<originalTextArray.length; i++) {
+                if(hiddenTextIndices.includes(i)) {
+                    str += "□";
+                } else {
+                    str += originalTextArray[i];
+                }
+            }
+            document.getElementById('bonus-text-area').innerText = str;
         }
 
         async function startBonusDrawing(hanjaStr) {
@@ -1009,7 +1079,6 @@
             container.innerHTML = '';
             bonusWriters = [];
 
-            // 글자 길이에 맞춰 박스 크기 자동 조절
             let boxSize = window.innerWidth > 400 ? 110 : 80;
             if (hanjaStr.length === 3) boxSize = window.innerWidth > 400 ? 90 : 70;
             if (hanjaStr.length === 4) boxSize = window.innerWidth > 400 ? 75 : 60;
@@ -1027,7 +1096,7 @@
                     height: boxSize,
                     padding: 5,
                     showOutline: false,         
-                    showCharacter: false, // 투명한 상태에서 시작        
+                    showCharacter: false,        
                     strokeAnimationSpeed: 0.5,
                     delayBetweenStrokes: 300,   
                     strokeColor: '#2c3e50'
@@ -1035,7 +1104,6 @@
                 bonusWriters.push(writer);
             }
 
-            // 모든 글자 동시 애니메이션 시작
             bonusWriters.forEach(writer => {
                 if (isBonusAnimating) writer.animateCharacter();
             });
@@ -1061,7 +1129,13 @@
             canBonusClick = false;
             clearInterval(bonusTimerInterval);
             isBonusAnimating = false; 
-            bonusWriters.forEach(w => w.showCharacter()); // 강제 공개
+            
+            if(currentBonusMode === 'draw') {
+                bonusWriters.forEach(w => w.showCharacter()); 
+            } else {
+                hiddenTextIndices = [];
+                renderHiddenText();
+            }
 
             if (selectedWord === bonusTarget.name) {
                 btnEl.classList.add('correct');
@@ -1088,7 +1162,12 @@
             bonusTimeLeft = 0;
             updateBonusTimerBar();
 
-            bonusWriters.forEach(w => w.showCharacter());
+            if(currentBonusMode === 'draw') {
+                bonusWriters.forEach(w => w.showCharacter());
+            } else {
+                hiddenTextIndices = [];
+                renderHiddenText();
+            }
             
             const buttons = document.querySelectorAll('.bonus-choice-btn');
             buttons.forEach(btn => {
@@ -1110,10 +1189,9 @@
             msgEl.classList.add(className);
         }
 
-        // 💡 최종 게임 점수 합산 및 모달 표시
         function showFinalGameModal() {
             document.getElementById('bonus-view').style.display = 'none';
-            document.getElementById('game-view').style.display = 'flex'; // 뒤 배경을 다시 1단계 뷰로
+            document.getElementById('game-view').style.display = 'flex'; 
 
             window.currentGameFinalScore = window.baseGameScore + window.timeBonusScore + window.bonusQuizScore;
 
@@ -1151,7 +1229,7 @@
         let isDrawing = false;
         let points = []; 
         let lastTime = 0;
-        let lastWidth = 3; // 기본 선 굵기 대폭 감소 (25% 수준)
+        let lastWidth = 3; 
         let smoothedSpeed = 0; 
         
         function toggleExampleStroke() {
@@ -1294,7 +1372,6 @@
             document.getElementById('detail-view').style.display = 'none'; 
             document.getElementById('main-header').style.display = 'flex'; 
             
-            // 어떤 탭이 활성화되어있는지 확인해서 해당 뷰만 열기
             if(document.getElementById('tab-gosa').classList.contains('tab-active-gosa')) {
                 document.getElementById('gosa-app').style.display = 'block';
             } else {
@@ -1317,7 +1394,7 @@
             const pos = getPos(e);
             points = [pos]; 
             lastTime = Date.now();
-            lastWidth = 3; // 시작 굵기 25% 축소
+            lastWidth = 3; 
             smoothedSpeed = 0; 
             
             drawCtx.lineCap = 'round';
@@ -1357,7 +1434,6 @@
             const currentSpeed = dist / dt;
             smoothedSpeed = smoothedSpeed * 0.85 + currentSpeed * 0.15;
             
-            // 최대 굵기를 6으로 축소, 최소 굵기 0.5 (25% 수준)
             let targetWidth = 6 * Math.exp(-smoothedSpeed * 0.6); 
             targetWidth = Math.max(0.5, Math.min(targetWidth, 6));
             
@@ -1559,14 +1635,13 @@
         const RANK_KEY = 'HanjaApp_WeeklyRanking';
         const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-        // 서버에 랭킹을 저장하는 함수
         async function saveRanking(score, wordName, playerName, key) {
             try {
                 await db.collection(key).add({
                     name: playerName,
                     score: score,
                     word: wordName,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // 서버 시간 기준
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
                 });
                 console.log("DB 저장 성공!");
             } catch (error) {
@@ -1575,7 +1650,6 @@
             }
         }
 
-        // 서버에서 랭킹을 불러오는 함수
         async function loadRank(type) {
             currentRankTab = type;
             document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
@@ -1588,13 +1662,11 @@
             const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
             try {
-                // 게임 랭킹일 경우 10명, 한자 쓰기일 경우 5명 설정
                 const limitCount = (type === 'game') ? 10 : 5;
 
-                // 점수 내림차순으로 가져오기
                 const snapshot = await db.collection(rankKey)
                     .orderBy('score', 'desc')
-                    .limit(limitCount) // <--- 숫자가 아닌 변수로 변경
+                    .limit(limitCount) 
                     .get();
 
                 tbody.innerHTML = ''; 
@@ -1630,4 +1702,3 @@
     </script>
 </body>
 </html>
-
