@@ -14,11 +14,10 @@
             background: #f4f6f9; padding: 10px; gap: 10px; border-bottom: 2px solid #ecf0f1;
         }
         .header-tab { 
-            flex: 1; text-align: center; padding: 12px 5px; font-size: 14px; 
+            flex: 1; text-align: center; padding: 12px 5px; font-size: 15px; 
             font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
         .tab-active-main { background-color: #3498db; color: white; }
-        .tab-active-gosa { background-color: #27ae60; color: white; }
         .tab-active-game { background-color: #8e44ad; color: white; }
         .tab-active-rank { background-color: #f39c12; color: white; }
         .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
@@ -370,7 +369,7 @@
             storageBucket: "nadoo-9c703.firebasestorage.app",
             messagingSenderId: "3606715106",
             appId: "1:3606715106:web:9e54219324183f8a459cbb",
-            measurementId: "G-LNZHJS2GQK" // 이 줄을 꼭 추가/수정해야 합니다.
+            measurementId: "G-LNZHJS2GQK" 
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -698,9 +697,6 @@
             });
         }
 
-        // ==========================================
-        // 1단계: 짝맞추기 게임 로직 생략 (기존 유지)
-        // ==========================================
         let allCharPairs = [];
         let gameCards = [];
         let selectedCards = [];
@@ -817,29 +813,98 @@
             }
         }
 
-        function createMatchEffect(cardEl) { /* ... 기존과 동일 ... */ }
-        function showPenaltyText() { /* ... 기존과 동일 ... */ }
+        function createMatchEffect(cardEl) {
+            const board = document.getElementById('game-board');
+            const x = cardEl.offsetLeft + cardEl.offsetWidth / 2;
+            const y = cardEl.offsetTop + cardEl.offsetHeight / 2;
+
+            const scoreText = document.createElement('div');
+            scoreText.className = 'floating-score';
+            scoreText.innerText = '✨짝짝!';
+            scoreText.style.left = x + 'px';
+            scoreText.style.top = (y - 20) + 'px';
+            board.appendChild(scoreText);
+
+            for(let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sparkle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+        
+                const tx = (Math.random() - 0.5) * 80 + 'px';
+                const ty = (Math.random() - 0.5) * 80 + 'px';
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+        
+                const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                board.appendChild(particle);
+
+                setTimeout(() => {
+                    if(particle.parentNode) particle.parentNode.removeChild(particle);
+                }, 600);
+            }
+
+            setTimeout(() => {
+                if(scoreText.parentNode) scoreText.parentNode.removeChild(scoreText);
+            }, 1000);
+        }
+
+        function showPenaltyText() {
+            const board = document.getElementById('game-board');
+            const penalty = document.createElement('div');
+            penalty.className = 'penalty-text';
+            penalty.innerText = '-2초!';
+            board.appendChild(penalty);
+    
+            setTimeout(() => {
+                if(penalty.parentNode) penalty.parentNode.removeChild(penalty);
+            }, 800);
+        }
+
         function updateGameUI() {
             document.getElementById('game-time').innerText = `⏱️ ${gameTimeLeft}초`;
             document.getElementById('game-score').innerText = `🎯 ${matchedPairsCount} / ${totalPairs}쌍`;
         }
 
-        // ==========================================
-        // 2단계: 보너스 스테이지 로직 생략 (기존 유지)
-        // ==========================================
         let bonusTarget = null; let bonusWriters = []; let isBonusAnimating = false;
         let bonusTimerInterval; let maxBonusTime = 15; let bonusTimeLeft = maxBonusTime;
         let canBonusClick = false; let currentBonusMode = 'draw'; 
         let originalTextArray = []; let hiddenTextIndices = []; let totalHiddenInitially = 0;
 
         function endMatchingGame(isWin) {
-            isGameRunning = false; clearInterval(gameTimer);
+            isGameRunning = false;
+            clearInterval(gameTimer);
+    
             selectedCards.forEach(item => { item.el.classList.remove('selected'); });
+            selectedCards = [];
+
+            const pairColors = [
+                '#fadbd8', '#fdebd0', '#d5f5e3', '#d4efdf', '#d6eaf8', '#ebdef0', 
+                '#fad7a1', '#f5cba7', '#f1948a', '#e6b0aa', '#aed6f1', '#a2d9ce'
+            ];
+            let colorMap = {};
+            let colorIdx = 0;
+
+            gameCards.forEach(card => {
+                if (!card.element.classList.contains('matched')) {
+                    if (colorMap[card.id] === undefined) {
+                        colorMap[card.id] = pairColors[colorIdx % pairColors.length];
+                        colorIdx++;
+                    }
+                    card.element.style.backgroundColor = colorMap[card.id];
+                    card.element.style.borderColor = colorMap[card.id];
+                    card.element.style.color = '#2c3e50'; 
+                }
+            });
+
             window.baseGameScore = matchedPairsCount * 10;
             window.timeBonusScore = isWin ? gameTimeLeft : 0;
-            
+    
             const startBtn = document.getElementById('game-start-btn');
-            startBtn.style.display = 'block'; startBtn.innerText = '다시 학습하기';
+            startBtn.style.display = 'block';
+            startBtn.innerText = '다시 학습하기';
 
             if (isWin) {
                 setTimeout(() => { document.getElementById('bonus-mode-modal').style.display = 'flex'; }, 1000);
@@ -847,6 +912,7 @@
                 setTimeout(showFinalGameModal, 1500);
             }
         }
+
         function selectBonusMode(mode) {
             currentBonusMode = mode;
             document.getElementById('bonus-mode-modal').style.display = 'none';
@@ -854,20 +920,251 @@
             document.getElementById('bonus-view').style.display = 'flex';
             generateBonusQuestion();
         }
-        async function generateBonusQuestion() { /* ... 기존과 동일 ... */ }
-        function startBonusTextReveal(target) { /* ... 기존과 동일 ... */ }
-        function renderHiddenText() { /* ... 기존과 동일 ... */ }
-        async function startBonusDrawing(hanjaStr) { /* ... 기존과 동일 ... */ }
-        function updateBonusTimerBar() { /* ... 기존과 동일 ... */ }
-        function handleBonusGuess(selectedWord, btnEl) { /* ... 기존과 동일 ... */ }
-        function handleBonusTimeout() { /* ... 기존과 동일 ... */ }
-        function showBonusStatusMsg(text, className) { /* ... 기존과 동일 ... */ }
-        function showFinalGameModal() { /* ... 기존과 동일 ... */ }
 
+        async function generateBonusQuestion() {
+            canBonusClick = true;
+            bonusTimeLeft = maxBonusTime;
+            window.bonusQuizScore = 0;
+            updateBonusTimerBar();
 
-        // ==========================================
-        // ✍️ 상세 화면 뷰 및 캔버스 (추가 및 변경된 로직)
-        // ==========================================
+            const allWords = {...mathData, ...scienceData, ...gosaData}; 
+            const allKeys = Object.keys(allWords);
+            
+            let targetKey = allKeys[Math.floor(Math.random() * allKeys.length)];
+            bonusTarget = { name: targetKey, ...allWords[targetKey] };
+            let targetLen = bonusTarget.hanja.length;
+
+            let sameLenKeys = allKeys.filter(k => allWords[k].hanja.length === targetLen && k !== targetKey);
+            let pool = sameLenKeys.length >= 3 ? sameLenKeys : allKeys.filter(k => k !== targetKey);
+            let wrongOptions = pool.sort(() => 0.5 - Math.random()).slice(0, 3);
+            let choices = [targetKey, ...wrongOptions].sort(() => 0.5 - Math.random());
+
+            const choicesArea = document.getElementById('bonus-choices-area');
+            choicesArea.innerHTML = '';
+            choices.forEach(choice => {
+                let btn = document.createElement('button');
+                btn.className = 'bonus-choice-btn';
+                
+                if(currentBonusMode === 'text') {
+                    btn.innerHTML = `<span style="color:#2c3e50; font-size:20px; font-weight:bold;">${choice} (${allWords[choice].hanja})</span>`;
+                } else {
+                    btn.innerHTML = `<span style="color:#e74c3c; font-size:18px;">${choice}</span><br><span style="font-size:13px; font-weight:normal; margin-top:5px;">${allWords[choice].meaning}</span>`;
+                }
+                
+                btn.onclick = () => handleBonusGuess(choice, btn);
+                choicesArea.appendChild(btn);
+            });
+
+            if(currentBonusMode === 'draw') {
+                document.getElementById('bonus-draw-area').style.display = 'flex';
+                document.getElementById('bonus-text-area').style.display = 'none';
+                await startBonusDrawing(bonusTarget.hanja);
+            } else {
+                document.getElementById('bonus-draw-area').style.display = 'none';
+                document.getElementById('bonus-text-area').style.display = 'flex';
+                startBonusTextReveal(bonusTarget);
+            }
+
+            clearInterval(bonusTimerInterval);
+            bonusTimerInterval = setInterval(() => {
+                bonusTimeLeft -= 0.1;
+                updateBonusTimerBar();
+
+                if (currentBonusMode === 'text' && isBonusAnimating && hiddenTextIndices.length > 0) {
+                    let revealDuration = 8; 
+                    let elapsed = maxBonusTime - bonusTimeLeft; 
+                    let progress = Math.min(1.0, elapsed / revealDuration);
+                    
+                    let shouldRevealCount = Math.floor(totalHiddenInitially * progress);
+                    let revealedNow = totalHiddenInitially - hiddenTextIndices.length;
+                    
+                    if (shouldRevealCount > revealedNow && hiddenTextIndices.length > 0) {
+                        hiddenTextIndices.pop(); 
+                        renderHiddenText();
+                    }
+                }
+
+                if (bonusTimeLeft <= 0) {
+                    handleBonusTimeout();
+                }
+            }, 100);
+        }
+
+        function startBonusTextReveal(target) {
+            isBonusAnimating = true;
+            let text = target.ex || target.meaning; 
+            originalTextArray = text.split('');
+            let tempHidden = [];
+
+            for(let i=0; i<originalTextArray.length; i++) {
+                let char = originalTextArray[i];
+                if(char !== ' ' && char !== '.' && char !== ',' && char !== '!' && char !== '?' && char !== '(' && char !== ')') {
+                    tempHidden.push(i);
+                }
+            }
+            tempHidden.sort(() => 0.5 - Math.random());
+
+            let initialRevealCount = Math.ceil(tempHidden.length * 0.35);
+            for(let i=0; i<initialRevealCount; i++) {
+                tempHidden.pop();
+            }
+
+            hiddenTextIndices = tempHidden;
+            totalHiddenInitially = hiddenTextIndices.length; 
+            renderHiddenText();
+        }
+
+        function renderHiddenText() {
+            let str = "";
+            for(let i=0; i<originalTextArray.length; i++) {
+                if(hiddenTextIndices.includes(i)) {
+                    str += "□";
+                } else {
+                    str += originalTextArray[i];
+                }
+            }
+            document.getElementById('bonus-text-area').innerText = str;
+        }
+
+        async function startBonusDrawing(hanjaStr) {
+            isBonusAnimating = true;
+            const container = document.getElementById('bonus-draw-area');
+            container.innerHTML = '';
+            bonusWriters = [];
+
+            let boxSize = window.innerWidth > 400 ? 110 : 80;
+            if (hanjaStr.length === 3) boxSize = window.innerWidth > 400 ? 90 : 70;
+            if (hanjaStr.length === 4) boxSize = window.innerWidth > 400 ? 75 : 60;
+            if (hanjaStr.length >= 5) boxSize = window.innerWidth > 400 ? 65 : 50;
+
+            for (let i = 0; i < hanjaStr.length; i++) {
+                let box = document.createElement('div');
+                box.className = 'hanja-box-catchmind';
+                box.style.width = boxSize + 'px';
+                box.style.height = boxSize + 'px';
+                container.appendChild(box);
+
+                let writer = HanziWriter.create(box, hanjaStr[i], {
+                    width: boxSize,
+                    height: boxSize,
+                    padding: 5,
+                    showOutline: false,         
+                    showCharacter: false,        
+                    strokeAnimationSpeed: 0.5,
+                    delayBetweenStrokes: 300,   
+                    strokeColor: '#2c3e50'
+                });
+                bonusWriters.push(writer);
+            }
+
+            bonusWriters.forEach(writer => {
+                if (isBonusAnimating) writer.animateCharacter();
+            });
+        }
+
+        function updateBonusTimerBar() {
+            const bar = document.getElementById('bonus-timer-bar');
+            document.getElementById('bonus-time-text').innerText = Math.ceil(bonusTimeLeft);
+            
+            let percentage = (bonusTimeLeft / maxBonusTime) * 100;
+            bar.style.width = percentage + '%';
+
+            if (percentage < 30) {
+                bar.classList.add('warning');
+            } else {
+                bar.classList.remove('warning');
+            }
+        }
+
+        function handleBonusGuess(selectedWord, btnEl) {
+            if (!canBonusClick) return;
+
+            canBonusClick = false;
+            clearInterval(bonusTimerInterval);
+            isBonusAnimating = false; 
+            
+            if(currentBonusMode === 'draw') {
+                bonusWriters.forEach(w => w.showCharacter()); 
+            } else {
+                hiddenTextIndices = [];
+                renderHiddenText();
+            }
+
+            if (selectedWord === bonusTarget.name) {
+                btnEl.classList.add('correct');
+
+                let points = 10;
+                if (bonusTimeLeft >= 10) points = 50;
+                else if (bonusTimeLeft >= 5) points = 30;
+
+                window.bonusQuizScore = points;
+                showBonusStatusMsg(`정답!\n+${points}점 획득!`, 'show-correct');
+            } else {
+                btnEl.classList.add('wrong');
+                window.bonusQuizScore = 0;
+                showBonusStatusMsg('오답!\n보너스 실패', 'show-wrong');
+            }
+
+            setTimeout(showFinalGameModal, 2000);
+        }
+
+        function handleBonusTimeout() {
+            canBonusClick = false;
+            clearInterval(bonusTimerInterval);
+            isBonusAnimating = false;
+            bonusTimeLeft = 0;
+            updateBonusTimerBar();
+
+            if(currentBonusMode === 'draw') {
+                bonusWriters.forEach(w => w.showCharacter());
+            } else {
+                hiddenTextIndices = [];
+                renderHiddenText();
+            }
+            
+            const buttons = document.querySelectorAll('.bonus-choice-btn');
+            buttons.forEach(btn => {
+                if(btn.innerHTML.includes(bonusTarget.name)) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            window.bonusQuizScore = 0;
+            showBonusStatusMsg('시간 초과!\n보너스 실패', 'show-timeout');
+            setTimeout(showFinalGameModal, 2000);
+        }
+
+        function showBonusStatusMsg(text, className) {
+            const msgEl = document.getElementById('bonus-status-msg');
+            msgEl.innerText = text;
+            msgEl.className = 'status-msg'; 
+            void msgEl.offsetWidth; 
+            msgEl.classList.add(className);
+        }
+
+        function showFinalGameModal() {
+            document.getElementById('bonus-view').style.display = 'none';
+            document.getElementById('game-view').style.display = 'flex'; 
+
+            window.currentGameFinalScore = window.baseGameScore + window.timeBonusScore + window.bonusQuizScore;
+
+            document.getElementById('game-modal-pairs').innerText = `${window.baseGameScore}점`;
+            document.getElementById('game-modal-time').innerText = `+${window.timeBonusScore}점`;
+            document.getElementById('game-modal-bonus').innerText = `+${window.bonusQuizScore}점`;
+            document.getElementById('game-modal-total').innerText = `총점: ${window.currentGameFinalScore}점`;
+
+            if (window.currentGameFinalScore > 0) {
+                document.getElementById('game-rank-input-area').style.display = 'block';
+                document.getElementById('game-modal-submit-btn').style.display = 'block';
+                document.getElementById('game-player-initials').value = '';
+            } else {
+                document.getElementById('game-rank-input-area').style.display = 'none';
+                document.getElementById('game-modal-submit-btn').style.display = 'none';
+            }
+
+            document.getElementById('game-score-modal').style.display = 'flex';
+        }
+
         let currentWordName = "";
         let currentHanjaWord = "";
         let strokeCount = 0; 
@@ -897,7 +1194,7 @@
             if (exDiv.style.display !== 'none') {
                 exDiv.style.display = 'none';
                 wrDiv.style.display = 'flex';
-                instMsg.style.display = 'block'; // 퀴즈 안내 메시지 표시
+                instMsg.style.display = 'block';
                 btn.innerHTML = '📖 예문 다시 보기';
             } else {
                 exDiv.style.display = 'block';
@@ -907,9 +1204,61 @@
             }
         }
 
-        function openImageModal() { /* ... 기존과 동일 ... */ }
-        function closeImageModal() { document.getElementById('image-modal').style.display = 'none'; }
-        function handleImageUpload(event) { /* ... 기존과 동일 ... */ }
+        function openImageModal() {
+            document.getElementById('image-modal-title').innerText = currentWordName + " 그림";
+            
+            const imgEl = document.getElementById('image-modal-img');
+            const uploadArea = document.getElementById('image-upload-area');
+            
+            imgEl.style.display = 'block';
+            uploadArea.style.display = 'none';
+
+            const savedImage = localStorage.getItem('HanjaApp_Img_' + currentWordName);
+            
+            if (savedImage) {
+                imgEl.src = savedImage;
+                document.getElementById('image-modal').style.display = 'flex';
+                return;
+            }
+
+            imgEl.src = currentWordName + '.png';
+            
+            imgEl.onerror = function() {
+                this.style.display = 'none';
+                uploadArea.style.display = 'block';
+            };
+            
+            document.getElementById('image-modal').style.display = 'flex';
+        }
+
+        function closeImageModal() { 
+            document.getElementById('image-modal').style.display = 'none'; 
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Img = e.target.result;
+                const imgEl = document.getElementById('image-modal-img');
+                const uploadArea = document.getElementById('image-upload-area');
+                
+                imgEl.src = base64Img;
+                imgEl.style.display = 'block';
+                uploadArea.style.display = 'none';
+
+                try {
+                    localStorage.setItem('HanjaApp_Img_' + currentWordName, base64Img);
+                } catch(err) {
+                    alert("기기 저장 공간이 부족하여 이미지를 저장할 수 없습니다.");
+                }
+            };
+            reader.readAsDataURL(file);
+            
+            event.target.value = '';
+        }
 
         function openDetail(word, data) {
             document.getElementById('main-app').style.display = 'none'; 
@@ -923,8 +1272,8 @@
             currentHanjaWord = data.hanja;
             strokeCount = 0;
             scoreRecorded = false;
-            totalQuizMistakes = 0;     // 접속 시 에러카운트 초기화
-            totalExpectedStrokes = 0;  // 획수 누적 변수 초기화
+            totalQuizMistakes = 0;
+            totalExpectedStrokes = 0;
 
             document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
             document.getElementById('detail-hanja').innerText = data.detail;
@@ -946,28 +1295,25 @@
                 container.appendChild(box);
                 
                 try {
-                    // API에서 획수를 가져와 총 획수에 누적
                     HanziWriter.loadCharacterData(char).then(function(charData) {
                         if(charData) totalExpectedStrokes += charData.strokes.length;
                     }).catch(function() {
-                        totalExpectedStrokes += 10; // 로드 실패 시 임의 획수 처리
+                        totalExpectedStrokes += 10;
                     });
 
                     let writer = HanziWriter.create(box, char, {
                         width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
                         delayBetweenStrokes: 100, showOutline: true,
-                        showHintAfterMisses: 1, // 1번 틀리면 힌트 제공
-                        highlightOnComplete: true // 다 쓰면 색상 변경
+                        showHintAfterMisses: 1, 
+                        highlightOnComplete: true 
                     });
                     
-                    // [변경점] 단순 애니메이션이 아닌 Quiz 모드 실행
                     writer.quiz({
                         onMistake: function(strokeData) {
                             totalQuizMistakes++;
                         }
                     });
 
-                    // 박스를 클릭하면 퀴즈 초기화 및 재시작
                     box.onclick = () => {
                         writer.quiz({
                             onMistake: function(strokeData) {
@@ -977,7 +1323,7 @@
                     };
                 } catch(e) {
                     box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
-                    totalExpectedStrokes += 10; // 임시 획수
+                    totalExpectedStrokes += 10;
                 }
             }
             
@@ -1011,7 +1357,7 @@
             }
         }
 
-        function getPos(e) { /* ... 기존과 동일 ... */
+        function getPos(e) {
             const rect = drawCanvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -1079,9 +1425,6 @@
             clearCanvas();
         }
 
-        // ==========================================
-        // 💯 점수 확인 (엄격해진 채점 방식 적용)
-        // ==========================================
         function checkScore() {
             if (scoreRecorded) return; 
 
@@ -1112,16 +1455,13 @@
             let charLen = currentHanjaWord.length;
             let completionRate = hitPixels / targetPixels;
             
-            // [변경] 보정치 축소 (너무 쉽게 만점 받지 못하도록 1.05배 적용)
             let normalizedCompletion = Math.min(1.0, completionRate * 1.05);
 
-            // [변경] 획순 점수는 HanziWriter Quiz 실수 카운트와 연동
             let baseStrokeScore = 30 * normalizedCompletion;
-            let penaltyFromQuiz = totalQuizMistakes * 3; // 틀린 횟수 1회당 3점 감점
+            let penaltyFromQuiz = totalQuizMistakes * 3; 
             let strokeScore = Math.max(0, baseStrokeScore - penaltyFromQuiz);
             strokeScore = Math.round(strokeScore);
 
-            // [변경] 가독성 중심 오차(삐져나간 선) 감점 대폭 상향 (40배율 적용)
             let missPenalty = (missPixels / targetPixels) * 40;
             let readScore = (25 * normalizedCompletion) - missPenalty;
             readScore = Math.max(0, Math.round(readScore));
@@ -1129,10 +1469,9 @@
             let shapeScore = 25 * normalizedCompletion;
             shapeScore = Math.max(0, Math.round(shapeScore));
 
-            // [변경] 새로운 보너스 로직 (총 획수와 글자 수 결합)
             let bonusScore = 0;
-            let bonusMessage = ""; // 화면에 띄울 보너스 안내 메시지
-            if (normalizedCompletion > 0.8) { // 80% 이상 그려야만 보너스 제공
+            let bonusMessage = ""; 
+            if (normalizedCompletion > 0.8) { 
                 let strokeBonus = 0;
                 if (totalExpectedStrokes < 10) strokeBonus = 2;
                 else if (totalExpectedStrokes < 20) strokeBonus = 5;
@@ -1146,19 +1485,17 @@
                 else lengthBonus = 8;
 
                 bonusScore = strokeBonus + lengthBonus;
+                bonusMessage = `+${bonusScore}점 (약 ${totalExpectedStrokes}획)`;
             } else {
-                // 80% 미만일 경우 사용자에게 피드백 제공
                 bonusMessage = `+0점 (형태를 80% 이상 채워주세요)`; 
             }
 
             let finalScore = strokeScore + readScore + shapeScore + bonusScore;
-            finalScore = Math.min(100, Math.max(0, finalScore)); // 0~100점 범위 제한
+            finalScore = Math.min(100, Math.max(0, finalScore)); 
 
-            // 모달창에 상세 점수 및 통계 표시 반영
             document.getElementById('modal-stroke').innerText = `${strokeScore} / 30점 (실수: ${totalQuizMistakes}회)`;
             document.getElementById('modal-shape').innerText = `${shapeScore} / 25점`;
             document.getElementById('modal-read').innerText = `${readScore} / 25점`;
-            // 수정된 보너스 메시지 출력
             document.getElementById('modal-bonus').innerText = bonusMessage; 
             document.getElementById('modal-total').innerText = `총점: ${finalScore}점`;
 
@@ -1179,36 +1516,45 @@
         function closeScoreModal() { document.getElementById('score-modal').style.display = 'none'; }
         function closeGameScoreModal() { document.getElementById('game-score-modal').style.display = 'none'; }
 
-        async function submitScoreModal() { /* ... 기존과 동일 ... */
+        async function submitScoreModal() {
             let initials = document.getElementById('player-initials').value.trim();
             if(!initials) { alert("이니셜을 입력해주세요."); return; }
             if(!checkForbiddenWords(initials)) return;
 
             let wordName = document.getElementById('detail-title').innerText.split(' ')[0];
             const submitBtn = document.getElementById('modal-submit-btn');
-            submitBtn.disabled = true; submitBtn.innerText = '등록 중...';
+            submitBtn.disabled = true; 
+            submitBtn.innerText = '등록 중...';
 
             await saveRanking(window.currentFinalScore, wordName, initials, 'HanjaApp_WeeklyRanking');
             
-            submitBtn.disabled = false; submitBtn.innerText = '등록하기';
-            closeScoreModal(); closeDetail(); switchTab('rank');
+            submitBtn.disabled = false; 
+            submitBtn.innerText = '등록하기';
+
+            closeScoreModal(); 
+            closeDetail(); 
+            switchTab('rank');
         }
 
-        async function submitGameScoreModal() { /* ... 기존과 동일 ... */
+        async function submitGameScoreModal() {
             let initials = document.getElementById('game-player-initials').value.trim();
             if(!initials) { alert("이니셜을 입력해주세요."); return; }
             if(!checkForbiddenWords(initials)) return;
 
             const submitBtn = document.getElementById('game-modal-submit-btn');
-            submitBtn.disabled = true; submitBtn.innerText = '등록 중...';
+            submitBtn.disabled = true; 
+            submitBtn.innerText = '등록 중...';
 
             await saveRanking(window.currentGameFinalScore, '스피드 학습 게임', initials, 'HanjaApp_GameRanking');
             
-            submitBtn.disabled = false; submitBtn.innerText = '등록하기';
-            closeGameScoreModal(); switchTab('rank');
+            submitBtn.disabled = false; 
+            submitBtn.innerText = '등록하기';
+
+            closeGameScoreModal(); 
+            switchTab('rank');
         }
 
-        function checkForbiddenWords(text) { /* ... 기존과 동일 ... */
+        function checkForbiddenWords(text) {
             const forbiddenWords = ['바보', '멍청이', '씨발', '시발', '개새끼', '병신', '지랄', '미친', '존나', '새끼'];
             for (let word of forbiddenWords) {
                 if (text.includes(word)) {
@@ -1219,7 +1565,7 @@
             return true;
         }
 
-        function checkWeeklyReset() { /* ... 기존과 동일 ... */
+        function checkWeeklyReset() {
             const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
             ['HanjaApp_WeeklyRanking', 'HanjaApp_GameRanking'].forEach(key => {
                 let data = JSON.parse(localStorage.getItem(key));
@@ -1229,7 +1575,7 @@
             });
         }
 
-        function getThisSundayMidnight() { /* ... 기존과 동일 ... */
+        function getThisSundayMidnight() {
             const now = new Date();
             const day = now.getDay(); 
             const sunday = new Date(now);
@@ -1238,7 +1584,7 @@
             return sunday;
         }
 
-        async function saveRanking(score, wordName, playerName, key) { /* ... 기존과 동일 ... */
+        async function saveRanking(score, wordName, playerName, key) {
             try {
                 await db.collection(key).add({
                     name: playerName, score: score, word: wordName, timestamp: new Date()
@@ -1257,7 +1603,7 @@
             document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
 
             const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">불러오는 중...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
 
             const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
@@ -1266,14 +1612,16 @@
                 const sundayMidnight = getThisSundayMidnight();
 
                 const snapshot = await db.collection(rankKey)
+                    .where('timestamp', '>=', sundayMidnight)
+                    .orderBy('timestamp', 'desc')
                     .orderBy('score', 'desc')
-                    .limit(5)
+                    .limit(limitCount) 
                     .get();
 
-                tbody.innerHTML = '';
+                tbody.innerHTML = ''; 
 
                 if (snapshot.empty) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="padding:20px;">등록된 랭킹이 없습니다.</td></tr>';
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
                     return;
                 }
 
@@ -1282,15 +1630,20 @@
                     const entry = doc.data();
                     let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
                     let tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${rankIcon}</td><td>${entry.name}</td><td style="font-size:12px;">${entry.word || '-'}</td><td style="font-weight:bold;">${entry.score}점</td>`;
+                    tr.innerHTML = `
+                        <td>${rankIcon}</td>
+                        <td>${entry.name}</td>
+                        <td style="font-size:12px;">${entry.word}</td>
+                        <td style="font-weight:bold;">${entry.score}점</td>
+                    `;
                     tbody.appendChild(tr);
                     index++;
-                 });
-             } catch (error) {
-                 console.error("랭킹 로드 에러:", error);
-                 tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c;">에러 발생</td></tr>';
-              }
-          }
+                });
+            } catch (error) {
+                console.error("랭킹 로드 에러:", error);
+                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.<br><span style="font-size:12px">(초기 설정 시 콘솔창의 인덱스 생성 링크를 클릭해야 할 수 있습니다.)</span></td></tr>';
+            }
+        }
     </script>
 </body>
 </html>
