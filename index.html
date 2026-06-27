@@ -1612,13 +1612,13 @@
                 const sundayMidnight = getThisSundayMidnight();
 
                 const snapshot = await db.collection(rankKey)
-                    .where('timestamp', '>=', sundayMidnight)
-                    .orderBy('timestamp', 'desc')
-                    .orderBy('score', 'desc')
-                    .limit(limitCount) 
-                    .get();
+                     .where('timestamp', '>=', sundayMidnight) // 이번 주 일요일 자정 이후의 데이터만 필터링
+                     .orderBy('timestamp', 'desc')             // 최신순 정렬
+                     .orderBy('score', 'desc')                 // 점수 높은 순 정렬
+                     .limit(limitCount) 
+                     .get();
 
-                tbody.innerHTML = ''; 
+                tbody.innerHTML = '';
 
                 if (snapshot.empty) {
                     tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
