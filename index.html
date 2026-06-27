@@ -313,7 +313,7 @@
                 <p><span>올바른 획순 (퀴즈 실수 차감):</span> <span id="modal-stroke" style="color:#2c3e50;">0 / 30점</span></p>
                 <p><span>형태 정확성 (일치율):</span> <span id="modal-shape" style="color:#2c3e50;">0 / 25점</span></p>
                 <p><span>가독성 중심 (삐져나간 선 감점):</span> <span id="modal-read" style="color:#2c3e50;">0 / 25점</span></p>
-                <p style="color:#3498db; margin-top:10px;"><span>글자 수 & 획수 보너스:</span> <span id="modal-bonus">+0점</span></p>
+                <p style="color:#3498db; margin-top:10px;"><span>추가 보너스 (형태 80% 이상 달성 시):</span> <span id="modal-bonus" style="font-size:13px;">+0점</span></p>
             </div>
             <div class="modal-total" id="modal-total">총점: 0점</div>
             <div id="rank-input-area" class="rank-input-area">
@@ -1131,13 +1131,14 @@
 
             // [변경] 새로운 보너스 로직 (총 획수와 글자 수 결합)
             let bonusScore = 0;
+            let bonusMessage = ""; // 화면에 띄울 보너스 안내 메시지
             if (normalizedCompletion > 0.8) { // 80% 이상 그려야만 보너스 제공
                 let strokeBonus = 0;
                 // 획수 기반 보너스
                 if (totalExpectedStrokes < 10) strokeBonus = 2;
                 else if (totalExpectedStrokes < 20) strokeBonus = 5;
                 else if (totalExpectedStrokes < 30) strokeBonus = 10;
-                else strokeBonus = 15; // 30획 이상 
+                else strokeBonus = 15; // 30획 이상
 
                 let lengthBonus = 0;
                 // 단어 길이 기반 보너스
@@ -1147,6 +1148,10 @@
                 else lengthBonus = 8; // 4글자 이상
 
                 bonusScore = strokeBonus + lengthBonus; 
+                bonusMessage = `+${bonusScore}점 (약 ${totalExpectedStrokes}획)`;
+            } else {
+                // 80% 미만일 경우 사용자에게 피드백 제공
+                bonusMessage = `+0점 (형태를 80% 이상 채워주세요)`; 
             }
 
             let finalScore = strokeScore + readScore + shapeScore + bonusScore;
@@ -1156,7 +1161,8 @@
             document.getElementById('modal-stroke').innerText = `${strokeScore} / 30점 (실수: ${totalQuizMistakes}회)`;
             document.getElementById('modal-shape').innerText = `${shapeScore} / 25점`;
             document.getElementById('modal-read').innerText = `${readScore} / 25점`;
-            document.getElementById('modal-bonus').innerText = `+${bonusScore}점 (약 ${totalExpectedStrokes}획)`;
+            // 수정된 보너스 메시지 출력
+            document.getElementById('modal-bonus').innerText = bonusMessage; 
             document.getElementById('modal-total').innerText = `총점: ${finalScore}점`;
 
             if (finalScore > 0) {
