@@ -1183,24 +1183,130 @@
     let smoothedSpeed = 0; 
     
     function toggleExampleStroke() {
-        const btn = document.getElementById('toggle-btn');
-        const exDiv = document.getElementById('detail-example');
-        const wrDiv = document.getElementById('writer-container');
-        const instMsg = document.getElementById('quiz-instruction');
+            const btn = document.getElementById('toggle-btn');
+            const exDiv = document.getElementById('detail-example');
+            const wrDiv = document.getElementById('writer-container');
+            const instMsg = document.getElementById('quiz-instruction');
 
-        if (wrDiv.style.display === 'none') {
-            exDiv.style.display = 'none';
-            wrDiv.style.display = 'flex'; // 획순 박스 표시
-            instMsg.style.display = 'block'; // 안내 문구 표시
-            btn.innerHTML = '📖 예문 다시 보기';
-        } else {
-            // 예문 보기 모드
-            exDiv.style.display = 'block';
-            wrDiv.style.display = 'none';
-            instMsg.style.display = 'none';
-            btn.innerHTML = '▶ 획순 퀴즈';
+            if (wrDiv.style.display === 'none') {
+                exDiv.style.display = 'none';
+                wrDiv.style.display = 'flex'; // 획순 박스 표시
+                instMsg.style.display = 'block'; // 안내 문구 표시
+                btn.innerHTML = '📖 예문 다시 보기';
+
+                // 💡 [핵심 수정] 획순 퀴즈 창이 열릴 때 획순 애니메이션을 먼저 보여줍니다.
+                if (window.detailWriters) {
+                    window.detailWriters.forEach(writer => {
+                        writer.hideCharacter(); // 그려진 것 초기화
+                        writer.animateCharacter({
+                            onComplete: () => {
+                                // 애니메이션이 끝나면 퀴즈(쓰기) 모드 시작
+                                writer.quiz({ onMistake: function() { totalQuizMistakes++; } });
+                            }
+                        });
+                    });
+                }
+            } else {
+                // 예문 보기 모드
+                exDiv.style.display = 'block';
+                wrDiv.style.display = 'none';
+                instMsg.style.display = 'none';
+                btn.innerHTML = '▶ 획순 보기 / 퀴즈';
+            }
         }
-    }
+
+        async function openDetail(word, data) {
+            document.getElementById('main-app').style.display = 'none'; 
+            document.getElementById('gosa-app').style.display = 'none'; 
+            document.getElementById('ranking-view').style.display = 'none';
+            document.getElementById('main-header').style.display = 'none'; 
+            document.getElementById('detail-view').style.display = 'flex'; 
+            window.scrollTo(0,0);
+            
+            currentWordName = word;
+            currentHanjaWord = data.hanja;
+            strokeCount = 0;
+            scoreRecorded = false;
+            totalQuizMistakes = 0;
+            totalExpectedStrokes = 0;
+
+            document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
+            document.getElementById('detail-hanja').innerText = data.detail;
+            document.getElementById('detail-meaning').innerText = data.meaning;
+            document.getElementById('detail-example').innerText = data.ex || "등록된 예문이 없습니다.";
+
+            document.getElementById('detail-example').style.display = 'block';
+            document.getElementById('writer-container').style.display = 'none';
+            document.getElementById('quiz-instruction').style.display = 'none';
+            
+            // 버튼 텍스트 직관적으로 변경
+            document.getElementById('toggle-btn').innerHTML = '▶ 획순 보기 / 퀴즈';
+
+            const container = document.getElementById('writer-container');
+            container.innerHTML = '';
+            
+            // 💡 [추가] 나중에 애니메이션을 재생하기 위해 writer들을 저장할 배열
+            window.detailWriters = []; 
+
+            for(let i = 0; i < data.hanja.length; i++) {
+                let char = data.hanja[i];
+                let box = document.createElement('div');
+                box.className = 'hanja-box';
+                container.appendChild(box);
+                
+                try {
+                    const charData = await HanziWriter.loadCharacterData(char);
+                    if(charData) totalExpectedStrokes += charData.strokes.length;
+
+                    let writer = HanziWriter.create(box, char, {
+                        width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
+                        delayBetweenStrokes: 100, showOutline: true,
+                        showHintAfterMisses: 1, 
+                        highlightOnComplete: true 
+                    });
+                    
+                    window.detailWriters.push(writer); // 생성된 writer 저장
+                    
+                    writer.quiz({
+                        onMistake: function(strokeData) { totalQuizMistakes++; }
+                    });
+
+                    // 💡 [핵심 수정] 박스를 누르면 다시 획순 애니메이션 재생 후 퀴즈 모드
+                    box.onclick = () => {
+                        writer.hideCharacter();
+                        writer.animateCharacter({
+                            onComplete: () => {
+                                writer.quiz({
+                                    onMistake: function(strokeData) { totalQuizMistakes++; }
+                                });
+                            }
+                        });
+                    };
+                } catch(e) {
+                    console.error("한자 데이터 로드 실패:", char, e);
+                    box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
+                    totalExpectedStrokes += 10;
+                }
+            }
+            
+            clearBothCanvas();
+            
+            let charLen = data.hanja.length;
+            let fontSize = 100;
+            if (charLen === 1) fontSize = 150;
+            else if (charLen === 2) fontSize = 130;
+            else if (charLen === 3) fontSize = 105;
+            else if (charLen === 4) fontSize = 80;
+            else if (charLen >= 5) fontSize = 65;
+
+            bgCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'PingFang SC', sans-serif`;
+            bgCtx.textAlign = "center";
+            bgCtx.textBaseline = "middle";
+            bgCtx.fillStyle = "#ecf0f1"; 
+            
+            let yOffset = fontSize * 0.05;
+            bgCtx.fillText(data.hanja, bgCanvas.width / 2, bgCanvas.height / 2 + yOffset);
+        }
 
     function openImageModal() {
         document.getElementById('image-modal-title').innerText = currentWordName + " 그림";
