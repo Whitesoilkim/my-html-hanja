@@ -1188,12 +1188,13 @@
             const wrDiv = document.getElementById('writer-container');
             const instMsg = document.getElementById('quiz-instruction');
 
-            if (exDiv.style.display !== 'none') {
+            if (wrDiv.style.display === 'none') {
                 exDiv.style.display = 'none';
-                wrDiv.style.display = 'flex';
-                instMsg.style.display = 'block';
+                wrDiv.style.display = 'flex'; // 획순 박스 표시
+                instMsg.style.display = 'block'; // 안내 문구 표시
                 btn.innerHTML = '📖 예문 다시 보기';
             } else {
+                // 예문 보기 모드
                 exDiv.style.display = 'block';
                 wrDiv.style.display = 'none';
                 instMsg.style.display = 'none';
@@ -1281,10 +1282,10 @@
             document.getElementById('writer-container').style.display = 'none';
             document.getElementById('quiz-instruction').style.display = 'none';
             document.getElementById('toggle-btn').innerHTML = '▶ 획순 퀴즈';
-
+            
             const container = document.getElementById('writer-container');
             container.innerHTML = '';
-            
+            }
             for(let i=0; i<data.hanja.length; i++) {
                 let char = data.hanja[i];
                 let box = document.createElement('div');
