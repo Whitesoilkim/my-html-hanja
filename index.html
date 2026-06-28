@@ -1258,7 +1258,7 @@
             event.target.value = '';
         }
 
-        function openDetail(word, data) {
+        async function openDetail(word, data) {
             document.getElementById('main-app').style.display = 'none'; 
             document.getElementById('gosa-app').style.display = 'none'; 
             document.getElementById('ranking-view').style.display = 'none';
@@ -1282,22 +1282,19 @@
             document.getElementById('writer-container').style.display = 'none';
             document.getElementById('quiz-instruction').style.display = 'none';
             document.getElementById('toggle-btn').innerHTML = '▶ 획순 퀴즈';
-            
+
             const container = document.getElementById('writer-container');
-            container.innerHTML = '';
-            }
-            for(let i=0; i<data.hanja.length; i++) {
+            container.innerHTML = '';for(let i = 0; i < data.hanja.length; i++) {
                 let char = data.hanja[i];
                 let box = document.createElement('div');
                 box.className = 'hanja-box';
                 container.appendChild(box);
                 
+                // 획수 데이터 로딩 시도 (에러 방지용)
                 try {
-                    HanziWriter.loadCharacterData(char).then(function(charData) {
-                        if(charData) totalExpectedStrokes += charData.strokes.length;
-                    }).catch(function() {
-                        totalExpectedStrokes += 10;
-                    });
+                    // API 호출 전용
+                    const charData = await HanziWriter.loadCharacterData(char);
+                    if(charData) totalExpectedStrokes += charData.strokes.length;
 
                     let writer = HanziWriter.create(box, char, {
                         width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
@@ -1307,38 +1304,37 @@
                     });
                     
                     writer.quiz({
-                        onMistake: function(strokeData) {
-                            totalQuizMistakes++;
-                        }
+                        onMistake: function(strokeData) { totalQuizMistakes++; }
                     });
 
                     box.onclick = () => {
                         writer.quiz({
-                            onMistake: function(strokeData) {
-                                totalQuizMistakes++;
-                            }
+                            onMistake: function(strokeData) { totalQuizMistakes++; }
                         });
                     };
                 } catch(e) {
+                    console.error("한자 데이터 로드 실패:", char, e);
                     box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
                     totalExpectedStrokes += 10;
                 }
             }
             
+            // 💡 배경 캔버스 그리기
             clearBothCanvas();
-            
-            let charLen = data.hanja.length;
-            let fontSize = 100;
-            if (charLen === 1) fontSize = 150;
-            else if (charLen === 2) fontSize = 130;
-            else if (charLen === 3) fontSize = 105;
-            else if (charLen === 4) fontSize = 80;
-            else if (charLen >= 5) fontSize = 65;
+            drawBackgroundHanja(data.hanja);
+        }
 
-            bgCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'PingFang SC', sans-serif`;
+        // 배경 한자 그리기 별도 함수로 분리
+        function drawBackgroundHanja(hanjaStr) {
+            let charLen = hanjaStr.length;
+            let fontSize = charLen === 1 ? 150 : (charLen === 2 ? 130 : (charLen === 3 ? 105 : 80));
+            
+            bgCtx.font = `bold ${fontSize}px sans-serif`;
             bgCtx.textAlign = "center";
             bgCtx.textBaseline = "middle";
             bgCtx.fillStyle = "#ecf0f1"; 
+            bgCtx.fillText(hanjaStr, bgCanvas.width / 2, bgCanvas.height / 2);
+        }
             
             let yOffset = fontSize * 0.05;
             bgCtx.fillText(data.hanja, bgCanvas.width / 2, bgCanvas.height / 2 + yOffset);
