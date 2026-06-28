@@ -1574,53 +1574,63 @@
     }
 
     async function loadRank(type) {
-        currentRankTab = type;
-        document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
-        document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
-        document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
+            currentRankTab = type;
+            document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
+            document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
+            document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
 
-        const tbody = document.getElementById('ranking-body');
-        tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">불러오는 중... ⏳</td></tr>';
+            const tbody = document.getElementById('ranking-body');
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
 
-        const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
+            const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
-        try {
-            const limitCount = (type === 'game') ? 10 : 5;
-            const sundayMidnight = getThisSundayMidnight();
+            try {
+                const limitCount = (type === 'game') ? 10 : 5;
+                const sundayMidnight = getThisSundayMidnight();
 
-            const snapshot = await db.collection(rankKey)
-                .where('timestamp', '>=', sundayMidnight)
-                .orderBy('timestamp', 'desc')
-                .orderBy('score', 'desc')
-                .limit(limitCount) 
-                .get();
+                // 💡 [핵심 수정] 복합 인덱스 에러 원천 차단!
+                // 1. 서버에서는 오직 '이번 주 데이터'만 전부 가져옵니다. (에러 발생 안 함)
+                const snapshot = await db.collection(rankKey)
+                    .where('timestamp', '>=', sundayMidnight)
+                    .get();
 
-            tbody.innerHTML = ''; 
+                // 2. 가져온 데이터를 자바스크립트 배열로 변환합니다.
+                let results = [];
+                snapshot.forEach((doc) => {
+                    results.push(doc.data());
+                });
 
-            if (snapshot.empty) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
-                return;
+                // 3. 브라우저 메모리 안에서 점수(score) 내림차순으로 직접 정렬합니다.
+                results.sort((a, b) => b.score - a.score);
+
+                // 4. 화면에 보여줄 개수(limitCount)만큼만 잘라냅니다.
+                results = results.slice(0, limitCount);
+
+                tbody.innerHTML = ''; 
+
+                if (results.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
+                    return;
+                }
+
+                let index = 0;
+                results.forEach((entry) => {
+                    let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${rankIcon}</td>
+                        <td>${entry.name}</td>
+                        <td style="font-size:12px;">${entry.word || '-'}</td>
+                        <td style="font-weight:bold;">${entry.score}점</td>
+                    `;
+                    tbody.appendChild(tr);
+                    index++;
+                });
+            } catch (error) {
+                console.error("랭킹 로드 에러:", error);
+                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. (파이어베이스 읽기 권한 등 확인 필요)</td></tr>';
             }
-
-            let index = 0;
-            snapshot.forEach((doc) => {
-                const entry = doc.data();
-                let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${rankIcon}</td>
-                    <td>${entry.name}</td>
-                    <td style="font-size:12px;">${entry.word}</td>
-                    <td style="font-weight:bold;">${entry.score}점</td>
-                `;
-                tbody.appendChild(tr);
-                index++;
-            });
-        } catch (error) {
-            console.error("랭킹 로드 에러:", error);
-            tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. 인터넷 연결을 확인해주세요.<br><span style="font-size:12px">(초기 설정 시 콘솔창의 인덱스 생성 링크를 클릭해야 할 수 있습니다.)</span></td></tr>';
         }
-    }
 </script>
 </body>
 </html>
