@@ -10,570 +10,573 @@
         body { margin: 0; padding: 0; background-color: #f4f6f9; color: #333; overscroll-behavior-y: none; }
         
         #main-header { 
-        display: flex; position: sticky; top: 0; z-index: 10; 
-        background: #f4f6f9; padding: 10px; gap: 10px; border-bottom: 2px solid #ecf0f1;
-    }
-    .header-tab { 
-        flex: 1; text-align: center; padding: 12px 5px; font-size: 15px; 
-        font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
-    }
-    .tab-active-main { background-color: #3498db; color: white; }
-    .tab-active-gosa { background-color: #27ae60; color: white; }
-    .tab-active-game { background-color: #8e44ad; color: white; }
-    .tab-active-rank { background-color: #f39c12; color: white; }
-    .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
+            display: flex; position: sticky; top: 0; z-index: 10; 
+            background: #f4f6f9; padding: 10px; gap: 10px; border-bottom: 2px solid #ecf0f1;
+        }
+        .header-tab { 
+            flex: 1; text-align: center; padding: 12px 5px; font-size: 15px; 
+            font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
+        }
+        .tab-active-main { background-color: #3498db; color: white; }
+        .tab-active-gosa { background-color: #27ae60; color: white; }
+        .tab-active-game { background-color: #8e44ad; color: white; }
+        .tab-active-rank { background-color: #f39c12; color: white; }
+        .tab-inactive { background-color: #ecf0f1; color: #7f8c8d; }
 
-    .list-container { display: flex; gap: 10px; padding: 10px; }
-    .col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-    .word-card { 
-        background: white; padding: 15px 12px; border-radius: 8px; 
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; 
-        justify-content: space-between; align-items: center; 
-        cursor: pointer; font-size: 14px; font-weight: bold; 
-    }
-    .word-card:active { background: #e0e6ed; }
-    .word-hanja { color: #7f8c8d; font-size: 15px; font-weight: normal; }
+        .list-container { display: flex; gap: 10px; padding: 10px; }
+        .col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .word-card { 
+            background: white; padding: 15px 12px; border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; 
+            justify-content: space-between; align-items: center; 
+            cursor: pointer; font-size: 14px; font-weight: bold; 
+        }
+        .word-card:active { background: #e0e6ed; }
+        .word-hanja { color: #7f8c8d; font-size: 15px; font-weight: normal; }
 
-    #detail-view { 
-        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background: #fff; z-index: 20; flex-direction: column; padding: 15px; overflow-y: auto; 
-    }
-    .back-btn { padding: 10px 15px; background: #95a5a6; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; align-self: flex-start; margin-bottom: 10px; cursor: pointer; }
-    
-    .word-title { font-size: 28px; color: #2c3e50; text-align: center; margin: 5px 0; }
-    .word-detail { font-size: 16px; color: #2980b9; text-align: center; margin-bottom: 10px; white-space: pre-line; line-height: 1.4; }
-    .word-meaning { background: #f1f2f6; padding: 15px; border-radius: 8px; font-size: 15px; line-height: 1.4; text-align: center; margin-bottom: 15px; border: 1px solid #dfe4ea; word-break: keep-all; }
-    
-    .top-btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
-    .top-btn-group button { flex: 1; max-width: 160px; padding: 10px; border-radius: 8px; color: white; border: none; font-weight: bold; font-size: 14px; cursor: pointer; }
-    .btn-stroke { background: #8e44ad; }
-    .btn-image { background: #3498db; }
+        #detail-view { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #fff; z-index: 20; flex-direction: column; padding: 15px; overflow-y: auto; 
+        }
+        .back-btn { padding: 10px 15px; background: #95a5a6; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; align-self: flex-start; margin-bottom: 10px; cursor: pointer; }
+        
+        .word-title { font-size: 28px; color: #2c3e50; text-align: center; margin: 5px 0; }
+        .word-detail { font-size: 16px; color: #2980b9; text-align: center; margin-bottom: 10px; white-space: pre-line; line-height: 1.4; }
+        .word-meaning { background: #f1f2f6; padding: 15px; border-radius: 8px; font-size: 15px; line-height: 1.4; text-align: center; margin-bottom: 15px; border: 1px solid #dfe4ea; word-break: keep-all; }
+        
+        .top-btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
+        .top-btn-group button { flex: 1; max-width: 160px; padding: 10px; border-radius: 8px; color: white; border: none; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .btn-stroke { background: #8e44ad; }
+        .btn-image { background: #3498db; }
 
-    .example-text { background: #e8f4f8; padding: 15px; border-radius: 8px; font-size: 15px; color: #2c3e50; text-align: center; line-height: 1.4; word-break: keep-all; font-weight: bold; display: block; margin-bottom: 10px; }
-    .writer-container { display: none; justify-content: center; gap: 10px; margin-bottom: 10px; min-height: 80px; flex-wrap: wrap; }
-    .hanja-box { width: 75px; height: 75px; border: 2px dashed #bdc3c7; border-radius: 8px; cursor: pointer; background: #fff; display: flex; justify-content: center; align-items: center; }
-    .hanja-box:active { background: #f1f2f6; }
-    
-    .canvas-container { display: flex; flex-direction: column; align-items: center; }
-    .canvas-label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #e74c3c; text-align: center; }
-    
-    .canvas-wrapper { position: relative; width: 100%; max-width: 350px; height: 180px; margin-bottom: 10px; overscroll-behavior: none; touch-action: none; }
-    #bgCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; border: 2px solid #bdc3c7; border-radius: 8px; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); touch-action: none; }
-    #drawCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid transparent; border-radius: 8px; touch-action: none; -webkit-user-select: none; user-select: none; overscroll-behavior: none; outline: none; -webkit-tap-highlight-color: rgba(0,0,0,0); }
-    
-    .btn-group { display: flex; gap: 10px; width: 100%; max-width: 350px; }
-    .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
-    .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
-    
-    /* 1단계: 짝맞추기 학습용 스타일 */
-    #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
-    .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
-    
-    #game-board { 
-        position: relative;
-        flex: 1; background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; 
-        padding: 10px; display: grid; gap: 8px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
-        grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: minmax(70px, auto);
-    }
-    
-    .match-card {
-        background: white; border: 2px solid #95a5a6; border-radius: 8px;
-        display: flex; justify-content: center; align-items: center; text-align: center;
-        font-weight: bold; color: #2c3e50; cursor: pointer; transition: background-color 0.3s, border-color 0.3s, transform 0.1s;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 5px; word-break: keep-all;
-    }
-    .match-card:active { transform: scale(0.95); }
-    .match-card.selected { border-color: #e74c3c; background: #fadbd8; color: #c0392b; transform: scale(0.95); box-shadow: none; }
-    
-    .card-hanja { font-size: 48px; font-weight: normal; } 
-    .card-meaning { font-size: 17px; line-height: 1.3; }
+        .example-text { background: #e8f4f8; padding: 15px; border-radius: 8px; font-size: 15px; color: #2c3e50; text-align: center; line-height: 1.4; word-break: keep-all; font-weight: bold; display: block; margin-bottom: 10px; }
+        .writer-container { display: none; justify-content: center; gap: 10px; margin-bottom: 10px; min-height: 80px; flex-wrap: wrap; }
+        .hanja-box { width: 75px; height: 75px; border: 2px dashed #bdc3c7; border-radius: 8px; cursor: pointer; background: #fff; display: flex; justify-content: center; align-items: center; }
+        .hanja-box:active { background: #f1f2f6; }
+        
+        .canvas-container { display: flex; flex-direction: column; align-items: center; }
+        .canvas-label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #e74c3c; text-align: center; }
+        
+        .canvas-wrapper { position: relative; width: 100%; max-width: 350px; height: 180px; margin-bottom: 10px; overscroll-behavior: none; touch-action: none; }
+        #bgCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; border: 2px solid #bdc3c7; border-radius: 8px; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); touch-action: none; }
+        #drawCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid transparent; border-radius: 8px; touch-action: none; -webkit-user-select: none; user-select: none; overscroll-behavior: none; outline: none; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+        
+        .btn-group { display: flex; gap: 10px; width: 100%; max-width: 350px; }
+        .clear-btn { flex: 1; padding: 12px; background: #e74c3c; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
+        .score-btn { flex: 1; padding: 12px; background: #2ecc71; color: white; font-weight: bold; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; }
+        
+        /* 1단계: 짝맞추기 학습용 스타일 */
+        #game-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; }
+        .game-stats { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
+        
+        #game-board { 
+            position: relative;
+            flex: 1; background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; 
+            padding: 10px; display: grid; gap: 8px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(70px, auto);
+        }
+        
+        .match-card {
+            background: white; border: 2px solid #95a5a6; border-radius: 8px;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            font-weight: bold; color: #2c3e50; cursor: pointer; transition: background-color 0.3s, border-color 0.3s, transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 5px; word-break: keep-all;
+        }
+        .match-card:active { transform: scale(0.95); }
+        .match-card.selected { border-color: #e74c3c; background: #fadbd8; color: #c0392b; transform: scale(0.95); box-shadow: none; }
+        
+        .card-hanja { font-size: 48px; font-weight: normal; } 
+        .card-meaning { font-size: 17px; line-height: 1.3; }
 
-    .match-card.matched { animation: popOut 0.4s ease-out forwards; pointer-events: none; }
+        .match-card.matched { animation: popOut 0.4s ease-out forwards; pointer-events: none; }
 
-    @keyframes popOut {
-        0% { transform: scale(1); opacity: 1; }
-        40% { transform: scale(1.2); opacity: 0.8; }
-        100% { transform: scale(0); opacity: 0; }
-    }
+        @keyframes popOut {
+            0% { transform: scale(1); opacity: 1; }
+            40% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
 
-    .floating-score {
-        position: absolute; color: #2ecc71; font-size: 20px; font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.2); pointer-events: none; z-index: 100;
-        animation: floatScore 1s ease-out forwards;
-    }
-    @keyframes floatScore {
-        0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-        100% { opacity: 0; transform: translate(-50%, -40px) scale(1.3); }
-    }
+        .floating-score {
+            position: absolute; color: #2ecc71; font-size: 20px; font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); pointer-events: none; z-index: 100;
+            animation: floatScore 1s ease-out forwards;
+        }
+        @keyframes floatScore {
+            0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -40px) scale(1.3); }
+        }
 
-    .sparkle {
-        position: absolute; width: 10px; height: 10px; border-radius: 50%;
-        pointer-events: none; z-index: 99;
-        animation: explode 0.6s ease-out forwards;
-    }
-    @keyframes explode {
-        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0); opacity: 0; }
-    }
+        .sparkle {
+            position: absolute; width: 10px; height: 10px; border-radius: 50%;
+            pointer-events: none; z-index: 99;
+            animation: explode 0.6s ease-out forwards;
+        }
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0); opacity: 0; }
+        }
 
-    .penalty-text {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        color: #e74c3c; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        pointer-events: none; z-index: 100; animation: floatUp 0.8s ease-out forwards;
-    }
-    @keyframes floatUp {
-        0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
-    }
+        .penalty-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #e74c3c; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            pointer-events: none; z-index: 100; animation: floatUp 0.8s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+        }
 
-    #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    #game-start-btn:active { background: #9b59b6; }
+        #game-start-btn { padding: 15px; background: #8e44ad; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #game-start-btn:active { background: #9b59b6; }
 
-    /* 2단계: 보너스 스테이지 전용 스타일 */
-    #bonus-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; background: #2c3e50; color: white; border-radius: 12px; }
-    .bonus-header { text-align: center; color: #f1c40f; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
-    .bonus-desc { font-size: 14px; color: #ecf0f1; text-align: center; margin-bottom: 15px; word-break: keep-all; }
-    
-    .bonus-timer-container { width: 100%; height: 12px; background: #34495e; position: relative; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
-    .bonus-timer-bar { height: 100%; background: #2ecc71; width: 100%; transition: width 0.1s linear, background-color 0.3s; }
-    .bonus-timer-bar.warning { background: #e74c3c; }
+        /* 2단계: 보너스 스테이지 전용 스타일 */
+        #bonus-view { display: none; padding: 15px; flex-direction: column; height: calc(100vh - 60px); max-width: 500px; margin: 0 auto; background: #2c3e50; color: white; border-radius: 12px; }
+        .bonus-header { text-align: center; color: #f1c40f; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
+        .bonus-desc { font-size: 14px; color: #ecf0f1; text-align: center; margin-bottom: 15px; word-break: keep-all; }
+        
+        .bonus-timer-container { width: 100%; height: 12px; background: #34495e; position: relative; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+        .bonus-timer-bar { height: 100%; background: #2ecc71; width: 100%; transition: width 0.1s linear, background-color 0.3s; }
+        .bonus-timer-bar.warning { background: #e74c3c; }
 
-    #bonus-draw-area { display: flex; gap: 8px; background: #ecf0f1; padding: 20px; border-radius: 12px; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3); justify-content: center; align-items: center; flex-wrap: wrap; position: relative; }
-    .hanja-box-catchmind { border: 2px dashed #bdc3c7; border-radius: 8px; background: #fff; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
-    
-    /* 텍스트(지문) 추론 영역 스타일 */
-    #bonus-text-area { display: none; text-align: center; font-size: 18px; padding: 25px 15px; background: #fff; border-radius: 12px; min-height: 120px; word-break: keep-all; line-height: 1.6; color: #2c3e50; font-weight: bold; border: 2px solid #bdc3c7; align-items: center; justify-content: center; }
+        #bonus-draw-area { display: flex; gap: 8px; background: #ecf0f1; padding: 20px; border-radius: 12px; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3); justify-content: center; align-items: center; flex-wrap: wrap; position: relative; }
+        .hanja-box-catchmind { border: 2px dashed #bdc3c7; border-radius: 8px; background: #fff; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        
+        /* 텍스트(지문) 추론 영역 스타일 */
+        #bonus-text-area { display: none; text-align: center; font-size: 18px; padding: 25px 15px; background: #fff; border-radius: 12px; min-height: 120px; word-break: keep-all; line-height: 1.6; color: #2c3e50; font-weight: bold; border: 2px solid #bdc3c7; align-items: center; justify-content: center; }
 
-    .bonus-choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
-    .bonus-choice-btn { 
-        background: #ecf0f1; color: #2c3e50; border: none; padding: 15px; border-radius: 12px; 
-        font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.1s;
-        box-shadow: 0 4px 0 #bdc3c7; word-break: keep-all; line-height: 1.4; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .bonus-choice-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #bdc3c7; }
-    .bonus-choice-btn.correct { background: #2ecc71; color: white; box-shadow: 0 4px 0 #27ae60; }
-    .bonus-choice-btn.wrong { background: #e74c3c; color: white; box-shadow: 0 4px 0 #c0392b; animation: shake 0.3s; }
+        .bonus-choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
+        .bonus-choice-btn { 
+            background: #ecf0f1; color: #2c3e50; border: none; padding: 15px; border-radius: 12px; 
+            font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.1s;
+            box-shadow: 0 4px 0 #bdc3c7; word-break: keep-all; line-height: 1.4; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .bonus-choice-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #bdc3c7; }
+        .bonus-choice-btn.correct { background: #2ecc71; color: white; box-shadow: 0 4px 0 #27ae60; }
+        .bonus-choice-btn.wrong { background: #e74c3c; color: white; box-shadow: 0 4px 0 #c0392b; animation: shake 0.3s; }
 
-    /* 랭킹 뷰 스타일 */
-    #ranking-view { display: none; padding: 20px; text-align: center; }
-    .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
-    .rank-toggle-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-    .rank-tab-btn { padding: 10px 20px; font-size: 15px; font-weight: bold; border: 2px solid #f39c12; background: white; color: #f39c12; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-    .rank-tab-btn.active { background: #f39c12; color: white; }
-    .ranking-table { width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .ranking-table th, .ranking-table td { padding: 12px; border-bottom: 1px solid #ecf0f1; text-align: center; }
-    .ranking-table th { background: #f39c12; color: white; font-weight: bold; }
-    .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
-    .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
+        /* 랭킹 뷰 스타일 */
+        #ranking-view { display: none; padding: 20px; text-align: center; }
+        .ranking-title { font-size: 24px; color: #f39c12; margin-bottom: 20px; }
+        .rank-toggle-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .rank-tab-btn { padding: 10px 20px; font-size: 15px; font-weight: bold; border: 2px solid #f39c12; background: white; color: #f39c12; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .rank-tab-btn.active { background: #f39c12; color: white; }
+        .ranking-table { width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .ranking-table th, .ranking-table td { padding: 12px; border-bottom: 1px solid #ecf0f1; text-align: center; }
+        .ranking-table th { background: #f39c12; color: white; font-weight: bold; }
+        .ranking-table tr:nth-child(1) td { font-weight: bold; color: #e74c3c; font-size: 18px; }
+        .ranking-info { font-size: 12px; color: #95a5a6; margin-top: 15px; }
 
-    /* 모달 공통 */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
-    .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-    .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
-    .score-details { text-align: left; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dcdde1; }
-    .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
-    .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
-    .rank-input-area { display: none; margin-bottom: 20px; }
-    .rank-msg { color: #f39c12; font-weight: bold; margin-bottom: 10px; font-size: 15px; }
-    .player-initials { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 18px; text-align: center; font-weight: bold; outline: none; }
-    .player-initials:focus { border-color: #3498db; }
-    .modal-buttons { display: flex; gap: 10px; }
-    .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .btn-submit { background: #3498db; color: white; }
-    .btn-close { background: #95a5a6; color: white; width: 100%; }
+        /* 모달 공통 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal-title { font-size: 22px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
+        .score-details { text-align: left; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dcdde1; }
+        .score-details p { margin: 8px 0; display: flex; justify-content: space-between; font-size: 14px; color: #555; font-weight: bold; }
+        .modal-total { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 15px 0 20px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
+        .rank-input-area { display: none; margin-bottom: 20px; }
+        .rank-msg { color: #f39c12; font-weight: bold; margin-bottom: 10px; font-size: 15px; }
+        .player-initials { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 18px; text-align: center; font-weight: bold; outline: none; }
+        .player-initials:focus { border-color: #3498db; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn-submit { background: #3498db; color: white; }
+        .btn-close { background: #95a5a6; color: white; width: 100%; }
 
-    #image-modal-img { max-width: 100%; max-height: 50vh; border-radius: 8px; margin-bottom: 15px; object-fit: contain; }
-    #image-upload-area { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #bdc3c7; }
-    .upload-label { background: #3498db; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-block; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .upload-label:active { background: #2980b9; }
+        #image-modal-img { max-width: 100%; max-height: 50vh; border-radius: 8px; margin-bottom: 15px; object-fit: contain; }
+        #image-upload-area { margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #bdc3c7; }
+        .upload-label { background: #3498db; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-block; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .upload-label:active { background: #2980b9; }
 
-    @media (max-width: 400px) {
-        .bonus-choice-btn { padding: 10px; font-size: 14px; }
-        .header-tab { font-size: 12px; padding: 10px 2px; }
-    }
-</style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<header id="main-header">
-    <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학&과학</div>
-    <div id="tab-gosa" class="header-tab tab-inactive" onclick="switchTab('gosa')">📚고사성어</div>
-    <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">한자 게임</div>
-    <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆랭킹</div>
-</header>
+        @media (max-width: 400px) {
+            .bonus-choice-btn { padding: 10px; font-size: 14px; }
+            .header-tab { font-size: 12px; padding: 10px 2px; }
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
 
-<div id="main-app">
-    <div class="list-container" id="list-container">
-        <div id="col-math" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 수학 단어</div></div>
-        <div id="col-sci" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 과학 단어</div></div>
-    </div>
-</div>
+    <header id="main-header">
+        <div id="tab-main" class="header-tab tab-active-main" onclick="switchTab('main')">수학&과학</div>
+        <div id="tab-gosa" class="header-tab tab-inactive" onclick="switchTab('gosa')">📚고사성어</div>
+        <div id="tab-game" class="header-tab tab-inactive" onclick="switchTab('game')">한자 게임</div>
+        <div id="tab-rank" class="header-tab tab-inactive" onclick="switchTab('rank')">🏆랭킹</div>
+    </header>
 
-<div id="gosa-app" style="display: none;">
-    <div class="list-container" id="list-container-gosa">
-        <div id="col-gosa" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 재미있는 고사성어</div></div>
-    </div>
-</div>
-
-<div id="game-view">
-    <div class="game-stats">
-        <span id="game-time">⏱️ 60초</span>
-        <span id="game-score">🎯 0 / 12쌍</span>
-    </div>
-    <div id="game-board"></div>
-    <button id="game-start-btn" onclick="startMatchingGame()">학습 시작하기</button>
-</div>
-
-<div id="bonus-view">
-    <h2 class="bonus-header">✨ 보너스 퀴즈 ✨</h2>
-    <p class="bonus-desc">가장 빠르게 정답을 고르세요! (틀리면 즉시 실패)</p>
-    
-    <div style="display:flex; justify-content: space-between; margin-bottom: 5px;">
-        <span style="font-weight:bold; color:#f1c40f;">남은 시간: <span id="bonus-time-text">15</span>초</span>
-    </div>
-    <div class="bonus-timer-container">
-        <div id="bonus-timer-bar" class="bonus-timer-bar"></div>
+    <div id="main-app">
+        <div class="list-container" id="list-container">
+            <div id="col-math" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 수학 단어</div></div>
+            <div id="col-sci" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 과학 단어</div></div>
+        </div>
     </div>
 
-    <div id="bonus-draw-area"></div>
-    <div id="bonus-text-area"></div>
-    
-    <div id="bonus-choices-area" class="bonus-choices-grid"></div>
-    <div id="bonus-status-msg" class="status-msg"></div>
-</div>
-
-<div id="ranking-view">
-    <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
-    <div class="rank-toggle-container">
-        <button id="rank-btn-draw" class="rank-tab-btn active" onclick="loadRank('draw')">✍️ 한자 쓰기</button>
-        <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🧩 학습 게임 통합</button>
+    <div id="gosa-app" style="display: none;">
+        <div class="list-container" id="list-container-gosa">
+            <div id="col-gosa" class="col"><div style="text-align:center; font-size:12px; color:#95a5a6; font-weight:bold;">👇 재미있는 고사성어</div></div>
+        </div>
     </div>
-    <table class="ranking-table" id="ranking-table">
-        <thead>
-            <tr><th>순위</th><th>이름</th><th id="rank-col-3">단어</th><th>점수</th></tr>
-        </thead>
-        <tbody id="ranking-body"></tbody>
-    </table>
-    <div class="ranking-info">※ 랭킹은 매주 일요일 자정에 초기화됩니다.</div>
-</div>
 
-<div id="detail-view">
-    <button class="back-btn" onclick="closeDetail()">⬅ 목록으로 돌아가기</button>
-    <h1 id="detail-title" class="word-title"></h1>
-    <div id="detail-hanja" class="word-detail"></div>
-    
-    <div class="top-btn-group">
-        <button id="toggle-btn" class="btn-stroke" onclick="toggleExampleStroke()">▶ 획순 퀴즈</button>
-        <button class="btn-image" onclick="openImageModal()">🖼️ 그림 보기</button>
+    <div id="game-view">
+        <div class="game-stats">
+            <span id="game-time">⏱️ 60초</span>
+            <span id="game-score">🎯 0 / 12쌍</span>
+        </div>
+        <div id="game-board"></div>
+        <button id="game-start-btn" onclick="startMatchingGame()">학습 시작하기</button>
     </div>
-    
-    <div id="detail-example" class="example-text"></div>
-    
-    <p id="quiz-instruction" style="display:none; text-align:center; color:#e74c3c; font-size:13px; font-weight:bold; margin: 5px 0;">👉 직접 획순에 맞게 그려보세요! (실수시 감점)</p>
-    <div id="writer-container" class="writer-container"></div>
-    
-    <div id="detail-meaning" class="word-meaning"></div>
-    
-    <div class="canvas-container">
-        <div class="canvas-label">✏️ 연하게 보이는 한자를 자유롭게 써보세요</div>
-        <div class="canvas-wrapper">
-            <canvas id="bgCanvas" width="350" height="180"></canvas>
-            <canvas id="drawCanvas" width="350" height="180"></canvas>
+
+    <div id="bonus-view">
+        <h2 class="bonus-header">✨ 보너스 퀴즈 ✨</h2>
+        <p class="bonus-desc">가장 빠르게 정답을 고르세요! (틀리면 즉시 실패)</p>
+        
+        <div style="display:flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-weight:bold; color:#f1c40f;">남은 시간: <span id="bonus-time-text">15</span>초</span>
+        </div>
+        <div class="bonus-timer-container">
+            <div id="bonus-timer-bar" class="bonus-timer-bar"></div>
+        </div>
+
+        <div id="bonus-draw-area"></div>
+        <div id="bonus-text-area"></div>
+        
+        <div id="bonus-choices-area" class="bonus-choices-grid"></div>
+        <div id="bonus-status-msg" class="status-msg"></div>
+    </div>
+
+    <div id="ranking-view">
+        <h2 class="ranking-title">🌟 명예의 전당 🌟</h2>
+        <div class="rank-toggle-container">
+            <button id="rank-btn-draw" class="rank-tab-btn active" onclick="loadRank('draw')">✍️ 한자 쓰기</button>
+            <button id="rank-btn-game" class="rank-tab-btn" onclick="loadRank('game')">🧩 학습 게임 통합</button>
+        </div>
+        <table class="ranking-table" id="ranking-table">
+            <thead>
+                <tr><th>순위</th><th>이름</th><th id="rank-col-3">단어</th><th>점수</th></tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+        </table>
+        <div class="ranking-info">※ 랭킹은 매주 일요일 자정에 초기화됩니다.</div>
+    </div>
+
+    <div id="detail-view">
+        <button class="back-btn" onclick="closeDetail()">⬅ 목록으로 돌아가기</button>
+        <h1 id="detail-title" class="word-title"></h1>
+        <div id="detail-hanja" class="word-detail"></div>
+        
+        <div class="top-btn-group">
+            <button id="toggle-btn" class="btn-stroke" onclick="toggleExampleStroke()">▶ 획순 보기 / 퀴즈</button>
+            <button class="btn-image" onclick="openImageModal()">🖼️ 그림 보기</button>
         </div>
         
-        <div class="btn-group">
-            <button class="clear-btn" onclick="clearCanvas()">🗑️ 지우기</button>
-            <button class="score-btn" onclick="checkScore()">💯 점수 확인</button>
+        <div id="detail-example" class="example-text"></div>
+        
+        <p id="quiz-instruction" style="display:none; text-align:center; color:#e74c3c; font-size:13px; font-weight:bold; margin: 5px 0;">👉 획순을 다 본 후, 직접 따라 그려보세요!</p>
+        <div id="writer-container" class="writer-container"></div>
+        
+        <div id="detail-meaning" class="word-meaning"></div>
+        
+        <div class="canvas-container">
+            <div class="canvas-label">✏️ 연하게 보이는 한자를 자유롭게 써보세요</div>
+            <div class="canvas-wrapper">
+                <canvas id="bgCanvas" width="350" height="180"></canvas>
+                <canvas id="drawCanvas" width="350" height="180"></canvas>
+            </div>
+            
+            <div class="btn-group">
+                <button class="clear-btn" onclick="clearCanvas()">🗑️ 지우기</button>
+                <button class="score-btn" onclick="checkScore()">💯 점수 확인</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="image-modal" class="modal-overlay">
-    <div class="modal-content" style="width: auto; min-width: 280px;">
-        <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
-        <img id="image-modal-img" src="" alt="단어 그림" style="display:none;">
-        <div id="image-upload-area" style="display:none;">
-            <p style="font-size: 13px; color: #7f8c8d; margin-top:0; margin-bottom:15px; line-height:1.4;">
-                서버에 등록된 그림이 없습니다.<br>기기에서 사진을 찾아 직접 넣어보세요!
+    <div id="image-modal" class="modal-overlay">
+        <div class="modal-content" style="width: auto; min-width: 280px;">
+            <h2 id="image-modal-title" class="modal-title" style="font-size:20px;"></h2>
+            <img id="image-modal-img" src="" alt="단어 그림" style="display:none;">
+            <div id="image-upload-area" style="display:none;">
+                <p style="font-size: 13px; color: #7f8c8d; margin-top:0; margin-bottom:15px; line-height:1.4;">
+                    서버에 등록된 그림이 없습니다.<br>기기에서 사진을 찾아 직접 넣어보세요!
+                </p>
+                <label for="image-upload-input" class="upload-label">📸 앨범에서 사진 찾기</label>
+                <input type="file" id="image-upload-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            </div>
+            <button class="btn-close" onclick="closeImageModal()" style="margin-top:10px;">닫기</button>
+        </div>
+    </div>
+
+    <div id="score-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">채점 결과</h2>
+            <div class="score-details">
+                <p><span>올바른 획순 (퀴즈 실수 차감):</span> <span id="modal-stroke" style="color:#2c3e50;">0 / 30점</span></p>
+                <p><span>형태 정확성 (일치율):</span> <span id="modal-shape" style="color:#2c3e50;">0 / 25점</span></p>
+                <p><span>가독성 중심 (삐져나간 선 감점):</span> <span id="modal-read" style="color:#2c3e50;">0 / 25점</span></p>
+                <p style="color:#3498db; margin-top:10px;"><span>추가 보너스 (형태 80% 이상 달성 시):</span> <span id="modal-bonus" style="font-size:13px;">+0점</span></p>
+            </div>
+            <div class="modal-total" id="modal-total">총점: 0점</div>
+            <div id="rank-input-area" class="rank-input-area">
+                <div class="rank-msg">🎉 랭킹 TOP 5 진입! 🎉</div>
+                <input type="text" id="player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button id="modal-submit-btn" class="btn-submit" onclick="submitScoreModal()">등록하기</button>
+                <button class="btn-close" onclick="closeScoreModal()" style="width:auto;">닫기 (다시 쓰기)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-score-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">최종 학습 결과</h2>
+            <div class="score-details">
+                <p><span>1단계 맞힌 짝 (1쌍 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0점</span></p>
+                <p><span>1단계 남은 시간 보너스:</span> <span id="game-modal-time" style="color:#2c3e50;">+0점</span></p>
+                <p style="color:#8e44ad; margin-top:10px; border-top:1px dashed #ccc; padding-top:10px;">
+                    <span>✨ 보너스 퀴즈:</span> <span id="game-modal-bonus">+0점</span>
+                </p>
+            </div>
+            <div class="modal-total" id="game-modal-total">총점: 0점</div>
+            <div id="game-rank-input-area" class="rank-input-area">
+                <div class="rank-msg">🎉 학습 랭킹 TOP 10 진입! 🎉</div>
+                <input type="text" id="game-player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button id="game-modal-submit-btn" class="btn-submit" onclick="submitGameScoreModal()">등록하기</button>
+                <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bonus-mode-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">보너스 스테이지 선택</h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d; font-size: 14px; word-break:keep-all; line-height:1.4;">
+                1단계 클리어를 축하합니다!<br>어떤 방식의 보너스 게임을 진행할까요?
             </p>
-            <label for="image-upload-input" class="upload-label">📸 앨범에서 사진 찾기</label>
-            <input type="file" id="image-upload-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-        </div>
-        <button class="btn-close" onclick="closeImageModal()" style="margin-top:10px;">닫기</button>
-    </div>
-</div>
-
-<div id="score-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="modal-title">채점 결과</h2>
-        <div class="score-details">
-            <p><span>올바른 획순 (퀴즈 실수 차감):</span> <span id="modal-stroke" style="color:#2c3e50;">0 / 30점</span></p>
-            <p><span>형태 정확성 (일치율):</span> <span id="modal-shape" style="color:#2c3e50;">0 / 25점</span></p>
-            <p><span>가독성 중심 (삐져나간 선 감점):</span> <span id="modal-read" style="color:#2c3e50;">0 / 25점</span></p>
-            <p style="color:#3498db; margin-top:10px;"><span>추가 보너스 (형태 80% 이상 달성 시):</span> <span id="modal-bonus" style="font-size:13px;">+0점</span></p>
-        </div>
-        <div class="modal-total" id="modal-total">총점: 0점</div>
-        <div id="rank-input-area" class="rank-input-area">
-            <div class="rank-msg">🎉 랭킹 TOP 5 진입! 🎉</div>
-            <input type="text" id="player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
-        </div>
-        <div class="modal-buttons">
-            <button id="modal-submit-btn" class="btn-submit" onclick="submitScoreModal()">등록하기</button>
-            <button class="btn-close" onclick="closeScoreModal()" style="width:auto;">닫기 (다시 쓰기)</button>
+            <div class="modal-buttons" style="flex-direction: column; gap: 12px;">
+                <button class="btn-submit" onclick="selectBonusMode('draw')" style="background:#8e44ad;">✍️ 한자 쓰기 (그림 유추)</button>
+                <button class="btn-submit" onclick="selectBonusMode('text')" style="background:#3498db;">📖 지문 빈칸 (설명 유추)</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="game-score-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="modal-title">최종 학습 결과</h2>
-        <div class="score-details">
-            <p><span>1단계 맞힌 짝 (1쌍 10점):</span> <span id="game-modal-pairs" style="color:#2c3e50;">0점</span></p>
-            <p><span>1단계 남은 시간 보너스:</span> <span id="game-modal-time" style="color:#2c3e50;">+0점</span></p>
-            <p style="color:#8e44ad; margin-top:10px; border-top:1px dashed #ccc; padding-top:10px;">
-                <span>✨ 보너스 퀴즈:</span> <span id="game-modal-bonus">+0점</span>
-            </p>
-        </div>
-        <div class="modal-total" id="game-modal-total">총점: 0점</div>
-        <div id="game-rank-input-area" class="rank-input-area">
-            <div class="rank-msg">🎉 학습 랭킹 TOP 10 진입! 🎉</div>
-            <input type="text" id="game-player-initials" class="player-initials" placeholder="이니셜 입력 (최대 5자)" maxlength="5" autocomplete="off">
-        </div>
-        <div class="modal-buttons">
-            <button id="game-modal-submit-btn" class="btn-submit" onclick="submitGameScoreModal()">등록하기</button>
-            <button class="btn-close" onclick="closeGameScoreModal()" style="width:auto;">닫기</button>
-        </div>
-    </div>
-</div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCl125xoZ1FGWHs24Q0Xu1T1AHmpL5PYuI",
+            authDomain: "nadoo-9c703.firebaseapp.com",
+            projectId: "nadoo-9c703",
+            storageBucket: "nadoo-9c703.firebasestorage.app",
+            messagingSenderId: "3606715106",
+            appId: "1:3606715106:web:9e54219324183f8a459cbb",
+            measurementId: "G-LNZHJS2GQK"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-<div id="bonus-mode-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="modal-title">보너스 스테이지 선택</h2>
-        <p style="margin-bottom: 20px; color: #7f8c8d; font-size: 14px; word-break:keep-all; line-height:1.4;">
-            1단계 클리어를 축하합니다!<br>어떤 방식의 보너스 게임을 진행할까요?
-        </p>
-        <div class="modal-buttons" style="flex-direction: column; gap: 12px;">
-            <button class="btn-submit" onclick="selectBonusMode('draw')" style="background:#8e44ad;">✍️ 한자 쓰기 (그림 유추)</button>
-            <button class="btn-submit" onclick="selectBonusMode('text')" style="background:#3498db;">📖 지문 빈칸 (설명 유추)</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCl125xoZ1FGWHs24Q0Xu1T1AHmpL5PYuI",
-        authDomain: "nadoo-9c703.firebaseapp.com",
-        projectId: "nadoo-9c703",
-        storageBucket: "nadoo-9c703.firebasestorage.app",
-        messagingSenderId: "3606715106",
-        appId: "1:3606715106:web:9e54219324183f8a459cbb",
-        measurementId: "G-LNZHJS2GQK"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // 중복 제거된 데이터 선언부
-    const mathData={"분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
-        "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
-        "분모":{hanja:"分母",meaning:"분수 또는 분수식에서, 가로줄 아래에 있는 수나 식.",detail:"分 : 나눌 분\n母 : 어머니 모",ex:"5/8에서 8이 분모이다."},
-        "소수(小)":{hanja:"小數",meaning:"일의 자리보다 작은 자리의 값을 가진 수.",detail:"小 : 작을 소\n數 : 셈 수",ex:"예를 들면, 0.1, 0.23, 4.2, 35.67 따위이다."},
-        "진분수":{hanja:"眞分數",meaning:"분자가 분모보다 작은 분수.",detail:"眞 : 참 진\n分 : 나눌 분\n數 : 셈 수",ex:"1/2, 2/7 따위이다."},
-        "가분수":{hanja:"假分數",meaning:"분자가 분모와 같거나 분모보다 큰 분수.",detail:"假 : 거짓 가\n分 : 나눌 분\n數 : 셈 수",ex:"3/2, 7/5 따위이다."},
-        "약수":{hanja:"約數",meaning:"어떤 정수를 나머지 없이 나눌 수 있는 정수.",detail:"約 : 맺을 약\n數 : 셈 수",ex:"예를 들어 3은 6의 약수이다."},
-        "배수":{hanja:"倍數",meaning:"어떤 정수의 몇 배가 되는 수.",detail:"倍 : 곱 배\n數 : 셈 수",ex:"2는 4의 배수, 3은 6의 배수이다."},
-        "공약수":{hanja:"公約數",meaning:"둘 이상의 정수나 식에 공통되는 약수.",detail:"公 : 공평할 공\n約 : 맺을 약\n數 : 셈 수",ex:"둘 이상의 정수 또는 정식에 공통되는 약수이다."},
-        "최대공약수":{hanja:"最大公約數",meaning:"공약수 가운데 가장 큰 수.",detail:"最 : 가장 최\n大 : 클 대\n公 : 공평할 공\n約 : 맺을 약\n數 : 셈 수",ex:"둘 이상의 정수의 공약수 가운데 가장 큰 수."},
-        "공배수":{hanja:"公倍數",meaning:"둘 이상의 정수 등에 공통되는 배수.",detail:"公 : 공평할 공\n倍 : 곱 배\n數 : 셈 수",ex:"둘 이상의 정수 또는 정식에 공통되는 배수."},
-        "최소공배수":{hanja:"最小公倍數",meaning:"공배수 가운데 0을 제외한 가장 작은 수.",detail:"最 : 가장 최\n小 : 작을 소\n公 : 공평할 공\n倍 : 곱 배\n數 : 셈 수",ex:"둘 이상의 정수의 공배수 가운데에서 0을 제외한 가장 작은 수."},
-        "통분":{hanja:"通分",meaning:"분모가 다른 둘 이상의 분수에서 분모를 같게 만듦.",detail:"通 : 통할 통\n分 : 나눌 분",ex:"보통 각 분모의 최소 공배수를 공통분모로 삼는다. (1/2 -> 3/6, 1/3 -> 2/6)"},
-        "약분":{hanja:"約分",meaning:"분수의 분모와 분자를 공약수로 나누어 간단히 함.",detail:"約 : 맺을 약\n分 : 나눌 분",ex:"분수의 분모와 분자를 공약수로 나누어 간단하게 한다. (2/4 -> 1/2)"},
-        "점":{hanja:"點",meaning:"크기가 없고 '위치' 개념만 갖는 것.",detail:"點 : 점 점",ex:"수학에서 이야기하는 점은 크기를 갖지 않는다."},
-        "선":{hanja:"線",meaning:"무수히 많은 점들의 모임.",detail:"線 : 줄 선",ex:"점이 움직이면 선이 됩니다."},
-        "면":{hanja:"面",meaning:"사물의 겉으로 드러난 쪽의 평평한 바닥.",detail:"面 : 낯 면",ex:"선이 움직이면 면이 생깁니다."},
-        "선분":{hanja:"線分",meaning:"직선 위에서 두 점에 한정된 부분.",detail:"線 : 줄 선\n分 : 나눌 분",ex:"두 점을 곧게 이은 선을 선분이라고 한다."},
-        "곡선":{hanja:"曲線",meaning:"모나지 아니하고 부드럽게 굽은 선.",detail:"曲 : 굽을 곡\n線 : 줄 선",ex:"점이 평면 위나 공간 안을 연속적으로 움직일 때 생기는 선."},
-        "직선":{hanja:"直線",meaning:"선분을 양쪽으로 끝없이 늘인 곧은 선.",detail:"直 : 곧을 직\n線 : 줄 선",ex:"선분을 양쪽으로 끝없이 늘인 곧은 선을 직선이라 한다."},
-        "반직선":{hanja:"半直線",meaning:"한 점에서 시작해 한쪽으로 끝없이 늘인 곧은 선.",detail:"半 : 반 반\n直 : 곧을 직\n線 : 줄 선",ex:"한 점에서 시작하여 한쪽으로 끝없이 늘인 곧은 선을 반직선이라 한다."},
-        "각":{hanja:"角",meaning:"한 점에서 갈리어 나간 두 직선의 벌어진 정도.",detail:"角 : 뿔 각",ex:"한 점에서 갈리어 나간 두 직선의 벌어진 정도."},
-        "직각":{hanja:"直角",meaning:"두 직선이 만나서 이루는 90도의 각.",detail:"直 : 곧을 직\n角 : 뿔 각",ex:"'∠R'로 나타낸다."},
-        "예각":{hanja:"銳角",meaning:"직각보다 작은 각.",detail:"銳 : 날카로울 예\n角 : 뿔 각",ex:"직각보다 작은 각."},
-        "둔각":{hanja:"鈍角",meaning:"90도보다는 크고 180도보다 작은 각.",detail:"鈍 : 둔할 둔\n角 : 뿔 각",ex:"90도보다는 크고 180도보다는 작은 각."},
-        "삼각형":{hanja:"三角形",meaning:"세 개의 선분으로 둘러싸인 평면 도형.",detail:"三 : 석 삼\n角 : 뿔 각\n形 : 모양 형",ex:"세 개의 선분으로 둘러싸인 평면 도형."},
-        "사각형":{hanja:"四角形",meaning:"네 개의 선분으로 둘러싸인 평면 도형.",detail:"四 : 넉 사\n角 : 뿔 각\n形 : 모양 형",ex:"네 개의 선분으로 둘러싸인 평면 도형."},
-        "다각형":{hanja:"多角形",meaning:"셋 이상의 직선으로 둘러싸인 평면 도형.",detail:"多 : 많을 다\n角 : 뿔 각\n形 : 모양 형",ex:"선분의 수에 따라 삼각형, 사각형, 오각형 따위가 있다."},
-        "원":{hanja:"圓",meaning:"평면 위의 일정한 점에서 같은 거리에 있는 점들의 집합.",detail:"圓 : 둥글 원",ex:"평면 위의 일정한 점에서 같은 거리에 있는 점들의 집합."},
-        "합동":{hanja:"合同",meaning:"두 도형이 크기와 모양이 같아 포개었을 때 꼭 맞는 것.",detail:"合 : 합할 합\n同 : 한가지 동",ex:"두 개의 도형이 크기와 모양이 같아 서로 포개었을 때에 꼭 맞는 것."},
-        "대칭":{hanja:"對稱",meaning:"점, 직선 등을 사이에 두고 서로 같은 거리에 맞서는 일.",detail:"對 : 대할 대\n稱 : 일컬을 칭",ex:"점의 경우는 점대칭, 선의 경우는 선대칭, 면의 경우는 면대칭이라고 한다."},
-        "비율":{hanja:"比率",meaning:"비교하는 양을 기준량으로 나누어 준 값.",detail:"比 : 견줄 비\n率 : 비율 률",ex:"비교하는 양을 기준량으로 나누어 줍니다. 3:4의 비율은 3/4 입니다."},
-        "백분율":{hanja:"百分率",meaning:"전체 수량을 100으로 하여 그것에 대해 가지는 비율(%).",detail:"百 : 일백 백\n分 : 나눌 분\n率 : 비율 률",ex:"기준량을 100으로 할 때의 비율을 백분율이라고 합니다. (65/100 = 65%)"},
-        "비례식":{hanja:"比例式",meaning:"두 개의 비가 같음을 나타내는 식.",detail:"比 : 견줄 비\n例 : 법식 례\n式 : 법식 식",ex:"비례식에서 외항의 곱과 내항의 곱은 같습니다. 예) 5:4=10:8"},
-        "비례배분":{hanja:"比例配分",meaning:"전체를 주어진 비로 배분하는 것.",detail:"比 : 견줄 비\n例 : 법식 례\n配 : 짝 배\n分 : 나눌 분",ex:"전체를 주어진 비로 배분하는 것을 말해요."},
-        "표":{hanja:"表",meaning:"어떤 내용을 일정한 형식과 순서에 따라 보기 쉽게 나타낸 것.",detail:"表 : 겉 표",ex:"어떤 내용을 일정한 형식과 순서에 따라 보기 쉽게 나타낸 것."},
-        "평균":{hanja:"平均",meaning:"여러 수나 같은 종류의 양의 중간값을 갖는 수.",detail:"平 : 평평할 평\n均 : 고를 균",ex:"점수의 합을 과목수로 나누어 주면 평균을 구할 수 있어요."},
-        "소수(素)":{hanja:"素數",meaning:"1과 자기 자신 이외의 자연수로는 나눌 수 없는 수.",detail:"素 : 본디 소\n數 : 셈 수",ex:"1과 그 수 자신 이외의 자연수로는 나눌 수 없는 자연수. 2, 3, 5, 7, 11 따위가 있다."},
-        "합성수":{hanja:"合成數",meaning:"1과 자기 자신 이외에도 약수를 가진 정수.",detail:"合 : 합할 합\n成 : 이를 성\n數 : 셈 수",ex:"1과 자신의 수 이외에도 약수를 가진 정수. 둘 이상의 소수를 곱한 수이다."},
-        "지수":{hanja:"指數",meaning:"숫자나 문자 오른쪽 위에 거듭제곱 횟수를 나타내는 글자.",detail:"指 : 가리킬 지\n數 : 셈 수",ex:"10^3 에서 3이 지수이다."},
-        "인수":{hanja:"因數",meaning:"어떤 정수나 식을 곱의 꼴로 나타낼 때의 각 구성 요소.",detail:"因 : 인할 인\n數 : 셈 수",ex:"30 = 2x3x5에서 2, 3, 5가 30의 인수이다."},
-        "소인수분해":{hanja:"素因數分解",meaning:"합성수를 소수의 곱의 꼴로 바꾸는 일.",detail:"素 : 본디 소\n因 : 인할 인\n數 : 셈 수\n分 : 나눌 분\n解 : 풀 해",ex:"12는 2x2x3, 30을 2x3x5으로 나타낼 수 있다."},
-        "자연수":{hanja:"自然數",meaning:"1부터 시작하여 하나씩 더하여 얻는 양의 정수.",detail:"自 : 스스로 자\n然 : 불탈 연\n數 : 셈 수",ex:"1부터 시작하여 하나씩 더하여 얻는 수를 통틀어 이르는 말. 1, 2, 3 따위이다."},
-        "정수":{hanja:"整數",meaning:"자연수, 자연수의 음수 및 영(0)을 통틀어 이르는 말.",detail:"整 : 가지런할 정\n數 : 셈 수",ex:"자연수, 자연수의 음수 및 영을 통틀어 이르는 말. 즉, -2, -1, 0, 1, 2 따위의 수이다."},
-        "양수":{hanja:"陽數",meaning:"0보다 큰 수.",detail:"陽 : 볕 양\n數 : 셈 수",ex:"0보다 큰 수."},
-        "음수":{hanja:"陰數",meaning:"0보다 작은 수.",detail:"陰 : 그늘 음\n數 : 셈 수",ex:"0보다 작은 수."},
-        "유리수":{hanja:"有理數",meaning:"정수의 비(분수)로 나타낼 수 있는 수.",detail:"有 : 있을 유\n理 : 다스릴 리\n數 : 셈 수",ex:"소수로 나타내면 유한 소수나 순환 소수가 된다."},
-        "무리수":{hanja:"無理數",meaning:"실수이면서 분수 형식으로 나타낼 수 없는 수.",detail:"無 : 없을 무\n理 : 다스릴 리\n數 : 셈 수",ex:"예를 들어 log2, π(파이) 따위가 있다."},
-        "실수":{hanja:"實數",meaning:"유리수와 무리수를 통틀어 이르는 말.",detail:"實 : 열매 실\n數 : 셈 수",ex:"유리수와 무리수를 통틀어 이르는 말."},
-        "허수":{hanja:"虛數",meaning:"제곱하여 음수가 되는 등 실수가 아닌 복소수.",detail:"虛 : 빌 허\n數 : 셈 수",ex:"제곱하여 -1이 되는 수."},
-        "복소수":{hanja:"複素數",meaning:"실수와 허수의 합으로 나타내는 수.",detail:"複 : 겹옷 복\n素 : 바탕 소\n數 : 셈 수",ex:"a를 실수부, b를 허수부라고 한다."},
-        "유한소수":{hanja:"有限小數",meaning:"소수점 아래 0이 아닌 숫자가 유한개인 소수.",detail:"有 : 있을 유\n限 : 한할 한\n小 : 작을 소\n數 : 셈 수",ex:"소수점 아래 0이 아닌 숫자가 유한개의 자리에서 그치는 소수. 0.5, 1.25 따위이다."},
-        "무한소수":{hanja:"無限小數",meaning:"소수점 아래 숫자가 끝없이 계속되는 소수.",detail:"無 : 없을 무\n限 : 한할 한\n小 : 작을 소\n數 : 셈 수",ex:"0.3333..., 3.14159... 등 유효 숫자가 한없이 계속되는 소수이다."},
-        "순환소수":{hanja:"循環小數",meaning:"어떤 자리부터 일정한 숫자가 끝없이 되풀이되는 소수.",detail:"循 : 돌 순\n環 : 고리 환\n小 : 작을 소\n數 : 셈 수",ex:"1/3=0.3333과 같이 소수 첫째 자리부터 순환되는 것을 순순환 소수라고 한다."},
-        "변수":{hanja:"變數",meaning:"여러 가지 값으로 변할 수 있는 수.",detail:"變 : 변할 변\n數 : 셈 수",ex:"어떤 관계나 범위 안에서 여러 가지 값으로 변할 수 있는 수."},
-        "상수":{hanja:"常數",meaning:"변하지 아니하는 일정한 값을 가진 수나 양.",detail:"常 : 항상 상\n數 : 셈 수",ex:"π=3.14159... 나 e=2.71828... 처럼 일정한 값을 가진 수이다."},
-        "계수":{hanja:"係數",meaning:"기호 문자와 숫자로 된 식에서, 문자 앞에 곱해진 숫자.",detail:"係 : 맬 계\n數 : 셈 수",ex:"3x^2+2x+7 에서 3, 2 따위이다."},
-        "차수":{hanja:"次數",meaning:"단항식 안에 포함된 문자 인수의 개수.",detail:"次 : 버금 차\n數 : 셈 수",ex:"x^2y^3의 차수는 x에 대하여서는 2, y에 대하여서는 3이다."},
-        "단항식":{hanja:"單項式",meaning:"숫자와 문자의 곱으로만 이루어진 하나의 항.",detail:"單 : 홀 단\n項 : 목 항\n式 : 법식 식",ex:"숫자와 몇 개의 문자의 곱으로만 이루어진다. 3ab, 3x 따위가 있다."},
-        "다항식":{hanja:"多項式",meaning:"두 개 이상의 항을 더하기나 빼기로 결합한 식.",detail:"多 : 많을 다\n項 : 목 항\n式 : 법식 식",ex:"두 개 이상의 항을 '+', '-'로 결합한 식. a+b, 2ax+3by 따위가 있다."},
-        "동류항":{hanja:"同類항",meaning:"다항식에서 계수는 다르나 문자와 차수가 같은 항.",detail:"同 : 한가지 동\n類 : 무리 류\n項 : 목 항",ex:"7a^2 + ab^2 - b^3 - 3ab^2 에서 ab^2 과 -3ab^2 은 동류항이다."},
-        "전개":{hanja:"展開",meaning:"곱의 형태로 표현된 식을 합의 형태로 고침.",detail:"展 : 펼 전\n開 : 열 개",ex:"곱의 형태로 표현된 식을 합의 형태로 고침. (x+1)(x+2)=x^2+3x+2"},
-        "인수분해":{hanja:"因數分解",meaning:"정수나 식을 몇 개의 간단한 인수의 곱으로 나타냄.",detail:"因 : 인할 인\n數 : 셈 수\n分 : 나눌 분\n解 : 풀 해",ex:"정수 또는 정식을 몇 개의 인수의 곱의 꼴로 바꾸어 나타내는 일."},
-        "방정식":{hanja:"方程式",meaning:"문자가 특정한 값을 취할 때에만 성립하는 등식.",detail:"方 : 네모 방\n程 : 한도 정\n式 : 법식 식",ex:"어떤 문자가 특정한 값을 취할 때에만 성립하는 등식."},
-        "미지수":{hanja:"未知數",meaning:"방정식에서 구하려고 하는 수.",detail:"未 : 아닐 미\n知 : 알 지\n數 : 셈 수",ex:"미지수는 보통 알파벳 뒤 글자인 x, y, z 등을 사용한다."},
-        "항등식":{hanja:"恒等式",meaning:"식에 포함된 문자에 어떤 값을 넣어도 항상 성립하는 등식.",detail:"恒 : 항상 항\n等 : 무리 등\n式 : 법식 식",ex:"식에 포함된 문자에 어떤 값을 넣어도 언제나 성립하는 등식. (a+b)^2 = a^2+2ab+b^2"},
-        "부등식":{hanja:"不等式",meaning:"두 수 또는 식의 크기 관계를 부등호로 나타내는 식.",detail:"不 : 아닐 부\n等 : 무리 등\n式 : 법식 식",ex:"a>b: a가 b보다 크다는 뜻, a<b: a는 b보다 작다는 뜻."},
-        "연립방정식":{hanja:"聯立方程式",meaning:"미지수의 각 값이 모두 만족하는 두 개 이상의 방정식 쌍.",detail:"聯 : 연이을 련\n立 : 설립\n方 : 네모 방\n程 : 한도 정\n式 : 법식 식",ex:"x+y=12, 5x-4y=-3 해는 x=5, y=7 이다."},
-        "함수":{hanja:"函數",meaning:"x의 값에 따라 y의 값이 하나씩 정해지는 관계.",detail:"函 : 함 함\n數 : 셈 수",ex:"y가 x의 함수라는 것은 y=f(x) 로 표시한다."},
-        "정의역":{hanja:"定義域",meaning:"함수에서 독립 변수 x가 취할 수 있는 값의 범위.",detail:"定 : 정할 정\n義 : 옳을 의\n域 : 지경 역",ex:"함수에서 독립 변수 x가 취할 수 있는 값의 범위."},
-        "공역":{hanja:"共域",meaning:"함수에서 함숫값이 될 수 있는 y값들의 전체 집합.",detail:"共 : 함께 공\n域 : 지경 역",ex:"두 개의 점, 선, 수가 서로 특수한 관계에 있어 바꾸어 놓아도 그 성질에 변화가 없을 경우."},
-        "치역":{hanja:"値域",meaning:"함수가 실제로 취하는 함숫값들의 집합.",detail:"値 : 값 치\n域 : 지경 역",ex:"독립 변수가 정의역 내의 모든 값을 취할 때에, 함수가 취할 수 있는 모든 값의 집합."},
-        "좌표":{hanja:"座標",meaning:"평면이나 공간 안의 임의의 점의 위치를 나타내는 수의 짝.",detail:"座 : 자리 좌\n標 : 우듬지 표",ex:"평면이나 공간 안의 임의의 점의 위치를 나타내는 수나 수의 짝."},
-        "좌표평면":{hanja:"座標平面",meaning:"x축, y축 좌표계가 정하여진 평면.",detail:"座 : 자리 좌\n標 : 우듬지 표\n平 : 평평할 평\n面 : 낯 면",ex:"좌표계가 정하여진 평면. 이 평면의 각 점에는 두 수로 된 한 쌍의 좌표가 대응한다."},
-        "원점":{hanja:"原點",meaning:"좌표를 정할 때 기준이 되는 점.",detail:"原 : 근원 원\n點 : 점 점",ex:"좌표를 정할 때에 기준이 되는 점."},
-        "사분면":{hanja:"四分面",meaning:"평면을 직교하는 두 직선으로 나눈 네 부분 중 하나.",detail:"四 : 넉 사\n分 : 나눌 분\n面 : 낯 면",ex:"한 평면을 직교하는 두 직선으로 나눈 네 부분 중의 한 평면."},
-        "일차함수":{hanja:"一次函數",meaning:"함수를 나타내는 식이 일차식인 함수.",detail:"一 : 한 일\n次 : 버금 차\n函 : 함 함\n數 : 셈 수",ex:"함수를 나타내는 식이 일차식인 함수. y=2x+1"},
-        "절편":{hanja:"截片",meaning:"좌표 평면상의 직선이 x축 또는 y축과 만나는 점.",detail:"截 : 끊을 절\n片 : 조각 편",ex:"좌표 평면상의 직선이 x축과 만나는 점의 x좌표 및 y축과 만나는 점의 y좌표."},
-        "이차함수":{hanja:"二次函數",meaning:"함수를 나타내는 식이 이차식인 함수.",detail:"二 : 두 이\n次 : 버금 차\n函 : 함 함\n數 : 셈 수",ex:"함수를 나타내는 식이 이차식인 함수. y=2x^2+3x+4"},
-        "포물선":{hanja:"抛物線",meaning:"물체가 반원 모양을 그리며 날아가는 곡선.",detail:"抛 : 던질 포\n物 : 물건 물\n線 : 줄 선",ex:"물체가 반원 모양을 그리며 날아가는 선."},
-        "교점":{hanja:"交點",meaning:"둘 이상의 선이 서로 만나는 점.",detail:"交 : 사귈 교\n點 : 점 점",ex:"서로 만나는 점. 둘 이상의 선이 서로 만나는 점."},
-        "교선":{hanja:"交線",meaning:"둘 이상의 면이나 도형이 교차할 때 생기는 선.",detail:"交 : 사귈 교\n線 : 줄 선",ex:"둘 이상의 도형이 교차할 때 생기는 직선 또는 곡선."},
-        "동위각":{hanja:"同位角",meaning:"두 직선이 다른 직선과 만날 때 같은 위치에 있는 각.",detail:"同 : 한가지 동\n位 : 자리 위\n角 : 뿔 각",ex:"두 직선이 다른 한 직선과 교차하여 생기는 각 가운데 한 직선에서 보아 같은 위치에 있는 각."},
-        "평행":{hanja:"平行",meaning:"두 직선 등이 나란히 있어 아무리 연장해도 만나지 않음.",detail:"平 : 평평할 평\n行 : 다닐 행",ex:"나란히 있어 아무리 연장하여도 서로 만나지 않음."},
-        "수직":{hanja:"垂直",meaning:"두 직선이나 평면이 만나 직각을 이루는 상태.",detail:"垂 : 드리울 수\n直 : 곧을 직",ex:"직선과 평면 따위가 서로 만나 직각을 이루는 상태."},
-        "직교":{hanja:"直交",meaning:"두 직선 또는 평면이 직각을 이루며 교차하는 일.",detail:"直 : 곧을 직\n交 : 사귈 교",ex:"두 직선 또는 두 평면이 직각을 이루며 교차하는 일."},
-        "작도":{hanja:"作圖",meaning:"자와 컴퍼스만을 써서 조건에 맞는 도형을 그림.",detail:"作 : 지을 작\n圖 : 그림 도",ex:"자와 컴퍼스만을 써서 주어진 조건에 알맞은 선이나 도형을 그림."},
-        "내심":{hanja:"內心",meaning:"다각형의 내접원의 중심.",detail:"內 : 안 내\n心 : 마음 심",ex:"다각형에 있어서 모든 각의 이등분선이 만나는 점."},
-        "외심":{hanja:"外心",meaning:"다각형의 외접원의 중심.",detail:"外 : 바깥 외\n心 : 마음 심",ex:"삼각형이나 다각형에서 외접원의 중심."},
-        "삼각비":{hanja:"三角比",meaning:"직각 삼각형의 세 변 중 두 변으로 만든 비의 값.",detail:"三 : 석 삼\n角 : 뿔 각\n比 : 견줄 비",ex:"직각 삼각형의 세 변 가운데에서 어느 두 변을 취하여 만든 비의 값."},
-        "원주각":{hanja:"圓周角",meaning:"원주 위의 한 점에서 그은 두 개의 현이 만드는 각.",detail:"圓 : 둥글 원\n周 : 두루 주\n角 : 뿔 각",ex:"크기는 중심각의 1/2 이다."},
-        "중심각":{hanja:"中心角",meaning:"원의 두 반지름이 만드는 각.",detail:"中 : 가운데 중\n心 : 마음 심\n角 : 뿔 각",ex:"원에서 한 호에 대한 원주각의 크기는 중심각의 크기의 1/2배이다."},
-        "확률":{hanja:"確率",meaning:"어떤 사건이 일어날 가능성의 정도.",detail:"確 : 굳을 확\n率 : 비율 률",ex:"확률 1은 항상 일어남을 의미하고, 확률 0은 절대로 일어나지 않음을 의미한다."},
-        "산포도":{hanja:"散布度",meaning:"자료가 평균을 중심으로 흩어져 있는 정도.",detail:"散 : 흩을 산\n布 : 베 포\n度 : 법도 도",ex:"산포도가 작으면 변량이 모여 있고, 크면 흩어져 있다."},
-        "분산":{hanja:"分散",meaning:"편차를 제곱하여 얻은 값들의 평균.",detail:"分 : 나눌 분\n散 : 흩을 산",ex:"분산이 작으면 자료는 평균값 주위에 모여 있게 되고, 크면 멀리 떨어진 것이 많게 된다."},
-        "표준편차":{hanja:"標準偏差",meaning:"자료의 분산 정도를 나타내는 수치(분산의 제곱근).",detail:"標 : 우듬지 표\n準 : 준할 준\n偏 : 치우칠 편\n差 : 다를 차",ex:"표준 편차가 작은 것은 평균값 주위의 분산의 정도가 작은 것을 나타낸다."},
-        "미분":{hanja:"微分",meaning:"함수의 순간 변화율(미분 계수)을 구하는 일.",detail:"微 : 작을 미\n分 : 나눌 분",ex:"어떤 함수의 미분 계수를 구하는 일."},
-        "적분":{hanja:"積分",meaning:"그래프와 그 구간으로 둘러싸인 도형의 넓이를 구함.",detail:"積 : 쌓을 적\n分 : 나눌 분",ex:"일정한 구간에서 정의된 함수의 그래프와 그 구간으로 둘러싸인 도형의 넓이를 구함."},
-        "수렴":{hanja:"收斂",meaning:"수열이 어떤 일정한 수에 한없이 가까워지는 현상.",detail:"收 : 거둘 수\n斂 : 거둘 렴",ex:"수열에서, 어떤 일정한 수의 임의의 근방에 유한 개를 제외한 나머지 모든 항이 모여 있는 현상."},
-        "발산":{hanja:"發散",meaning:"수열이 극한에서 무한대가 되거나 진동하는 일.",detail:"發 : 필 발\n散 : 흩을 산",ex:"극한에서 양 또는 음의 무한대가 되거나 진동하는 일."}};
-    
-    const scienceData={"화학":{hanja:"化學",meaning:"물질의 성질, 구조 및 그 변화를 탐구하는 학문.",detail:"化 : 될 화\n學 : 배울 학",ex:"노벨 화학상은 인류의 발전에 크게 기여한 화학 물질이나 원리를 발견한 과학자에게 수여된다."},
-        "원리":{hanja:"原理",meaning:"사물의 근본이 되는 이치.",detail:"原 : 근원 원\n理 : 다스릴 리",ex:"돋보기로 햇빛을 모아 종이를 태우는 실험을 통해 빛의 굴절 원리를 배웠다."},
-        "원소":{hanja:"元素",meaning:"더 이상 나눌 수 없는 물질의 가장 근본적인 성분.",detail:"元 : 으뜸 원\n素 : 바탕 소",ex:"수소, 산소, 금, 철 등은 자연계를 이루는 기본적인 원소들입니다."},
-        "성분":{hanja:"成分",meaning:"물질의 바탕을 이루는 낱낱의 요소.",detail:"成 : 이룰 성\n分 : 나눌 분",ex:"물(H2O)을 전기 분해하면 수소와 산소라는 두 가지 성분 기체로 나뉜다."},
-        "물질":{hanja:"物質",meaning:"물체의 본바탕.",detail:"物 : 물건 물\n質 : 바탕 질",ex:"물은 온도에 따라 얼음(고체), 물(액체), 수증기(기체)라는 세 가지 물질 상태로 변한다."},
-        "물체":{hanja:"物體",meaning:"구체적인 형태를 가지고 있는 것.",detail:"物 : 물건 물\n體 : 몸 체",ex:"모든 물체는 크기와 상관없이 공간 속에서 일정한 부피와 질량을 차지한다."},
-        "고체":{hanja:"固體",meaning:"단단한 형태를 가진 물질 상태.",detail:"固 : 단단할 고\n體 : 몸 체",ex:"철, 구리, 알루미늄과 같은 금속은 실온에서 모두 고체 상태로 존재한다."},
-        "액체":{hanja:"液體",meaning:"형태가 일정하지 않고 흐르는 성질을 가진 물질 상태.",detail:"液 : 진액 액\n體 : 몸 체",ex:"대부분의 금속은 실온에서 고체이지만, 유일하게 '수은'은 실온에서 액체 상태로 존재한다."},
-        "기체":{hanja:"氣體",meaning:"공기처럼 일정한 형태와 부피가 없는 물질 상태.",detail:"氣 : 기운 기\n體 : 몸 체",ex:"액체 상태인 물이 100도 이상으로 끓으면 눈에 보이지 않는 기체 상태인 수증기가 된다."},
-        "화합물":{hanja:"化合物",meaning:"두 종류 이상의 원소가 일정한 비율로 합쳐져 새로운 성질을 띠게 된 물질.",detail:"化 : 될 화\n合 : 합할 합\n物 : 만물 물",ex:"수소 기체와 산소 기체가 반응하여 만들어진 물은 대표적인 화합물입니다."},
-        "혼합물":{hanja:"混合物",meaning:"두 종류 이상의 물질이 각각의 성질을 잃지 않고 섞여 있는 물질.",detail:"混 : 섞을 혼\n合 : 합할 합\n物 : 만물 물",ex:"소금과 물이 섞인 소금물이나 다양한 기체가 섞여 있는 공기는 혼합물에 속합니다."},
-        "성질":{hanja:"性質",meaning:"사물이나 현상이 가지고 있는 고유의 특성.",detail:"性 : 성품 성\n質 : 바탕 질",ex:"물과 기름은 서로 섞이지 않는 고유한 성질이 있어서 아무리 저어도 층이 나뉜다."},
-        "특성":{hanja:"特性",meaning:"일정한 사물에만 있는 특수한 성질.",detail:"特 : 특별할 특\n性 : 성품 성",ex:"선인장은 건조하고 더운 사막 환경에서도 살아남을 수 있는 독특한 생태적 특성을 지니고 있다."},
-        "용액":{hanja:"溶液",meaning:"두 개 이상의 물질이 고르게 섞여 있는 액체 혼합물.",detail:"溶 : 녹을 용\n液 : 진액 액",ex:"소금을 물에 넣고 잘 저어주면 투명한 소금물 용액이 된다."},
-        "용매":{hanja:"溶媒",meaning:"다른 물질을 녹여서 용액을 만드는 물질.",detail:"溶 : 녹을 용\n媒 : 중매 매",ex:"소금물을 만들 때 소금을 녹이는 역할을 하는 물이 바로 용매입니다."},
-        "용질":{hanja:"溶質",meaning:"용매에 녹아 들어가는 물질.",detail:"溶 : 녹을 용\n質 : 바탕 질",ex:"설탕물에서 설탕은 물이라는 용매에 녹아든 용질입니다."},
-        "포화":{hanja:"飽和",meaning:"용매가 용질을 더 이상 녹일 수 없을 만큼 가득 찬 상태.",detail:"飽 : 배부를 포\n和 : 화할 화",ex:"물에 소금을 계속 넣다 보면 더 이상 녹지 않고 바닥에 가라앉는데, 이때 이 용액은 포화 상태가 된 것입니다."},
-        "상태":{hanja:"狀態",meaning:"사물이나 현상이 놓여 있는 모양이나 형편.",detail:"狀 : 형상 상\n態 : 모습 태",ex:"물이 끓어서 수증기가 되는 것은 물질의 상태가 액체에서 기체로 변한 것이다."},
-        "결정":{hanja:"結晶",meaning:"원자, 이온, 분자들이 규칙적으로 맺어져 이루어진 고체 물질.",detail:"結 : 맺을 결\n晶 : 맑을 정",ex:"뜨거운 포화 수용액을 천천히 식히면 예쁜 모양의 백반 결정을 얻을 수 있습니다."},
-        "촉매":{hanja:"觸媒",meaning:"자신은 변하지 않고 반응 속도를 조절해 주는 물질.",detail:"觸 : 닿을 촉\n媒 : 중매 매",ex:"자동차 배기가스 정화 장치에는 유해 가스가 빨리 분해되도록 돕는 백금 촉매가 들어 있습니다."},
-        "발열":{hanja:"發熱",meaning:"화학 반응이 일어날 때 밖으로 열을 내보내는 현상.",detail:"發 : 필 발\n熱 : 더울 열",ex:"산과 염기가 섞일 때 용기가 뜨거워지는 것은 발열 반응이 일어났기 때문입니다."},
-        "흡열":{hanja:"吸熱",meaning:"화학 반응이 일어날 때 주변으로부터 열을 빨아들이는 현상.",detail:"吸 : 마실 흡\n熱 : 더울 열",ex:"더운 여름날 마당에 물을 뿌리면 시원해지는 것은 물이 증발하며 주변 열을 빼앗는 흡열 반응 덕분입니다."},
-        "반응":{hanja:"反應",meaning:"어떤 자극에 대응하여 일어나는 변화 현상.",detail:"反 : 돌이킬 반\n應 : 응할 응",ex:"식물은 햇빛이라는 자극에 반응하여 빛이 비치는 방향으로 굽어 자라는 성질이 있다."},
-        "입자":{hanja:"粒子",meaning:"물질을 구성하는 미세한 크기의 객체.",detail:"粒 : 낟알 립\n子 : 입자 자",ex:"이 화장품은 입자가 고와서 피부에 부드럽게 잘 스며든다."},
-        "원자":{hanja:"原子",meaning:"물질을 이루는 가장 기본적인 근원이 되는 입자.",detail:"原 : 근원 원\n子 : 입자 자",ex:"수소 원자 두 개와 산소 원자 한 개가 만나면 물 분자가 만들어집니다."},
-        "분자":{hanja:"分子",meaning:"물질의 고유한 성질을 지닌 채 나눌 수 있는 가장 작은 입자.",detail:"分 : 나눌 분\n子 : 입자 자",ex:"설탕을 계속 쪼개어 설탕 분자 상태가 되어도 단맛이라는 성질은 그대로 유지됩니다."},
-        "밀도":{hanja:"密度",meaning:"일정한 부피 안에 물질이 빽빽하게 차 있는 정도.",detail:"密 : 빽빽할 밀\n度 : 법도 도",ex:"기름이 물 위에 뜨는 이유는 기름의 밀도가 물의 밀도보다 작기 때문입니다."},
-        "융해":{hanja:"融解",meaning:"고체가 열을 받아 액체로 녹는 현상.",detail:"融 : 녹을 융\n解 : 풀 해",ex:"봄이 되어 산 위의 눈이 물로 변하는 융해 현상 덕분에 계곡에 물이 흐릅니다."},
-        "승화":{hanja:"昇華",meaning:"고체가 액체를 거치지 않고 바로 기체로 변하거나 그 반대의 현상.",detail:"昇 : 오를 승\n華 : 빛날 화",ex:"아이스크림 포장에 쓰이는 드라이아이스가 하얀 김을 내며 작아지는 것은 승화 현상입니다."},
-        "산화":{hanja:"酸化",meaning:"물질이 산소와 결합하거나 전자를 잃는 반응.",detail:"酸 : 실 산\n化 : 될 화",ex:"오래된 철 대문에 붉은 녹이 스는 것은 철이 공기 중의 산소와 만나 산화되었기 때문입니다."},
-        "환원":{hanja:"還元",meaning:"물질이 산소를 잃거나 전자를 얻어 원래 상태로 돌아오는 것.",detail:"還 : 돌아올 환\n元 : 본디 원",ex:"용광로에서 철광석에서 산소를 떼어내어 순수한 철을 얻는 과정을 환원이라고 합니다."},
-        "물리학":{hanja:"物理學",meaning:"자연계의 물질과 에너지의 이치를 탐구하는 학문.",detail:"物 : 물건 물\n理 : 다스릴 리\n學 : 배울 학",ex:"아이작 뉴턴은 사과가 떨어지는 현상을 보고 만유인력의 법칙을 발견하여 고전 물리학의 기초를 세웠다."},
-        "변위":{hanja:"變位",meaning:"물체의 처음 위치와 나중 위치 사이의 직선거리와 방향.",detail:"變 : 변할 변\n位 : 자리 위",ex:"운동장을 한 바퀴 돌아 제자리로 돌아오면 이동 거리는 트랙 한 바퀴 길이이지만, 위치가 변하지 않았으므로 변위는 0입니다."},
-        "탄성":{hanja:"彈性",meaning:"힘을 받아 변형된 물체가 원래 모양으로 돌아가려는 성질.",detail:"彈 : 퉁길 탄\n性 : 성품 성",ex:"트램펄린 위에서 높이 뛰어오를 수 있는 초강력 탄성 때문입니다."},
-        "진폭":{hanja:"振幅",meaning:"진동 중심에서 최대로 움직인 거리(폭).",detail:"振 : 떨릴 진\n幅 : 폭 폭",ex:"스피커의 볼륨을 크게 높이면 소리 파동의 진폭이 커져서 소리가 더 크게 들립니다."},
-        "진동수":{hanja:"振動數",meaning:"1초 동안 파동이나 진동이 반복된 횟수.",detail:"振 : 떨릴 진\n動 : 움직일 동\n數 : 셈 수",ex:"피아노 건반에서 높은 음을 칠수록 1초당 공기가 떨리는 횟수인 진동수가 큽니다."},
-        "굴절":{hanja:"屈折",meaning:"파동이 다른 매질을 만날 때 속도 차이로 꺾이는 현상.",detail:"屈 : 굽을 굴\n折 : 꺾을 절",ex:"수영장 바닥이 실제 깊이보다 얕아 보이는 것은 물속에서 공기로 나오는 빛의 굴절 현상 때문입니다."},
-        "현상":{hanja:"現象",meaning:"지각할 수 있는 사물의 모양과 상태.",detail:"現 : 나타날 현\n象 : 형상 상",ex:"빛이 물방울을 통과하며 꺾이고 반사될 때, 우리 눈에는 무지개라는 현상이 관찰된다."},
-        "관찰":{hanja:"觀察",meaning:"사물이나 현상을 주의하여 자세히 살펴봄.",detail:"觀 : 볼 관\n察 : 살필 찰",ex:"갈릴레오 갈릴레이는 망원경으로 밤하늘을 관찰하여 목성의 위성들을 발견했다."},
-        "매질":{hanja:"媒質",meaning:"파동을 중간에서 전달해 주는 물질.",detail:"媒 : 중매 매\n質 : 바탕 질",ex:"소리는 공기라는 매질이 있어야만 전달되므로, 매질이 없는 진공 상태의 우주 공간에서는 아무 소리도 들을 수 없다."},
-        "반사":{hanja:"反射",meaning:"파동이 장애물을 만나 튕겨져 되돌아오는 현상.",detail:"反 : 돌이킬 반\n射 : 쏠 사",ex:"산 정상에서 '야호' 하고 외치면 건너편 산맥에 부딪힌 소리가 반사되어 메아리로 돌아옵니다."},
-        "도선":{hanja:"導線",meaning:"전류를 통하게 하는 금속 선.",detail:"導 : 이끌 도\n線 : 줄 선",ex:"건전지의 양극과 음극을 도선으로 연결하면 회로에 전류가 흐르기 시작한다."},
-        "전류":{hanja:"電流",meaning:"도선을 따라 흐르는 전하의 흐름.",detail:"電 : 번개 전\n流 : 흐를 류",ex:"스위치를 켜서 꼬마전구에 불이 들어오는 것은 전선을 타고 전류가 흘렀기 때문입니다."},
-        "전압":{hanja:"電壓",meaning:"전류를 흐르게 하는 원동력(압력 차이).",detail:"電 : 번개 전\n壓 : 누를 압",ex:"우리나라의 가정용 콘센트는 보통 220V(볼트)의 전압을 공급합니다."},
-        "압력":{hanja:"壓力",meaning:"단위 면적에 수직으로 작용하는 누르는 힘.",detail:"壓 : 누를 압\n力 : 힘 력",ex:"압력솥은 내부의 압력을 높여 물이 100도보다 높은 온도에서 끓게 만들어 밥을 빠르게 익힌다."},
-        "저항":{hanja:"抵抗",meaning:"도선에서 전류의 흐름을 방해하는 성질.",detail:"抵 : 막을 저\n抗 : 겨룰 항",ex:"전열기에 사용되는 니크롬선은 전기 저항이 커서 전류가 흐를 때 열이 많이 발생합니다."},
-        "관성":{hanja:"慣性",meaning:"물체가 현재의 운동 상태를 그대로 유지하려는 성질.",detail:"慣 : 버릇 관\n性 : 성품 성",ex:"망치 자루를 바닥에 내리치면, 망치 머리가 계속 내려가려는 관성 때문에 자루에 단단히 박힙니다."},
-        "마찰력":{hanja:"摩擦力",meaning:"접촉한 두 물체 사이에서 운동을 방해하는 힘.",detail:"摩 : 문지를 마\n擦 : 비빌 찰\n力 : 힘 력",ex:"운동화 바닥에 울퉁불퉁한 무늬를 넣는 초강력 마찰력을 높여 미끄러지지 않게 하려는 것입니다."},
-        "가속도":{hanja:"加速度",meaning:"시간에 따라 속도가 변하는 정도.",detail:"加 : 더할 가\n速 : 빠를 속\n度 : 법도 도",ex:"자유 낙하하는 공은 지구 중력에 의해 일정한 가속도가 붙어 떨어질수록 속력이 빨라집니다."},
-        "속력":{hanja:"速力",meaning:"이동한 거리를 걸린 시간으로 나눈 값(빠르기).",detail:"速 : 빠를 속\n力 : 힘 력",ex:"빛은 우주에서 가장 빠른 속력을 가지고 있으며, 1초에 지구를 일곱 바퀴 반이나 돌 수 있다."},
-        "속도":{hanja:"速度",meaning:"물체가 움직일 때의 빠르기와 방향.",detail:"速 : 빠를 속\n度 : 법도 도",ex:"낙하산은 공기 저항을 이용해 하늘에서 떨어지는 물체의 하강 속도를 안전하게 줄여준다."},
-        "파동":{hanja:"波動",meaning:"한 곳에서 생긴 진동이 주변으로 퍼져나가는 현상.",detail:"波 : 물결 파\n動 : 움직일 동",ex:"우리가 소리를 들을 수 있는 것은 공기의 떨림이 파동의 형태로 귓속의 고막까지 전달되기 때문입니다."},
-        "부력":{hanja:"浮力",meaning:"유체가 물체를 위로 밀어 올리려는 힘.",detail:"浮 : 뜰 부\n力 : 힘 력",ex:"잠수함은 물통에 물을 채우거나 빼서 무게를 조절하여 부력을 변화시킴으로써 바다를 오르내립니다."},
-        "진동":{hanja:"振動",meaning:"물체가 한 점을 중심으로 반복해서 왕복 운동하는 현상.",detail:"振 : 떨릴 진\n動 : 움직일 동",ex:"스마트폰을 매너 모드로 바꾸면 내부에 있는 작은 모터가 진동을 일으켜 알림을 줍니다."},
-        "역학":{hanja:"力學",meaning:"힘을 받는 물체의 정지나 운동 상태를 연구하는 학문.",detail:"力 : 힘 역\n學 : 배울 학",ex:"놀이공원의 롤러코스터는 역학적 에너지 보존 법칙을 정교하게 계산하여 설계되었습니다."},
-        "법칙":{hanja:"法則",meaning:"자연 현상에서 발견되는 보편적인 규칙.",detail:"法 : 법 법\n則 : 법칙 칙",ex:"멘델은 완두콩 교배 실험을 통해 유전 물질이 일정한 규칙에 따라 전달된다는 유전의 법칙을 발견했다."},
-        "전자기유도":{hanja:"電磁氣誘導",meaning:"자기장의 변화로 전류가 유도되는 현상.",detail:"電 : 번개 전\n磁 : 자석 자\n氣 : 기운 기\n誘 : 꾈 유\n導 : 이끌 도",ex:"교통카드를 단말기에 가져다 대면, 단말기의 자기장이 변하면서 카드 내부에 전류가 흐르는 전자기 유도가 일어납니다."},
-        "지구과학":{hanja:"地球科學",meaning:"지구와 우주의 현상을 탐구하는 학문.",detail:"地 : 땅 지\n球 : 공 구\n科 : 과목 과\n學 : 배울 학",ex:"인류가 화성에 기지를 건설하려는 계획은 지구과학과 천문학이 결합한 거대한 도전이다."},
-        "탐구":{hanja:"探究",meaning:"자연 현상을 파고들어 깊이 연구함.",detail:"探 : 찾을 탐\n究 : 연구할 구",ex:"뉴턴은 떨어지는 사과를 보고 의문을 품은 끝에 우주의 법칙을 밝혀내는 위대한 탐구를 이루어냈다."},
-        "지각":{hanja:"地殼",meaning:"암석으로 이루어진 지구의 겉 부분.",detail:"地 : 땅 지\n殼 : 껍질 각",ex:"우리가 발을 딛고 생활하며 건물을 짓는 땅은 지구 전체 부피의 아주 작은 부분을 차지하는 지각입니다."},
-        "핵":{hanja:"核",meaning:"지구 내부의 가장 깊은 중심부.",detail:"核 : 씨 핵",ex:"지구의 핵은 주로 무거운 철과 니켈로 이루어져 있을 것으로 추정됩니다."},
-        "암석":{hanja:"巖石",meaning:"지각을 구성하는 단단한 덩어리.",detail:"巖 : 바위 암\n石 : 돌 석",ex:"지구과학 연구원들은 달에서 가져온 암석 표본을 분석하여 달의 생성 시기를 추정했다."},
-        "화성암":{hanja:"火成巖",meaning:"마그마가 식어서 굳어진 암석.",detail:"火 : 불 화\n成 : 이룰 성\n巖 : 바위 암",ex:"제주도에서 흔히 볼 수 있는 구멍 뚫린 현무암은 마그마가 지표로 분출해 빠르게 식어 만들어진 화성암입니다."},
-        "퇴적암":{hanja:"堆積巖",meaning:"퇴적물이 오랫동안 쌓이고 다져져 만들어진 암석.",detail:"堆 : 쌓을 퇴\n積 : 쌓을 적\n巖 : 바위 암",ex:"과거 생물의 흔적인 화석은 주로 지층이 겹겹이 쌓여 만들어진 퇴적암에서 발견됩니다."},
-        "변성암":{hanja:"變成巖",meaning:"암석이 높은 열과 압력을 받아 성질이 변한 암석.",detail:"變 : 변할 변\n成 : 이룰 성\n巖 : 바위 암",ex:"조각상을 만들 때 많이 쓰는 대리암은 석회암이 열과 압력을 받아 성질이 변한 변성암입니다."},
-        "침식":{hanja:"浸蝕",meaning:"물, 바람 등에 의해 지표가 깎여 나가는 작용.",detail:"浸 : 적실 침\n蝕 : 좀먹을 식",ex:"그랜드캐니언의 거대한 협곡은 수백만 년 동안 흐른 콜로라도강의 강력한 침식 작용으로 만들어졌습니다."},
-        "작용":{hanja:"作用",meaning:"어떤 현상을 일으키거나 영향을 미치는 일.",detail:"作 : 지을 작\n用 : 쓸 용",ex:"지구가 물체를 잡아당기는 중력의 작용 때문에 던져 올린 공은 결국 바닥으로 떨어진다."},
-        "운석":{hanja:"隕石",meaning:"우주의 암석이 대기를 뚫고 지구 표면에 떨어진 것.",detail:"隕 : 떨어질 운\n石 : 돌 석",ex:"과거 공룡의 멸종 원인 중 하나로 거대한 운석이 지구와 충돌했기 때문이라는 가설이 있습니다."},
-        "가설":{hanja:"假說",meaning:"현상을 설명하기 위해 임시로 세운 가정.",detail:"假 : 거짓 가\n說 : 말씀 설",ex:"우리는 '온도가 높을수록 용액에 설탕이 더 빨리 녹을 것이다'라는 가설을 세우고 실험을 시작했다."},
-        "항성":{hanja:"恒星",meaning:"스스로 빛과 열을 내는 별.",detail:"恒 : 항상 항\n星 : 별 성",ex:"밤하늘에 반짝이는 무수히 많은 별들은 대부분 우리 태양과 같은 항성들입니다."},
-        "행성":{hanja:"行星",meaning:"항성 주위를 도는 천체.",detail:"行 : 다닐 행\n星 : 별 성",ex:"수성, 금성, 지구, 화성 등은 태양계를 구성하는 주요 행성들입니다."},
-        "천체":{hanja:"天體",meaning:"우주 공간에 있는 모든 물체.",detail:"天 : 하늘 천\n體 : 몸 체",ex:"태양계는 태양이라는 거대한 항성과 그 주위를 도는 지구, 화성 등의 천체들로 구성되어 있다."},
-        "위성":{hanja:"衛星",meaning:"행성 주위를 도는 작은 천체.",detail:"衛 : 지킬 위\n星 : 별 성",ex:"달은 지구가 가진 유일한 자연 위성입니다."},
-        "자전":{hanja:"自轉",meaning:"천체가 스스로 팽이처럼 제자리에서 도는 운동.",detail:"自 : 스스로 자\n轉 : 구를 전",ex:"지구가 하루에 한 바퀴씩 자전하기 때문에 해가 뜨고 지는 낮과 밤이 생깁니다."},
-        "공전":{hanja:"公轉",meaning:"천체가 다른 천체 둘레를 도는 운동.",detail:"公 : 공평할 공\n轉 : 구를 전",ex:"지구가 태양 주위를 1년에 한 바퀴씩 공전하면서 계절의 변화가 나타납니다."},
-        "풍화":{hanja:"風化",meaning:"암석이 오랜 시간 동안 잘게 부서지거나 성질이 변하는 과정.",detail:"風 : 바람 풍\n化 : 될 화",ex:"오랜 세월 동안 일어난 풍화 작용으로 인해 단단한 화강암이 부서져 아름다운 기암괴석이 되었습니다."},
-        "해류":{hanja:"海流",meaning:"바닷물이 일정한 방향으로 계속 흐르는 현상.",detail:"海 : 바다 해\n流 : 흐를 류",ex:"적도 부근에서 올라오는 따뜻한 쿠로시오 해류의 영향으로 우리나라 남해안은 겨울에도 비교적 따뜻합니다."},
-        "단층":{hanja:"斷層",meaning:"지각 변동으로 지층이 끊어지고 어긋난 구조.",detail:"斷 : 끊을 단\n層 : 층 층",ex:"강력한 지진이 발생한 곳에서는 도로가 쩍 갈라지고 높낮이가 달라진 단층을 볼 수 있습니다."},
-        "지진":{hanja:"地震",meaning:"땅속의 암석이 끊어지며 땅이 흔들리는 현상.",detail:"地 : 땅 지\n震 : 우레 진",ex:"바다 밑에서 강한 지진이 발생하면 그 충격이 바닷물에 전달되어 거대한 쓰나미가 발생할 수 있습니다."},
-        "일식":{hanja:"日食",meaning:"달이 태양을 가려 해의 일부나 전부가 보이지 않는 현상.",detail:"日 : 해 일\n食 : 먹을 식",ex:"개기 일식이 일어나는 아주 짧은 시간 동안 낮에도 별을 관측할 수 있을 정도로 하늘이 어두워졌습니다."},
-        "온실효과":{hanja:"溫室效果",meaning:"대기가 열의 방출을 막아 지구를 따뜻하게 유지하는 현상.",detail:"溫 : 따뜻할 온\n室 : 집 실\n效 : 본받을 효\n果 : 열매 과",ex:"이산화탄소 배출량이 늘어나 온실효과가 비정상적으로 강해지면서 지구 온난화라는 심각한 문제가 발생하고 있습니다."},
-        "생명과학":{hanja:"生命科學",meaning:"생명과 관련된 현상을 연구하는 학문.",detail:"生 : 살 생\n命 : 목숨 명\n科 : 과목 과\n學 : 배울 학",ex:"효은이는 고등학교 시절 생명과학 수업을 들으며 DNA의 복제 원리에 깊은 흥미를 느끼게 되었다."},
-        "조직":{hanja:"組織",meaning:"모양과 기능이 비슷한 세포들의 모임.",detail:"組 : 짤 조\n織 : 짤 직",ex:"우리 몸의 근육은 수축하고 이완하는 기능이 뛰어난 근육 세포들이 촘촘히 엮인 근육 조직으로 이루어져 있습니다."},
-        "기관":{hanja:"器官",meaning:"여러 조직이 모여 특수한 기능을 수행하는 부분.",detail:"器 : 그릇 기\n官 : 벼슬 관",ex:"위, 심장, 폐, 뇌 등은 각자의 뚜렷한 역할을 담당하는 우리 몸의 중요한 기관입니다."},
-        "순환":{hanja:"循環",meaning:"물질이 닫힌 통로를 따라 끊임없이 도는 과정.",detail:"循 : 돌 순\n環 : 고리 환",ex:"심장의 강력한 펌프 작용을 통해 산소와 영양분을 실은 혈액이 온몸을 순환합니다."},
-        "배설":{hanja:"排泄",meaning:"세포 활동으로 생긴 노폐물을 몸 밖으로 내보내는 과정.",detail:"排 : 밀칠 배\n泄 : 샐 설",ex:"콩팥(신장)은 혈액 속의 찌꺼기를 걸러내어 오줌의 형태로 배설하는 핵심 기관입니다."},
-        "신경":{hanja:"神經",meaning:"자극을 느끼고 반응을 전달하는 조직계.",detail:"神 : 귀신 신\n經 : 지날 경",ex:"뜨거운 냄비를 만졌을 때 무의식적으로 손을 떼는 것은 감각 신경과 운동 신경이 매우 빠르게 신호를 주고받았기 때문입니다."},
-        "염색체":{hanja:"染色體",meaning:"유전 정보를 담고 있는 세포 내 구조물.",detail:"染 : 물들 염\n色 : 빛 색\n體 : 몸 체",ex:"사람의 체세포에는 부모로부터 각각 절반씩 물려받은 총 46개의 염색체가 들어 있습니다."},
-        "면역":{hanja:"免疫",meaning:"외부 병원균으로부터 우리 몸을 보호하는 방어 시스템.",detail:"免 : 면할 면\n疫 : 전염병 역",ex:"예방접종(백신)을 맞는 이유는 우리 몸속에 특정 질병에 대한 기억 세포를 만들어 면역력을 키우기 위해서입니다."},
-        "광합성":{hanja:"光合成",meaning:"식물이 빛에너지를 이용해 유기 양분을 만드는 과정.",detail:"光 : 빛 광\n合 : 합할 합\n成 : 이룰 성",ex:"식물은 낮 동안 잎의 엽록체에서 활발하게 광합성을 하여 스스로 살아갈 에너지를 만듭니다."},
-        "항상성":{hanja:"恒常性",meaning:"외부 환경이 변해도 체내 상태를 일정하게 유지하려는 성질.",detail:"恒 : 항상 항\n常 : 항상 상\n性 : 성품 성",ex:"추운 겨울날 몸이 부르르 떨리는 것은 근육을 움직여 열을 발생시킴으로써 체온의 항상성을 유지하기 위함입니다."},
-        "호흡":{hanja:"呼吸",meaning:"산소를 들이마시고 이산화탄소를 내보내어 에너지를 얻는 과정.",detail:"呼 : 숨 내쉴 호\n吸 : 마실 흡",ex:"물고기는 아가미를 통해 물속에 녹아 있는 산소를 흡수하며 호흡을 합니다."},
-        "세포":{hanja:"細胞",meaning:"생물체를 구성하는 구조적, 기능적 기본 단위.",detail:"細 : 가늘 세\n胞 : 세포 포",ex:"우리의 몸은 수조 개의 작은 세포들이 모여 각자의 역할을 수행하며 생명을 유지하고 있습니다."},
-        "유전":{hanja:"遺傳",meaning:"부모의 형질이 자손에게 전달되는 현상.",detail:"遺 : 남길 유\n傳 : 전할 전",ex:"쌍꺼풀이나 머리카락의 곱슬거림 등은 부모로부터 물려받은 유전의 결과입니다."},
-        "소화":{hanja:"消化",meaning:"음식물을 흡수하기 쉬운 형태로 잘게 분해하는 작용.",detail:"消 : 사라질 소\n化 : 될 화",ex:"음식을 오래 씹으면 침 속에 있는 효소 덕분에 탄수화물의 소화가 훨씬 빠르게 이루어집니다."},
-        "진화":{hanja:"進化",meaning:"생물이 오랜 시간에 걸쳐 환경에 적응하며 변화하는 현상.",detail:"進 : 나아갈 진\n化 : 될 화",ex:"기린의 목이 긴 이유는 높은 곳에 있는 나뭇잎을 먹기 유리한 개체들이 살아남아 진화했기 때문입니다."},
-        "개체":{hanja:"個體",meaning:"독립적으로 생명 활동을 하는 하나의 생물체.",detail:"個 : 낱 개\n體 : 몸 체",ex:"아메바나 짚신벌레 같은 단세포 생물은 하나의 세포가 곧 하나의 독립된 개체로 살아간다."},
-        "환경":{hanja:"環境",meaning:"생물에게 영향을 미치는 모든 자연적, 인위적 조건.",detail:"環 : 고리 환\n境 : 지경 경",ex:"북극곰은 온통 얼음과 눈으로 뒤덮인 추운 환경에 적응하며 살아가는 동물이다."},
-        "생태계":{hanja:"生態系",meaning:"특정 지역의 생물들과 환경이 서로 영향을 주고받는 체계.",detail:"生 : 날 생\n態 : 모양 태\n系 : 이을 계",ex:"농약을 과도하게 사용하면 곤충뿐만 아니라 새들까지 죽게 되어 전체 생태계의 균형이 무너집니다."},
-        "체계":{hanja:"體系",meaning:"여러 구성 요소가 일정한 원리에 따라 짜임새 있게 이루어진 전체.",detail:"體 : 몸 체\n系 : 이어맬 계",ex:"과학자들은 지구상의 모든 생물을 문, 강, 목, 과, 속, 종이라는 일정한 체계에 따라 분류했다."}};
+        // 중복 선언 방지 및 통합된 데이터베이스
+        const mathData={"분수":{hanja:"分數",meaning:"정수 a를 0이 아닌 정수 b로 나눈 몫을 표시한 것.",detail:"分 : 나눌 분\n數 : 셈 수",ex:"분수 a/b는 1을 b등분 한 것이 a개 모인 것으로 생각할 수도 있다."},
+            "분자":{hanja:"分子",meaning:"분수 또는 분수식에서, 가로줄 위에 있는 수나 식.",detail:"分 : 나눌 분\n子 : 아들 자",ex:"5/8에서 5가 분자이다."},
+            "분모":{hanja:"分母",meaning:"분수 또는 분수식에서, 가로줄 아래에 있는 수나 식.",detail:"分 : 나눌 분\n母 : 어머니 모",ex:"5/8에서 8이 분모이다."},
+            "소수(小)":{hanja:"小數",meaning:"일의 자리보다 작은 자리의 값을 가진 수.",detail:"小 : 작을 소\n數 : 셈 수",ex:"예를 들면, 0.1, 0.23, 4.2, 35.67 따위이다."},
+            "진분수":{hanja:"眞分數",meaning:"분자가 분모보다 작은 분수.",detail:"眞 : 참 진\n分 : 나눌 분\n數 : 셈 수",ex:"1/2, 2/7 따위이다."},
+            "가분수":{hanja:"假分數",meaning:"분자가 분모와 같거나 분모보다 큰 분수.",detail:"假 : 거짓 가\n分 : 나눌 분\n數 : 셈 수",ex:"3/2, 7/5 따위이다."},
+            "약수":{hanja:"約數",meaning:"어떤 정수를 나머지 없이 나눌 수 있는 정수.",detail:"約 : 맺을 약\n數 : 셈 수",ex:"예를 들어 3은 6의 약수이다."},
+            "배수":{hanja:"倍數",meaning:"어떤 정수의 몇 배가 되는 수.",detail:"倍 : 곱 배\n數 : 셈 수",ex:"2는 4의 배수, 3은 6의 배수이다."},
+            "공약수":{hanja:"公約數",meaning:"둘 이상의 정수나 식에 공통되는 약수.",detail:"公 : 공평할 공\n約 : 맺을 약\n數 : 셈 수",ex:"둘 이상의 정수 또는 정식에 공통되는 약수이다."},
+            "최대공약수":{hanja:"最大公約數",meaning:"공약수 가운데 가장 큰 수.",detail:"最 : 가장 최\n大 : 클 대\n公 : 공평할 공\n約 : 맺을 약\n數 : 셈 수",ex:"둘 이상의 정수의 공약수 가운데 가장 큰 수."},
+            "공배수":{hanja:"公倍數",meaning:"둘 이상의 정수 등에 공통되는 배수.",detail:"公 : 공평할 공\n倍 : 곱 배\n數 : 셈 수",ex:"둘 이상의 정수 또는 정식에 공통되는 배수."},
+            "최소공배수":{hanja:"最小公倍數",meaning:"공배수 가운데 0을 제외한 가장 작은 수.",detail:"最 : 가장 최\n小 : 작을 소\n公 : 공평할 공\n倍 : 곱 배\n數 : 셈 수",ex:"둘 이상의 정수의 공배수 가운데에서 0을 제외한 가장 작은 수."},
+            "통분":{hanja:"通分",meaning:"분모가 다른 둘 이상의 분수에서 분모를 같게 만듦.",detail:"通 : 통할 통\n分 : 나눌 분",ex:"보통 각 분모의 최소 공배수를 공통분모로 삼는다. (1/2 -> 3/6, 1/3 -> 2/6)"},
+            "약분":{hanja:"約分",meaning:"분수의 분모와 분자를 공약수로 나누어 간단히 함.",detail:"約 : 맺을 약\n分 : 나눌 분",ex:"분수의 분모와 분자를 공약수로 나누어 간단하게 한다. (2/4 -> 1/2)"},
+            "점":{hanja:"點",meaning:"크기가 없고 '위치' 개념만 갖는 것.",detail:"點 : 점 점",ex:"수학에서 이야기하는 점은 크기를 갖지 않는다."},
+            "선":{hanja:"線",meaning:"무수히 많은 점들의 모임.",detail:"線 : 줄 선",ex:"점이 움직이면 선이 됩니다."},
+            "면":{hanja:"面",meaning:"사물의 겉으로 드러난 쪽의 평평한 바닥.",detail:"面 : 낯 면",ex:"선이 움직이면 면이 생깁니다."},
+            "선분":{hanja:"線分",meaning:"직선 위에서 두 점에 한정된 부분.",detail:"線 : 줄 선\n分 : 나눌 분",ex:"두 점을 곧게 이은 선을 선분이라고 한다."},
+            "곡선":{hanja:"曲線",meaning:"모나지 아니하고 부드럽게 굽은 선.",detail:"曲 : 굽을 곡\n線 : 줄 선",ex:"점이 평면 위나 공간 안을 연속적으로 움직일 때 생기는 선."},
+            "직선":{hanja:"直線",meaning:"선분을 양쪽으로 끝없이 늘인 곧은 선.",detail:"直 : 곧을 직\n線 : 줄 선",ex:"선분을 양쪽으로 끝없이 늘인 곧은 선을 직선이라 한다."},
+            "반직선":{hanja:"半直線",meaning:"한 점에서 시작해 한쪽으로 끝없이 늘인 곧은 선.",detail:"半 : 반 반\n直 : 곧을 직\n線 : 줄 선",ex:"한 점에서 시작하여 한쪽으로 끝없이 늘인 곧은 선을 반직선이라 한다."},
+            "각":{hanja:"角",meaning:"한 점에서 갈리어 나간 두 직선의 벌어진 정도.",detail:"角 : 뿔 각",ex:"한 점에서 갈리어 나간 두 직선의 벌어진 정도."},
+            "직각":{hanja:"直角",meaning:"두 직선이 만나서 이루는 90도의 각.",detail:"直 : 곧을 직\n角 : 뿔 각",ex:"'∠R'로 나타낸다."},
+            "예각":{hanja:"銳角",meaning:"직각보다 작은 각.",detail:"銳 : 날카로울 예\n角 : 뿔 각",ex:"직각보다 작은 각."},
+            "둔각":{hanja:"鈍角",meaning:"90도보다는 크고 180도보다 작은 각.",detail:"鈍 : 둔할 둔\n角 : 뿔 각",ex:"90도보다는 크고 180도보다는 작은 각."},
+            "삼각형":{hanja:"三角形",meaning:"세 개의 선분으로 둘러싸인 평면 도형.",detail:"三 : 석 삼\n角 : 뿔 각\n形 : 모양 형",ex:"세 개의 선분으로 둘러싸인 평면 도형."},
+            "사각형":{hanja:"四角形",meaning:"네 개의 선분으로 둘러싸인 평면 도형.",detail:"四 : 넉 사\n角 : 뿔 각\n形 : 모양 형",ex:"네 개의 선분으로 둘러싸인 평면 도형."},
+            "다각형":{hanja:"多角形",meaning:"셋 이상의 직선으로 둘러싸인 평면 도형.",detail:"多 : 많을 다\n角 : 뿔 각\n形 : 모양 형",ex:"선분의 수에 따라 삼각형, 사각형, 오각형 따위가 있다."},
+            "원":{hanja:"圓",meaning:"평면 위의 일정한 점에서 같은 거리에 있는 점들의 집합.",detail:"圓 : 둥글 원",ex:"평면 위의 일정한 점에서 같은 거리에 있는 점들의 집합."},
+            "합동":{hanja:"合同",meaning:"두 도형이 크기와 모양이 같아 포개었을 때 꼭 맞는 것.",detail:"合 : 합할 합\n同 : 한가지 동",ex:"두 개의 도형이 크기와 모양이 같아 서로 포개었을 때에 꼭 맞는 것."},
+            "대칭":{hanja:"對稱",meaning:"점, 직선 등을 사이에 두고 서로 같은 거리에 맞서는 일.",detail:"對 : 대할 대\n稱 : 일컬을 칭",ex:"점의 경우는 점대칭, 선의 경우는 선대칭, 면의 경우는 면대칭이라고 한다."},
+            "비율":{hanja:"比率",meaning:"비교하는 양을 기준량으로 나누어 준 값.",detail:"比 : 견줄 비\n率 : 비율 률",ex:"비교하는 양을 기준량으로 나누어 줍니다. 3:4의 비율은 3/4 입니다."},
+            "백분율":{hanja:"百分率",meaning:"전체 수량을 100으로 하여 그것에 대해 가지는 비율(%).",detail:"百 : 일백 백\n分 : 나눌 분\n率 : 비율 률",ex:"기준량을 100으로 할 때의 비율을 백분율이라고 합니다. (65/100 = 65%)"},
+            "비례식":{hanja:"比例式",meaning:"두 개의 비가 같음을 나타내는 식.",detail:"比 : 견줄 비\n例 : 법식 례\n式 : 법식 식",ex:"비례식에서 외항의 곱과 내항의 곱은 같습니다. 예) 5:4=10:8"},
+            "비례배분":{hanja:"比例配分",meaning:"전체를 주어진 비로 배분하는 것.",detail:"比 : 견줄 비\n例 : 법식 례\n配 : 짝 배\n分 : 나눌 분",ex:"전체를 주어진 비로 배분하는 것을 말해요."},
+            "표":{hanja:"表",meaning:"어떤 내용을 일정한 형식과 순서에 따라 보기 쉽게 나타낸 것.",detail:"表 : 겉 표",ex:"어떤 내용을 일정한 형식과 순서에 따라 보기 쉽게 나타낸 것."},
+            "평균":{hanja:"平均",meaning:"여러 수나 같은 종류의 양의 중간값을 갖는 수.",detail:"平 : 평평할 평\n均 : 고를 균",ex:"점수의 합을 과목수로 나누어 주면 평균을 구할 수 있어요."},
+            "소수(素)":{hanja:"素數",meaning:"1과 자기 자신 이외의 자연수로는 나눌 수 없는 수.",detail:"素 : 본디 소\n數 : 셈 수",ex:"1과 그 수 자신 이외의 자연수로는 나눌 수 없는 자연수. 2, 3, 5, 7, 11 따위가 있다."},
+            "합성수":{hanja:"合成數",meaning:"1과 자기 자신 이외에도 약수를 가진 정수.",detail:"合 : 합할 합\n成 : 이를 성\n數 : 셈 수",ex:"1과 자신의 수 이외에도 약수를 가진 정수. 둘 이상의 소수를 곱한 수이다."},
+            "지수":{hanja:"指數",meaning:"숫자나 문자 오른쪽 위에 거듭제곱 횟수를 나타내는 글자.",detail:"指 : 가리킬 지\n數 : 셈 수",ex:"10^3 에서 3이 지수이다."},
+            "인수":{hanja:"因數",meaning:"어떤 정수나 식을 곱의 꼴로 나타낼 때의 각 구성 요소.",detail:"因 : 인할 인\n數 : 셈 수",ex:"30 = 2x3x5에서 2, 3, 5가 30의 인수이다."},
+            "소인수분해":{hanja:"素因數分解",meaning:"합성수를 소수의 곱의 꼴로 바꾸는 일.",detail:"素 : 본디 소\n因 : 인할 인\n數 : 셈 수\n分 : 나눌 분\n解 : 풀 해",ex:"12는 2x2x3, 30을 2x3x5으로 나타낼 수 있다."},
+            "자연수":{hanja:"自然數",meaning:"1부터 시작하여 하나씩 더하여 얻는 양의 정수.",detail:"自 : 스스로 자\n然 : 불탈 연\n數 : 셈 수",ex:"1부터 시작하여 하나씩 더하여 얻는 수를 통틀어 이르는 말. 1, 2, 3 따위이다."},
+            "정수":{hanja:"整數",meaning:"자연수, 자연수의 음수 및 영(0)을 통틀어 이르는 말.",detail:"整 : 가지런할 정\n數 : 셈 수",ex:"자연수, 자연수의 음수 및 영을 통틀어 이르는 말. 즉, -2, -1, 0, 1, 2 따위의 수이다."},
+            "양수":{hanja:"陽數",meaning:"0보다 큰 수.",detail:"陽 : 볕 양\n數 : 셈 수",ex:"0보다 큰 수."},
+            "음수":{hanja:"陰數",meaning:"0보다 작은 수.",detail:"陰 : 그늘 음\n數 : 셈 수",ex:"0보다 작은 수."},
+            "유리수":{hanja:"有理數",meaning:"정수의 비(분수)로 나타낼 수 있는 수.",detail:"有 : 있을 유\n理 : 다스릴 리\n數 : 셈 수",ex:"소수로 나타내면 유한 소수나 순환 소수가 된다."},
+            "무리수":{hanja:"無理數",meaning:"실수이면서 분수 형식으로 나타낼 수 없는 수.",detail:"無 : 없을 무\n理 : 다스릴 리\n數 : 셈 수",ex:"예를 들어 log2, π(파이) 따위가 있다."},
+            "실수":{hanja:"實數",meaning:"유리수와 무리수를 통틀어 이르는 말.",detail:"實 : 열매 실\n數 : 셈 수",ex:"유리수와 무리수를 통틀어 이르는 말."},
+            "허수":{hanja:"虛數",meaning:"제곱하여 음수가 되는 등 실수가 아닌 복소수.",detail:"虛 : 빌 허\n數 : 셈 수",ex:"제곱하여 -1이 되는 수."},
+            "복소수":{hanja:"複素數",meaning:"실수와 허수의 합으로 나타내는 수.",detail:"複 : 겹옷 복\n素 : 바탕 소\n數 : 셈 수",ex:"a를 실수부, b를 허수부라고 한다."},
+            "유한소수":{hanja:"有限小數",meaning:"소수점 아래 0이 아닌 숫자가 유한개인 소수.",detail:"有 : 있을 유\n限 : 한할 한\n小 : 작을 소\n數 : 셈 수",ex:"소수점 아래 0이 아닌 숫자가 유한개의 자리에서 그치는 소수. 0.5, 1.25 따위이다."},
+            "무한소수":{hanja:"無限小數",meaning:"소수점 아래 숫자가 끝없이 계속되는 소수.",detail:"無 : 없을 무\n限 : 한할 한\n小 : 작을 소\n數 : 셈 수",ex:"0.3333..., 3.14159... 등 유효 숫자가 한없이 계속되는 소수이다."},
+            "순환소수":{hanja:"循環小數",meaning:"어떤 자리부터 일정한 숫자가 끝없이 되풀이되는 소수.",detail:"循 : 돌 순\n環 : 고리 환\n小 : 작을 소\n數 : 셈 수",ex:"1/3=0.3333과 같이 소수 첫째 자리부터 순환되는 것을 순순환 소수라고 한다."},
+            "변수":{hanja:"變數",meaning:"여러 가지 값으로 변할 수 있는 수.",detail:"變 : 변할 변\n數 : 셈 수",ex:"어떤 관계나 범위 안에서 여러 가지 값으로 변할 수 있는 수."},
+            "상수":{hanja:"常數",meaning:"변하지 아니하는 일정한 값을 가진 수나 양.",detail:"常 : 항상 상\n數 : 셈 수",ex:"π=3.14159... 나 e=2.71828... 처럼 일정한 값을 가진 수이다."},
+            "계수":{hanja:"係數",meaning:"기호 문자와 숫자로 된 식에서, 문자 앞에 곱해진 숫자.",detail:"係 : 맬 계\n數 : 셈 수",ex:"3x^2+2x+7 에서 3, 2 따위이다."},
+            "차수":{hanja:"次數",meaning:"단항식 안에 포함된 문자 인수의 개수.",detail:"次 : 버금 차\n數 : 셈 수",ex:"x^2y^3의 차수는 x에 대하여서는 2, y에 대하여서는 3이다."},
+            "단항식":{hanja:"單項式",meaning:"숫자와 문자의 곱으로만 이루어진 하나의 항.",detail:"單 : 홀 단\n項 : 목 항\n式 : 법식 식",ex:"숫자와 몇 개의 문자의 곱으로만 이루어진다. 3ab, 3x 따위가 있다."},
+            "다항식":{hanja:"多項式",meaning:"두 개 이상의 항을 더하기나 빼기로 결합한 식.",detail:"多 : 많을 다\n項 : 목 항\n式 : 법식 식",ex:"두 개 이상의 항을 '+', '-'로 결합한 식. a+b, 2ax+3by 따위가 있다."},
+            "동류항":{hanja:"同類항",meaning:"다항식에서 계수는 다르나 문자와 차수가 같은 항.",detail:"同 : 한가지 동\n類 : 무리 류\n項 : 목 항",ex:"7a^2 + ab^2 - b^3 - 3ab^2 에서 ab^2 과 -3ab^2 은 동류항이다."},
+            "전개":{hanja:"展開",meaning:"곱의 형태로 표현된 식을 합의 형태로 고침.",detail:"展 : 펼 전\n開 : 열 개",ex:"곱의 형태로 표현된 식을 합의 형태로 고침. (x+1)(x+2)=x^2+3x+2"},
+            "인수분해":{hanja:"因數分解",meaning:"정수나 식을 몇 개의 간단한 인수의 곱으로 나타냄.",detail:"因 : 인할 인\n數 : 셈 수\n分 : 나눌 분\n解 : 풀 해",ex:"정수 또는 정식을 몇 개의 인수의 곱의 꼴로 바꾸어 나타내는 일."},
+            "방정식":{hanja:"方程式",meaning:"문자가 특정한 값을 취할 때에만 성립하는 등식.",detail:"方 : 네모 방\n程 : 한도 정\n式 : 법식 식",ex:"어떤 문자가 특정한 값을 취할 때에만 성립하는 등식."},
+            "미지수":{hanja:"未知數",meaning:"방정식에서 구하려고 하는 수.",detail:"未 : 아닐 미\n知 : 알 지\n數 : 셈 수",ex:"미지수는 보통 알파벳 뒤 글자인 x, y, z 등을 사용한다."},
+            "항등식":{hanja:"恒等式",meaning:"식에 포함된 문자에 어떤 값을 넣어도 항상 성립하는 등식.",detail:"恒 : 항상 항\n等 : 무리 등\n式 : 법식 식",ex:"식에 포함된 문자에 어떤 값을 넣어도 언제나 성립하는 등식. (a+b)^2 = a^2+2ab+b^2"},
+            "부등식":{hanja:"不等式",meaning:"두 수 또는 식의 크기 관계를 부등호로 나타내는 식.",detail:"不 : 아닐 부\n等 : 무리 등\n式 : 법식 식",ex:"a>b: a가 b보다 크다는 뜻, a<b: a는 b보다 작다는 뜻."},
+            "연립방정식":{hanja:"聯立方程式",meaning:"미지수의 각 값이 모두 만족하는 두 개 이상의 방정식 쌍.",detail:"聯 : 연이을 련\n立 : 설립\n方 : 네모 방\n程 : 한도 정\n式 : 법식 식",ex:"x+y=12, 5x-4y=-3 해는 x=5, y=7 이다."},
+            "함수":{hanja:"函數",meaning:"x의 값에 따라 y의 값이 하나씩 정해지는 관계.",detail:"函 : 함 함\n數 : 셈 수",ex:"y가 x의 함수라는 것은 y=f(x) 로 표시한다."},
+            "정의역":{hanja:"定義域",meaning:"함수에서 독립 변수 x가 취할 수 있는 값의 범위.",detail:"定 : 정할 정\n義 : 옳을 의\n域 : 지경 역",ex:"함수에서 독립 변수 x가 취할 수 있는 값의 범위."},
+            "공역":{hanja:"共域",meaning:"함수에서 함숫값이 될 수 있는 y값들의 전체 집합.",detail:"共 : 함께 공\n域 : 지경 역",ex:"두 개의 점, 선, 수가 서로 특수한 관계에 있어 바꾸어 놓아도 그 성질에 변화가 없을 경우."},
+            "치역":{hanja:"値域",meaning:"함수가 실제로 취하는 함숫값들의 집합.",detail:"値 : 값 치\n域 : 지경 역",ex:"독립 변수가 정의역 내의 모든 값을 취할 때에, 함수가 취할 수 있는 모든 값의 집합."},
+            "좌표":{hanja:"座標",meaning:"평면이나 공간 안의 임의의 점의 위치를 나타내는 수의 짝.",detail:"座 : 자리 좌\n標 : 우듬지 표",ex:"평면이나 공간 안의 임의의 점의 위치를 나타내는 수나 수의 짝."},
+            "좌표평면":{hanja:"座標平面",meaning:"x축, y축 좌표계가 정하여진 평면.",detail:"座 : 자리 좌\n標 : 우듬지 표\n平 : 평평할 평\n面 : 낯 면",ex:"좌표계가 정하여진 평면. 이 평면의 각 점에는 두 수로 된 한 쌍의 좌표가 대응한다."},
+            "원점":{hanja:"原點",meaning:"좌표를 정할 때 기준이 되는 점.",detail:"原 : 근원 원\n點 : 점 점",ex:"좌표를 정할 때에 기준이 되는 점."},
+            "사분면":{hanja:"四分面",meaning:"평면을 직교하는 두 직선으로 나눈 네 부분 중 하나.",detail:"四 : 넉 사\n分 : 나눌 분\n面 : 낯 면",ex:"한 평면을 직교하는 두 직선으로 나눈 네 부분 중의 한 평면."},
+            "일차함수":{hanja:"一次函數",meaning:"함수를 나타내는 식이 일차식인 함수.",detail:"一 : 한 일\n次 : 버금 차\n函 : 함 함\n數 : 셈 수",ex:"함수를 나타내는 식이 일차식인 함수. y=2x+1"},
+            "절편":{hanja:"截片",meaning:"좌표 평면상의 직선이 x축 또는 y축과 만나는 점.",detail:"截 : 끊을 절\n片 : 조각 편",ex:"좌표 평면상의 직선이 x축과 만나는 점의 x좌표 및 y축과 만나는 점의 y좌표."},
+            "이차함수":{hanja:"二次函數",meaning:"함수를 나타내는 식이 이차식인 함수.",detail:"二 : 두 이\n次 : 버금 차\n函 : 함 함\n數 : 셈 수",ex:"함수를 나타내는 식이 이차식인 함수. y=2x^2+3x+4"},
+            "포물선":{hanja:"抛物線",meaning:"물체가 반원 모양을 그리며 날아가는 곡선.",detail:"抛 : 던질 포\n物 : 물건 물\n線 : 줄 선",ex:"물체가 반원 모양을 그리며 날아가는 선."},
+            "교점":{hanja:"交點",meaning:"둘 이상의 선이 서로 만나는 점.",detail:"交 : 사귈 교\n點 : 점 점",ex:"서로 만나는 점. 둘 이상의 선이 서로 만나는 점."},
+            "교선":{hanja:"交線",meaning:"둘 이상의 면이나 도형이 교차할 때 생기는 선.",detail:"交 : 사귈 교\n線 : 줄 선",ex:"둘 이상의 도형이 교차할 때 생기는 직선 또는 곡선."},
+            "동위각":{hanja:"同位角",meaning:"두 직선이 다른 직선과 만날 때 같은 위치에 있는 각.",detail:"同 : 한가지 동\n位 : 자리 위\n角 : 뿔 각",ex:"두 직선이 다른 한 직선과 교차하여 생기는 각 가운데 한 직선에서 보아 같은 위치에 있는 각."},
+            "평행":{hanja:"平行",meaning:"두 직선 등이 나란히 있어 아무리 연장해도 만나지 않음.",detail:"平 : 평평할 평\n行 : 다닐 행",ex:"나란히 있어 아무리 연장하여도 서로 만나지 않음."},
+            "수직":{hanja:"垂直",meaning:"두 직선이나 평면이 만나 직각을 이루는 상태.",detail:"垂 : 드리울 수\n直 : 곧을 직",ex:"직선과 평면 따위가 서로 만나 직각을 이루는 상태."},
+            "직교":{hanja:"直交",meaning:"두 직선 또는 평면이 직각을 이루며 교차하는 일.",detail:"直 : 곧을 직\n交 : 사귈 교",ex:"두 직선 또는 두 평면이 직각을 이루며 교차하는 일."},
+            "작도":{hanja:"作圖",meaning:"자와 컴퍼스만을 써서 조건에 맞는 도형을 그림.",detail:"作 : 지을 작\n圖 : 그림 도",ex:"자와 컴퍼스만을 써서 주어진 조건에 알맞은 선이나 도형을 그림."},
+            "내심":{hanja:"內心",meaning:"다각형의 내접원의 중심.",detail:"內 : 안 내\n心 : 마음 심",ex:"다각형에 있어서 모든 각의 이등분선이 만나는 점."},
+            "외심":{hanja:"外心",meaning:"다각형의 외접원의 중심.",detail:"外 : 바깥 외\n心 : 마음 심",ex:"삼각형이나 다각형에서 외접원의 중심."},
+            "삼각비":{hanja:"三角比",meaning:"직각 삼각형의 세 변 중 두 변으로 만든 비의 값.",detail:"三 : 석 삼\n角 : 뿔 각\n比 : 견줄 비",ex:"직각 삼각형의 세 변 가운데에서 어느 두 변을 취하여 만든 비의 값."},
+            "원주각":{hanja:"圓周角",meaning:"원주 위의 한 점에서 그은 두 개의 현이 만드는 각.",detail:"圓 : 둥글 원\n周 : 두루 주\n角 : 뿔 각",ex:"크기는 중심각의 1/2 이다."},
+            "중심각":{hanja:"中心角",meaning:"원의 두 반지름이 만드는 각.",detail:"中 : 가운데 중\n心 : 마음 심\n角 : 뿔 각",ex:"원에서 한 호에 대한 원주각의 크기는 중심각의 크기의 1/2배이다."},
+            "확률":{hanja:"確率",meaning:"어떤 사건이 일어날 가능성의 정도.",detail:"確 : 굳을 확\n率 : 비율 률",ex:"확률 1은 항상 일어남을 의미하고, 확률 0은 절대로 일어나지 않음을 의미한다."},
+            "산포도":{hanja:"散布度",meaning:"자료가 평균을 중심으로 흩어져 있는 정도.",detail:"散 : 흩을 산\n布 : 베 포\n度 : 법도 도",ex:"산포도가 작으면 변량이 모여 있고, 크면 흩어져 있다."},
+            "분산":{hanja:"分散",meaning:"편차를 제곱하여 얻은 값들의 평균.",detail:"分 : 나눌 분\n散 : 흩을 산",ex:"분산이 작으면 자료는 평균값 주위에 모여 있게 되고, 크면 멀리 떨어진 것이 많게 된다."},
+            "표준편차":{hanja:"標準偏差",meaning:"자료의 분산 정도를 나타내는 수치(분산의 제곱근).",detail:"標 : 우듬지 표\n準 : 준할 준\n偏 : 치우칠 편\n差 : 다를 차",ex:"표준 편차가 작은 것은 평균값 주위의 분산의 정도가 작은 것을 나타낸다."},
+            "미분":{hanja:"微分",meaning:"함수의 순간 변화율(미분 계수)을 구하는 일.",detail:"微 : 작을 미\n分 : 나눌 분",ex:"어떤 함수의 미분 계수를 구하는 일."},
+            "적분":{hanja:"積分",meaning:"그래프와 그 구간으로 둘러싸인 도형의 넓이를 구함.",detail:"積 : 쌓을 적\n分 : 나눌 분",ex:"일정한 구간에서 정의된 함수의 그래프와 그 구간으로 둘러싸인 도형의 넓이를 구함."},
+            "수렴":{hanja:"收斂",meaning:"수열이 어떤 일정한 수에 한없이 가까워지는 현상.",detail:"收 : 거둘 수\n斂 : 거둘 렴",ex:"수열에서, 어떤 일정한 수의 임의의 근방에 유한 개를 제외한 나머지 모든 항이 모여 있는 현상."},
+            "발산":{hanja:"發散",meaning:"수열이 극한에서 무한대가 되거나 진동하는 일.",detail:"發 : 필 발\n散 : 흩을 산",ex:"극한에서 양 또는 음의 무한대가 되거나 진동하는 일."}};
+        
+        const scienceData={"화학":{hanja:"化學",meaning:"물질의 성질, 구조 및 그 변화를 탐구하는 학문.",detail:"化 : 될 화\n學 : 배울 학",ex:"노벨 화학상은 인류의 발전에 크게 기여한 화학 물질이나 원리를 발견한 과학자에게 수여된다."},
+            "원리":{hanja:"原理",meaning:"사물의 근본이 되는 이치.",detail:"原 : 근원 원\n理 : 다스릴 리",ex:"돋보기로 햇빛을 모아 종이를 태우는 실험을 통해 빛의 굴절 원리를 배웠다."},
+            "원소":{hanja:"元素",meaning:"더 이상 나눌 수 없는 물질의 가장 근본적인 성분.",detail:"元 : 으뜸 원\n素 : 바탕 소",ex:"수소, 산소, 금, 철 등은 자연계를 이루는 기본적인 원소들입니다."},
+            "성분":{hanja:"成分",meaning:"물질의 바탕을 이루는 낱낱의 요소.",detail:"成 : 이룰 성\n分 : 나눌 분",ex:"물(H2O)을 전기 분해하면 수소와 산소라는 두 가지 성분 기체로 나뉜다."},
+            "물질":{hanja:"物質",meaning:"물체의 본바탕.",detail:"物 : 물건 물\n質 : 바탕 질",ex:"물은 온도에 따라 얼음(고체), 물(액체), 수증기(기체)라는 세 가지 물질 상태로 변한다."},
+            "물체":{hanja:"物體",meaning:"구체적인 형태를 가지고 있는 것.",detail:"物 : 물건 물\n體 : 몸 체",ex:"모든 물체는 크기와 상관없이 공간 속에서 일정한 부피와 질량을 차지한다."},
+            "고체":{hanja:"固體",meaning:"단단한 형태를 가진 물질 상태.",detail:"固 : 단단할 고\n體 : 몸 체",ex:"철, 구리, 알루미늄과 같은 금속은 실온에서 모두 고체 상태로 존재한다."},
+            "액체":{hanja:"液體",meaning:"형태가 일정하지 않고 흐르는 성질을 가진 물질 상태.",detail:"液 : 진액 액\n體 : 몸 체",ex:"대부분의 금속은 실온에서 고체이지만, 유일하게 '수은'은 실온에서 액체 상태로 존재한다."},
+            "기체":{hanja:"氣體",meaning:"공기처럼 일정한 형태와 부피가 없는 물질 상태.",detail:"氣 : 기운 기\n體 : 몸 체",ex:"액체 상태인 물이 100도 이상으로 끓으면 눈에 보이지 않는 기체 상태인 수증기가 된다."},
+            "화합물":{hanja:"化合物",meaning:"두 종류 이상의 원소가 일정한 비율로 합쳐져 새로운 성질을 띠게 된 물질.",detail:"化 : 될 화\n合 : 합할 합\n物 : 만물 물",ex:"수소 기체와 산소 기체가 반응하여 만들어진 물은 대표적인 화합물입니다."},
+            "혼합물":{hanja:"混合物",meaning:"두 종류 이상의 물질이 각각의 성질을 잃지 않고 섞여 있는 물질.",detail:"混 : 섞을 혼\n合 : 합할 합\n物 : 만물 물",ex:"소금과 물이 섞인 소금물이나 다양한 기체가 섞여 있는 공기는 혼합물에 속합니다."},
+            "성질":{hanja:"性質",meaning:"사물이나 현상이 가지고 있는 고유의 특성.",detail:"性 : 성품 성\n質 : 바탕 질",ex:"물과 기름은 서로 섞이지 않는 고유한 성질이 있어서 아무리 저어도 층이 나뉜다."},
+            "특성":{hanja:"特性",meaning:"일정한 사물에만 있는 특수한 성질.",detail:"特 : 특별할 특\n性 : 성품 성",ex:"선인장은 건조하고 더운 사막 환경에서도 살아남을 수 있는 독특한 생태적 특성을 지니고 있다."},
+            "용액":{hanja:"溶液",meaning:"두 개 이상의 물질이 고르게 섞여 있는 액체 혼합물.",detail:"溶 : 녹을 용\n液 : 진액 액",ex:"소금을 물에 넣고 잘 저어주면 투명한 소금물 용액이 된다."},
+            "용매":{hanja:"溶媒",meaning:"다른 물질을 녹여서 용액을 만드는 물질.",detail:"溶 : 녹을 용\n媒 : 중매 매",ex:"소금물을 만들 때 소금을 녹이는 역할을 하는 물이 바로 용매입니다."},
+            "용질":{hanja:"溶質",meaning:"용매에 녹아 들어가는 물질.",detail:"溶 : 녹을 용\n質 : 바탕 질",ex:"설탕물에서 설탕은 물이라는 용매에 녹아든 용질입니다."},
+            "포화":{hanja:"飽和",meaning:"용매가 용질을 더 이상 녹일 수 없을 만큼 가득 찬 상태.",detail:"飽 : 배부를 포\n和 : 화할 화",ex:"물에 소금을 계속 넣다 보면 더 이상 녹지 않고 바닥에 가라앉는데, 이때 이 용액은 포화 상태가 된 것입니다."},
+            "상태":{hanja:"狀態",meaning:"사물이나 현상이 놓여 있는 모양이나 형편.",detail:"狀 : 형상 상\n態 : 모습 태",ex:"물이 끓어서 수증기가 되는 것은 물질의 상태가 액체에서 기체로 변한 것이다."},
+            "결정":{hanja:"結晶",meaning:"원자, 이온, 분자들이 규칙적으로 맺어져 이루어진 고체 물질.",detail:"結 : 맺을 결\n晶 : 맑을 정",ex:"뜨거운 포화 수용액을 천천히 식히면 예쁜 모양의 백반 결정을 얻을 수 있습니다."},
+            "촉매":{hanja:"觸媒",meaning:"자신은 변하지 않고 반응 속도를 조절해 주는 물질.",detail:"觸 : 닿을 촉\n媒 : 중매 매",ex:"자동차 배기가스 정화 장치에는 유해 가스가 빨리 분해되도록 돕는 백금 촉매가 들어 있습니다."},
+            "발열":{hanja:"發熱",meaning:"화학 반응이 일어날 때 밖으로 열을 내보내는 현상.",detail:"發 : 필 발\n熱 : 더울 열",ex:"산과 염기가 섞일 때 용기가 뜨거워지는 것은 발열 반응이 일어났기 때문입니다."},
+            "흡열":{hanja:"吸熱",meaning:"화학 반응이 일어날 때 주변으로부터 열을 빨아들이는 현상.",detail:"吸 : 마실 흡\n熱 : 더울 열",ex:"더운 여름날 마당에 물을 뿌리면 시원해지는 것은 물이 증발하며 주변 열을 빼앗는 흡열 반응 덕분입니다."},
+            "반응":{hanja:"反應",meaning:"어떤 자극에 대응하여 일어나는 변화 현상.",detail:"反 : 돌이킬 반\n應 : 응할 응",ex:"식물은 햇빛이라는 자극에 반응하여 빛이 비치는 방향으로 굽어 자라는 성질이 있다."},
+            "입자":{hanja:"粒子",meaning:"물질을 구성하는 미세한 크기의 객체.",detail:"粒 : 낟알 립\n子 : 입자 자",ex:"이 화장품은 입자가 고와서 피부에 부드럽게 잘 스며든다."},
+            "원자":{hanja:"原子",meaning:"물질을 이루는 가장 기본적인 근원이 되는 입자.",detail:"原 : 근원 원\n子 : 입자 자",ex:"수소 원자 두 개와 산소 원자 한 개가 만나면 물 분자가 만들어집니다."},
+            "분자":{hanja:"分子",meaning:"물질의 고유한 성질을 지닌 채 나눌 수 있는 가장 작은 입자.",detail:"分 : 나눌 분\n子 : 입자 자",ex:"설탕을 계속 쪼개어 설탕 분자 상태가 되어도 단맛이라는 성질은 그대로 유지됩니다."},
+            "밀도":{hanja:"密度",meaning:"일정한 부피 안에 물질이 빽빽하게 차 있는 정도.",detail:"密 : 빽빽할 밀\n度 : 법도 도",ex:"기름이 물 위에 뜨는 이유는 기름의 밀도가 물의 밀도보다 작기 때문입니다."},
+            "융해":{hanja:"融解",meaning:"고체가 열을 받아 액체로 녹는 현상.",detail:"融 : 녹을 융\n解 : 풀 해",ex:"봄이 되어 산 위의 눈이 물로 변하는 융해 현상 덕분에 계곡에 물이 흐릅니다."},
+            "승화":{hanja:"昇華",meaning:"고체가 액체를 거치지 않고 바로 기체로 변하거나 그 반대의 현상.",detail:"昇 : 오를 승\n華 : 빛날 화",ex:"아이스크림 포장에 쓰이는 드라이아이스가 하얀 김을 내며 작아지는 것은 승화 현상입니다."},
+            "산화":{hanja:"酸化",meaning:"물질이 산소와 결합하거나 전자를 잃는 반응.",detail:"酸 : 실 산\n化 : 될 화",ex:"오래된 철 대문에 붉은 녹이 스는 것은 철이 공기 중의 산소와 만나 산화되었기 때문입니다."},
+            "환원":{hanja:"還元",meaning:"물질이 산소를 잃거나 전자를 얻어 원래 상태로 돌아오는 것.",detail:"還 : 돌아올 환\n元 : 본디 원",ex:"용광로에서 철광석에서 산소를 떼어내어 순수한 철을 얻는 과정을 환원이라고 합니다."},
+            "물리학":{hanja:"物理學",meaning:"자연계의 물질과 에너지의 이치를 탐구하는 학문.",detail:"物 : 물건 물\n理 : 다스릴 리\n學 : 배울 학",ex:"아이작 뉴턴은 사과가 떨어지는 현상을 보고 만유인력의 법칙을 발견하여 고전 물리학의 기초를 세웠다."},
+            "변위":{hanja:"變位",meaning:"물체의 처음 위치와 나중 위치 사이의 직선거리와 방향.",detail:"變 : 변할 변\n位 : 자리 위",ex:"운동장을 한 바퀴 돌아 제자리로 돌아오면 이동 거리는 트랙 한 바퀴 길이이지만, 위치가 변하지 않았으므로 변위는 0입니다."},
+            "탄성":{hanja:"彈性",meaning:"힘을 받아 변형된 물체가 원래 모양으로 돌아가려는 성질.",detail:"彈 : 퉁길 탄\n性 : 성품 성",ex:"트램펄린 위에서 높이 뛰어오를 수 있는 초강력 탄성 때문입니다."},
+            "진폭":{hanja:"振幅",meaning:"진동 중심에서 최대로 움직인 거리(폭).",detail:"振 : 떨릴 진\n幅 : 폭 폭",ex:"스피커의 볼륨을 크게 높이면 소리 파동의 진폭이 커져서 소리가 더 크게 들립니다."},
+            "진동수":{hanja:"振動數",meaning:"1초 동안 파동이나 진동이 반복된 횟수.",detail:"振 : 떨릴 진\n動 : 움직일 동\n數 : 셈 수",ex:"피아노 건반에서 높은 음을 칠수록 1초당 공기가 떨리는 횟수인 진동수가 큽니다."},
+            "굴절":{hanja:"屈折",meaning:"파동이 다른 매질을 만날 때 속도 차이로 꺾이는 현상.",detail:"屈 : 굽을 굴\n折 : 꺾을 절",ex:"수영장 바닥이 실제 깊이보다 얕아 보이는 것은 물속에서 공기로 나오는 빛의 굴절 현상 때문입니다."},
+            "현상":{hanja:"現象",meaning:"지각할 수 있는 사물의 모양과 상태.",detail:"現 : 나타날 현\n象 : 형상 상",ex:"빛이 물방울을 통과하며 꺾이고 반사될 때, 우리 눈에는 무지개라는 현상이 관찰된다."},
+            "관찰":{hanja:"觀察",meaning:"사물이나 현상을 주의하여 자세히 살펴봄.",detail:"觀 : 볼 관\n察 : 살필 찰",ex:"갈릴레오 갈릴레이는 망원경으로 밤하늘을 관찰하여 목성의 위성들을 발견했다."},
+            "매질":{hanja:"媒質",meaning:"파동을 중간에서 전달해 주는 물질.",detail:"媒 : 중매 매\n質 : 바탕 질",ex:"소리는 공기라는 매질이 있어야만 전달되므로, 매질이 없는 진공 상태의 우주 공간에서는 아무 소리도 들을 수 없다."},
+            "반사":{hanja:"反射",meaning:"파동이 장애물을 만나 튕겨져 되돌아오는 현상.",detail:"反 : 돌이킬 반\n射 : 쏠 사",ex:"산 정상에서 '야호' 하고 외치면 건너편 산맥에 부딪힌 소리가 반사되어 메아리로 돌아옵니다."},
+            "도선":{hanja:"導線",meaning:"전류를 통하게 하는 금속 선.",detail:"導 : 이끌 도\n線 : 줄 선",ex:"건전지의 양극과 음극을 도선으로 연결하면 회로에 전류가 흐르기 시작한다."},
+            "전류":{hanja:"電流",meaning:"도선을 따라 흐르는 전하의 흐름.",detail:"電 : 번개 전\n流 : 흐를 류",ex:"스위치를 켜서 꼬마전구에 불이 들어오는 것은 전선을 타고 전류가 흘렀기 때문입니다."},
+            "전압":{hanja:"電壓",meaning:"전류를 흐르게 하는 원동력(압력 차이).",detail:"電 : 번개 전\n壓 : 누를 압",ex:"우리나라의 가정용 콘센트는 보통 220V(볼트)의 전압을 공급합니다."},
+            "압력":{hanja:"壓力",meaning:"단위 면적에 수직으로 작용하는 누르는 힘.",detail:"壓 : 누를 압\n力 : 힘 력",ex:"압력솥은 내부의 압력을 높여 물이 100도보다 높은 온도에서 끓게 만들어 밥을 빠르게 익힌다."},
+            "저항":{hanja:"抵抗",meaning:"도선에서 전류의 흐름을 방해하는 성질.",detail:"抵 : 막을 저\n抗 : 겨룰 항",ex:"전열기에 사용되는 니크롬선은 전기 저항이 커서 전류가 흐를 때 열이 많이 발생합니다."},
+            "관성":{hanja:"慣性",meaning:"물체가 현재의 운동 상태를 그대로 유지하려는 성질.",detail:"慣 : 버릇 관\n性 : 성품 성",ex:"망치 자루를 바닥에 내리치면, 망치 머리가 계속 내려가려는 관성 때문에 자루에 단단히 박힙니다."},
+            "마찰력":{hanja:"摩擦力",meaning:"접촉한 두 물체 사이에서 운동을 방해하는 힘.",detail:"摩 : 문지를 마\n擦 : 비빌 찰\n力 : 힘 력",ex:"운동화 바닥에 울퉁불퉁한 무늬를 넣는 초강력 마찰력을 높여 미끄러지지 않게 하려는 것입니다."},
+            "가속도":{hanja:"加速度",meaning:"시간에 따라 속도가 변하는 정도.",detail:"加 : 더할 가\n速 : 빠를 속\n度 : 법도 도",ex:"자유 낙하하는 공은 지구 중력에 의해 일정한 가속도가 붙어 떨어질수록 속력이 빨라집니다."},
+            "속력":{hanja:"速力",meaning:"이동한 거리를 걸린 시간으로 나눈 값(빠르기).",detail:"速 : 빠를 속\n力 : 힘 력",ex:"빛은 우주에서 가장 빠른 속력을 가지고 있으며, 1초에 지구를 일곱 바퀴 반이나 돌 수 있다."},
+            "속도":{hanja:"速度",meaning:"물체가 움직일 때의 빠르기와 방향.",detail:"速 : 빠를 속\n度 : 법도 도",ex:"낙하산은 공기 저항을 이용해 하늘에서 떨어지는 물체의 하강 속도를 안전하게 줄여준다."},
+            "파동":{hanja:"波動",meaning:"한 곳에서 생긴 진동이 주변으로 퍼져나가는 현상.",detail:"波 : 물결 파\n動 : 움직일 동",ex:"우리가 소리를 들을 수 있는 것은 공기의 떨림이 파동의 형태로 귓속의 고막까지 전달되기 때문입니다."},
+            "부력":{hanja:"浮力",meaning:"유체가 물체를 위로 밀어 올리려는 힘.",detail:"浮 : 뜰 부\n力 : 힘 력",ex:"잠수함은 물통에 물을 채우거나 빼서 무게를 조절하여 부력을 변화시킴으로써 바다를 오르내립니다."},
+            "진동":{hanja:"振動",meaning:"물체가 한 점을 중심으로 반복해서 왕복 운동하는 현상.",detail:"振 : 떨릴 진\n動 : 움직일 동",ex:"스마트폰을 매너 모드로 바꾸면 내부에 있는 작은 모터가 진동을 일으켜 알림을 줍니다."},
+            "역학":{hanja:"力學",meaning:"힘을 받는 물체의 정지나 운동 상태를 연구하는 학문.",detail:"力 : 힘 역\n學 : 배울 학",ex:"놀이공원의 롤러코스터는 역학적 에너지 보존 법칙을 정교하게 계산하여 설계되었습니다."},
+            "법칙":{hanja:"法則",meaning:"자연 현상에서 발견되는 보편적인 규칙.",detail:"法 : 법 법\n則 : 법칙 칙",ex:"멘델은 완두콩 교배 실험을 통해 유전 물질이 일정한 규칙에 따라 전달된다는 유전의 법칙을 발견했다."},
+            "전자기유도":{hanja:"電磁氣誘導",meaning:"자기장의 변화로 전류가 유도되는 현상.",detail:"電 : 번개 전\n磁 : 자석 자\n氣 : 기운 기\n誘 : 꾈 유\n導 : 이끌 도",ex:"교통카드를 단말기에 가져다 대면, 단말기의 자기장이 변하면서 카드 내부에 전류가 흐르는 전자기 유도가 일어납니다."},
+            "지구과학":{hanja:"地球科學",meaning:"지구와 우주의 현상을 탐구하는 학문.",detail:"地 : 땅 지\n球 : 공 구\n科 : 과목 과\n學 : 배울 학",ex:"인류가 화성에 기지를 건설하려는 계획은 지구과학과 천문학이 결합한 거대한 도전이다."},
+            "탐구":{hanja:"探究",meaning:"자연 현상을 파고들어 깊이 연구함.",detail:"探 : 찾을 탐\n究 : 연구할 구",ex:"뉴턴은 떨어지는 사과를 보고 의문을 품은 끝에 우주의 법칙을 밝혀내는 위대한 탐구를 이루어냈다."},
+            "지각":{hanja:"地殼",meaning:"암석으로 이루어진 지구의 겉 부분.",detail:"地 : 땅 지\n殼 : 껍질 각",ex:"우리가 발을 딛고 생활하며 건물을 짓는 땅은 지구 전체 부피의 아주 작은 부분을 차지하는 지각입니다."},
+            "핵":{hanja:"核",meaning:"지구 내부의 가장 깊은 중심부.",detail:"核 : 씨 핵",ex:"지구의 핵은 주로 무거운 철과 니켈로 이루어져 있을 것으로 추정됩니다."},
+            "암석":{hanja:"巖石",meaning:"지각을 구성하는 단단한 덩어리.",detail:"巖 : 바위 암\n石 : 돌 석",ex:"지구과학 연구원들은 달에서 가져온 암석 표본을 분석하여 달의 생성 시기를 추정했다."},
+            "화성암":{hanja:"火成巖",meaning:"마그마가 식어서 굳어진 암석.",detail:"火 : 불 화\n成 : 이룰 성\n巖 : 바위 암",ex:"제주도에서 흔히 볼 수 있는 구멍 뚫린 현무암은 마그마가 지표로 분출해 빠르게 식어 만들어진 화성암입니다."},
+            "퇴적암":{hanja:"堆積巖",meaning:"퇴적물이 오랫동안 쌓이고 다져져 만들어진 암석.",detail:"堆 : 쌓을 퇴\n積 : 쌓을 적\n巖 : 바위 암",ex:"과거 생물의 흔적인 화석은 주로 지층이 겹겹이 쌓여 만들어진 퇴적암에서 발견됩니다."},
+            "변성암":{hanja:"變成巖",meaning:"암석이 높은 열과 압력을 받아 성질이 변한 암석.",detail:"變 : 변할 변\n成 : 이룰 성\n巖 : 바위 암",ex:"조각상을 만들 때 많이 쓰는 대리암은 석회암이 열과 압력을 받아 성질이 변한 변성암입니다."},
+            "침식":{hanja:"浸蝕",meaning:"물, 바람 등에 의해 지표가 깎여 나가는 작용.",detail:"浸 : 적실 침\n蝕 : 좀먹을 식",ex:"그랜드캐니언의 거대한 협곡은 수백만 년 동안 흐른 콜로라도강의 강력한 침식 작용으로 만들어졌습니다."},
+            "작용":{hanja:"作用",meaning:"어떤 현상을 일으키거나 영향을 미치는 일.",detail:"作 : 지을 작\n用 : 쓸 용",ex:"지구가 물체를 잡아당기는 중력의 작용 때문에 던져 올린 공은 결국 바닥으로 떨어진다."},
+            "운석":{hanja:"隕石",meaning:"우주의 암석이 대기를 뚫고 지구 표면에 떨어진 것.",detail:"隕 : 떨어질 운\n石 : 돌 석",ex:"과거 공룡의 멸종 원인 중 하나로 거대한 운석이 지구와 충돌했기 때문이라는 가설이 있습니다."},
+            "가설":{hanja:"假說",meaning:"현상을 설명하기 위해 임시로 세운 가정.",detail:"假 : 거짓 가\n說 : 말씀 설",ex:"우리는 '온도가 높을수록 용액에 설탕이 더 빨리 녹을 것이다'라는 가설을 세우고 실험을 시작했다."},
+            "항성":{hanja:"恒星",meaning:"스스로 빛과 열을 내는 별.",detail:"恒 : 항상 항\n星 : 별 성",ex:"밤하늘에 반짝이는 무수히 많은 별들은 대부분 우리 태양과 같은 항성들입니다."},
+            "행성":{hanja:"行星",meaning:"항성 주위를 도는 천체.",detail:"行 : 다닐 행\n星 : 별 성",ex:"수성, 금성, 지구, 화성 등은 태양계를 구성하는 주요 행성들입니다."},
+            "천체":{hanja:"天體",meaning:"우주 공간에 있는 모든 물체.",detail:"天 : 하늘 천\n體 : 몸 체",ex:"태양계는 태양이라는 거대한 항성과 그 주위를 도는 지구, 화성 등의 천체들로 구성되어 있다."},
+            "위성":{hanja:"衛星",meaning:"행성 주위를 도는 작은 천체.",detail:"衛 : 지킬 위\n星 : 별 성",ex:"달은 지구가 가진 유일한 자연 위성입니다."},
+            "자전":{hanja:"自轉",meaning:"천체가 스스로 팽이처럼 제자리에서 도는 운동.",detail:"自 : 스스로 자\n轉 : 구를 전",ex:"지구가 하루에 한 바퀴씩 자전하기 때문에 해가 뜨고 지는 낮과 밤이 생깁니다."},
+            "공전":{hanja:"公轉",meaning:"천체가 다른 천체 둘레를 도는 운동.",detail:"公 : 공평할 공\n轉 : 구를 전",ex:"지구가 태양 주위를 1년에 한 바퀴씩 공전하면서 계절의 변화가 나타납니다."},
+            "풍화":{hanja:"風化",meaning:"암석이 오랜 시간 동안 잘게 부서지거나 성질이 변하는 과정.",detail:"風 : 바람 풍\n化 : 될 화",ex:"오랜 세월 동안 일어난 풍화 작용으로 인해 단단한 화강암이 부서져 아름다운 기암괴석이 되었습니다."},
+            "해류":{hanja:"海流",meaning:"바닷물이 일정한 방향으로 계속 흐르는 현상.",detail:"海 : 바다 해\n流 : 흐를 류",ex:"적도 부근에서 올라오는 따뜻한 쿠로시오 해류의 영향으로 우리나라 남해안은 겨울에도 비교적 따뜻합니다."},
+            "단층":{hanja:"斷層",meaning:"지각 변동으로 지층이 끊어지고 어긋난 구조.",detail:"斷 : 끊을 단\n層 : 층 층",ex:"강력한 지진이 발생한 곳에서는 도로가 쩍 갈라지고 높낮이가 달라진 단층을 볼 수 있습니다."},
+            "지진":{hanja:"地震",meaning:"땅속의 암석이 끊어지며 땅이 흔들리는 현상.",detail:"地 : 땅 지\n震 : 우레 진",ex:"바다 밑에서 강한 지진이 발생하면 그 충격이 바닷물에 전달되어 거대한 쓰나미가 발생할 수 있습니다."},
+            "일식":{hanja:"日食",meaning:"달이 태양을 가려 해의 일부나 전부가 보이지 않는 현상.",detail:"日 : 해 일\n食 : 먹을 식",ex:"개기 일식이 일어나는 아주 짧은 시간 동안 낮에도 별을 관측할 수 있을 정도로 하늘이 어두워졌습니다."},
+            "온실효과":{hanja:"溫室效果",meaning:"대기가 열의 방출을 막아 지구를 따뜻하게 유지하는 현상.",detail:"溫 : 따뜻할 온\n室 : 집 실\n效 : 본받을 효\n果 : 열매 과",ex:"이산화탄소 배출량이 늘어나 온실효과가 비정상적으로 강해지면서 지구 온난화라는 심각한 문제가 발생하고 있습니다."},
+            "생명과학":{hanja:"生命科學",meaning:"생명과 관련된 현상을 연구하는 학문.",detail:"生 : 살 생\n命 : 목숨 명\n科 : 과목 과\n學 : 배울 학",ex:"효은이는 고등학교 시절 생명과학 수업을 들으며 DNA의 복제 원리에 깊은 흥미를 느끼게 되었다."},
+            "조직":{hanja:"組織",meaning:"모양과 기능이 비슷한 세포들의 모임.",detail:"組 : 짤 조\n織 : 짤 직",ex:"우리 몸의 근육은 수축하고 이완하는 기능이 뛰어난 근육 세포들이 촘촘히 엮인 근육 조직으로 이루어져 있습니다."},
+            "기관":{hanja:"器官",meaning:"여러 조직이 모여 특수한 기능을 수행하는 부분.",detail:"器 : 그릇 기\n官 : 벼슬 관",ex:"위, 심장, 폐, 뇌 등은 각자의 뚜렷한 역할을 담당하는 우리 몸의 중요한 기관입니다."},
+            "순환":{hanja:"循環",meaning:"물질이 닫힌 통로를 따라 끊임없이 도는 과정.",detail:"循 : 돌 순\n環 : 고리 환",ex:"심장의 강력한 펌프 작용을 통해 산소와 영양분을 실은 혈액이 온몸을 순환합니다."},
+            "배설":{hanja:"排泄",meaning:"세포 활동으로 생긴 노폐물을 몸 밖으로 내보내는 과정.",detail:"排 : 밀칠 배\n泄 : 샐 설",ex:"콩팥(신장)은 혈액 속의 찌꺼기를 걸러내어 오줌의 형태로 배설하는 핵심 기관입니다."},
+            "신경":{hanja:"神經",meaning:"자극을 느끼고 반응을 전달하는 조직계.",detail:"神 : 귀신 신\n經 : 지날 경",ex:"뜨거운 냄비를 만졌을 때 무의식적으로 손을 떼는 것은 감각 신경과 운동 신경이 매우 빠르게 신호를 주고받았기 때문입니다."},
+            "염색체":{hanja:"染色體",meaning:"유전 정보를 담고 있는 세포 내 구조물.",detail:"染 : 물들 염\n色 : 빛 색\n體 : 몸 체",ex:"사람의 체세포에는 부모로부터 각각 절반씩 물려받은 총 46개의 염색체가 들어 있습니다."},
+            "면역":{hanja:"免疫",meaning:"외부 병원균으로부터 우리 몸을 보호하는 방어 시스템.",detail:"免 : 면할 면\n疫 : 전염병 역",ex:"예방접종(백신)을 맞는 이유는 우리 몸속에 특정 질병에 대한 기억 세포를 만들어 면역력을 키우기 위해서입니다."},
+            "광합성":{hanja:"光合成",meaning:"식물이 빛에너지를 이용해 유기 양분을 만드는 과정.",detail:"光 : 빛 광\n合 : 합할 합\n成 : 이룰 성",ex:"식물은 낮 동안 잎의 엽록체에서 활발하게 광합성을 하여 스스로 살아갈 에너지를 만듭니다."},
+            "항상성":{hanja:"恒常性",meaning:"외부 환경이 변해도 체내 상태를 일정하게 유지하려는 성질.",detail:"恒 : 항상 항\n常 : 항상 상\n性 : 성품 성",ex:"추운 겨울날 몸이 부르르 떨리는 것은 근육을 움직여 열을 발생시킴으로써 체온의 항상성을 유지하기 위함입니다."},
+            "호흡":{hanja:"呼吸",meaning:"산소를 들이마시고 이산화탄소를 내보내어 에너지를 얻는 과정.",detail:"呼 : 숨 내쉴 호\n吸 : 마실 흡",ex:"물고기는 아가미를 통해 물속에 녹아 있는 산소를 흡수하며 호흡을 합니다."},
+            "세포":{hanja:"細胞",meaning:"생물체를 구성하는 구조적, 기능적 기본 단위.",detail:"細 : 가늘 세\n胞 : 세포 포",ex:"우리의 몸은 수조 개의 작은 세포들이 모여 각자의 역할을 수행하며 생명을 유지하고 있습니다."},
+            "유전":{hanja:"遺傳",meaning:"부모의 형질이 자손에게 전달되는 현상.",detail:"遺 : 남길 유\n傳 : 전할 전",ex:"쌍꺼풀이나 머리카락의 곱슬거림 등은 부모로부터 물려받은 유전의 결과입니다."},
+            "소화":{hanja:"消化",meaning:"음식물을 흡수하기 쉬운 형태로 잘게 분해하는 작용.",detail:"消 : 사라질 소\n化 : 될 화",ex:"음식을 오래 씹으면 침 속에 있는 효소 덕분에 탄수화물의 소화가 훨씬 빠르게 이루어집니다."},
+            "진화":{hanja:"進化",meaning:"생물이 오랜 시간에 걸쳐 환경에 적응하며 변화하는 현상.",detail:"進 : 나아갈 진\n化 : 될 화",ex:"기린의 목이 긴 이유는 높은 곳에 있는 나뭇잎을 먹기 유리한 개체들이 살아남아 진화했기 때문입니다."},
+            "개체":{hanja:"個體",meaning:"독립적으로 생명 활동을 하는 하나의 생물체.",detail:"個 : 낱 개\n體 : 몸 체",ex:"아메바나 짚신벌레 같은 단세포 생물은 하나의 세포가 곧 하나의 독립된 개체로 살아간다."},
+            "환경":{hanja:"環境",meaning:"생물에게 영향을 미치는 모든 자연적, 인위적 조건.",detail:"環 : 고리 환\n境 : 지경 경",ex:"북극곰은 온통 얼음과 눈으로 뒤덮인 추운 환경에 적응하며 살아가는 동물이다."},
+            "생태계":{hanja:"生態系",meaning:"특정 지역의 생물들과 환경이 서로 영향을 주고받는 체계.",detail:"生 : 날 생\n態 : 모양 태\n系 : 이을 계",ex:"농약을 과도하게 사용하면 곤충뿐만 아니라 새들까지 죽게 되어 전체 생태계의 균형이 무너집니다."},
+            "체계":{hanja:"體系",meaning:"여러 구성 요소가 일정한 원리에 따라 짜임새 있게 이루어진 전체.",detail:"體 : 몸 체\n系 : 이어맬 계",ex:"과학자들은 지구상의 모든 생물을 문, 강, 목, 과, 속, 종이라는 일정한 체계에 따라 분류했다."}};
 
     const gosaData = {
         "일석이조": {
@@ -641,11 +644,10 @@
     let currentRankTab = 'draw';
 
     window.onload = () => {
-         // 데이터 객체들이 정의된 스크립트보다 아래에 이 코드가 있어야 합니다.
-         renderList('col-math', mathData);
-         renderList('col-sci', scienceData);
-         renderList('col-gosa', gosaData); 
-         checkWeeklyReset();
+        renderList('col-math', mathData);
+        renderList('col-sci', scienceData);
+        renderList('col-gosa', gosaData); 
+        checkWeeklyReset();
         
         document.body.addEventListener("touchstart", function (e) {
             if (e.target == drawCanvas && e.cancelable) e.preventDefault();
@@ -1168,8 +1170,8 @@
     let scoreRecorded = false; 
     window.currentFinalScore = 0;
     
-    let totalQuizMistakes = 0;     // Quiz 틀린 횟수 누적
-    let totalExpectedStrokes = 0;  // 해당 단어의 총 예상 획수 누적
+    let totalQuizMistakes = 0;     
+    let totalExpectedStrokes = 0;  
 
     const bgCanvas = document.getElementById('bgCanvas');
     const bgCtx = bgCanvas.getContext('2d', { willReadFrequently: true });
@@ -1183,130 +1185,120 @@
     let smoothedSpeed = 0; 
     
     function toggleExampleStroke() {
-            const btn = document.getElementById('toggle-btn');
-            const exDiv = document.getElementById('detail-example');
-            const wrDiv = document.getElementById('writer-container');
-            const instMsg = document.getElementById('quiz-instruction');
+        const btn = document.getElementById('toggle-btn');
+        const exDiv = document.getElementById('detail-example');
+        const wrDiv = document.getElementById('writer-container');
+        const instMsg = document.getElementById('quiz-instruction');
 
-            if (wrDiv.style.display === 'none') {
-                exDiv.style.display = 'none';
-                wrDiv.style.display = 'flex'; // 획순 박스 표시
-                instMsg.style.display = 'block'; // 안내 문구 표시
-                btn.innerHTML = '📖 예문 다시 보기';
+        if (wrDiv.style.display === 'none') {
+            exDiv.style.display = 'none';
+            wrDiv.style.display = 'flex'; 
+            instMsg.style.display = 'block'; 
+            btn.innerHTML = '📖 예문 다시 보기';
 
-                // 💡 [핵심 수정] 획순 퀴즈 창이 열릴 때 획순 애니메이션을 먼저 보여줍니다.
-                if (window.detailWriters) {
-                    window.detailWriters.forEach(writer => {
-                        writer.hideCharacter(); // 그려진 것 초기화
-                        writer.animateCharacter({
-                            onComplete: () => {
-                                // 애니메이션이 끝나면 퀴즈(쓰기) 모드 시작
-                                writer.quiz({ onMistake: function() { totalQuizMistakes++; } });
-                            }
-                        });
+            if (window.detailWriters && window.detailWriters.length > 0) {
+                window.detailWriters.forEach(writer => {
+                    writer.hideCharacter(); 
+                    writer.animateCharacter({
+                        onComplete: () => {
+                            writer.quiz({ onMistake: function() { totalQuizMistakes++; } });
+                        }
                     });
-                }
-            } else {
-                // 예문 보기 모드
-                exDiv.style.display = 'block';
-                wrDiv.style.display = 'none';
-                instMsg.style.display = 'none';
-                btn.innerHTML = '▶ 획순 보기 / 퀴즈';
+                });
             }
+        } else {
+            exDiv.style.display = 'block';
+            wrDiv.style.display = 'none';
+            instMsg.style.display = 'none';
+            btn.innerHTML = '▶ 획순 보기 / 퀴즈';
         }
+    }
 
-        async function openDetail(word, data) {
-            document.getElementById('main-app').style.display = 'none'; 
-            document.getElementById('gosa-app').style.display = 'none'; 
-            document.getElementById('ranking-view').style.display = 'none';
-            document.getElementById('main-header').style.display = 'none'; 
-            document.getElementById('detail-view').style.display = 'flex'; 
-            window.scrollTo(0,0);
+    async function openDetail(word, data) {
+        document.getElementById('main-app').style.display = 'none'; 
+        document.getElementById('gosa-app').style.display = 'none'; 
+        document.getElementById('ranking-view').style.display = 'none';
+        document.getElementById('main-header').style.display = 'none'; 
+        document.getElementById('detail-view').style.display = 'flex'; 
+        window.scrollTo(0,0);
+        
+        currentWordName = word;
+        currentHanjaWord = data.hanja;
+        strokeCount = 0;
+        scoreRecorded = false;
+        totalQuizMistakes = 0;
+        totalExpectedStrokes = 0;
+
+        document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
+        document.getElementById('detail-hanja').innerText = data.detail;
+        document.getElementById('detail-meaning').innerText = data.meaning;
+        document.getElementById('detail-example').innerText = data.ex || "등록된 예문이 없습니다.";
+
+        document.getElementById('detail-example').style.display = 'block';
+        document.getElementById('writer-container').style.display = 'none';
+        document.getElementById('quiz-instruction').style.display = 'none';
+        
+        document.getElementById('toggle-btn').innerHTML = '▶ 획순 보기 / 퀴즈';
+
+        const container = document.getElementById('writer-container');
+        container.innerHTML = '';
+        
+        window.detailWriters = []; 
+
+        for(let i = 0; i < data.hanja.length; i++) {
+            let char = data.hanja[i];
+            let box = document.createElement('div');
+            box.className = 'hanja-box';
+            container.appendChild(box);
             
-            currentWordName = word;
-            currentHanjaWord = data.hanja;
-            strokeCount = 0;
-            scoreRecorded = false;
-            totalQuizMistakes = 0;
-            totalExpectedStrokes = 0;
+            try {
+                const charData = await HanziWriter.loadCharacterData(char);
+                if(charData) totalExpectedStrokes += charData.strokes.length;
 
-            document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
-            document.getElementById('detail-hanja').innerText = data.detail;
-            document.getElementById('detail-meaning').innerText = data.meaning;
-            document.getElementById('detail-example').innerText = data.ex || "등록된 예문이 없습니다.";
-
-            document.getElementById('detail-example').style.display = 'block';
-            document.getElementById('writer-container').style.display = 'none';
-            document.getElementById('quiz-instruction').style.display = 'none';
-            
-            // 버튼 텍스트 직관적으로 변경
-            document.getElementById('toggle-btn').innerHTML = '▶ 획순 보기 / 퀴즈';
-
-            const container = document.getElementById('writer-container');
-            container.innerHTML = '';
-            
-            // 💡 [추가] 나중에 애니메이션을 재생하기 위해 writer들을 저장할 배열
-            window.detailWriters = []; 
-
-            for(let i = 0; i < data.hanja.length; i++) {
-                let char = data.hanja[i];
-                let box = document.createElement('div');
-                box.className = 'hanja-box';
-                container.appendChild(box);
+                let writer = HanziWriter.create(box, char, {
+                    width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
+                    delayBetweenStrokes: 100, showOutline: true,
+                    showHintAfterMisses: 1, 
+                    highlightOnComplete: true 
+                });
                 
-                try {
-                    const charData = await HanziWriter.loadCharacterData(char);
-                    if(charData) totalExpectedStrokes += charData.strokes.length;
-
-                    let writer = HanziWriter.create(box, char, {
-                        width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
-                        delayBetweenStrokes: 100, showOutline: true,
-                        showHintAfterMisses: 1, 
-                        highlightOnComplete: true 
+                window.detailWriters.push(writer); 
+                
+                box.onclick = () => {
+                    writer.hideCharacter();
+                    writer.animateCharacter({
+                        onComplete: () => {
+                            writer.quiz({
+                                onMistake: function() { totalQuizMistakes++; }
+                            });
+                        }
                     });
-                    
-                    window.detailWriters.push(writer); // 생성된 writer 저장
-                    
-                    writer.quiz({
-                        onMistake: function(strokeData) { totalQuizMistakes++; }
-                    });
-
-                    // 💡 [핵심 수정] 박스를 누르면 다시 획순 애니메이션 재생 후 퀴즈 모드
-                    box.onclick = () => {
-                        writer.hideCharacter();
-                        writer.animateCharacter({
-                            onComplete: () => {
-                                writer.quiz({
-                                    onMistake: function(strokeData) { totalQuizMistakes++; }
-                                });
-                            }
-                        });
-                    };
-                } catch(e) {
-                    console.error("한자 데이터 로드 실패:", char, e);
-                    box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
-                    totalExpectedStrokes += 10;
-                }
+                };
+            } catch(e) {
+                console.error("한자 데이터 로드 실패:", char, e);
+                box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
+                totalExpectedStrokes += 10;
             }
-            
-            clearBothCanvas();
-            
-            let charLen = data.hanja.length;
-            let fontSize = 100;
-            if (charLen === 1) fontSize = 150;
-            else if (charLen === 2) fontSize = 130;
-            else if (charLen === 3) fontSize = 105;
-            else if (charLen === 4) fontSize = 80;
-            else if (charLen >= 5) fontSize = 65;
-
-            bgCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'PingFang SC', sans-serif`;
-            bgCtx.textAlign = "center";
-            bgCtx.textBaseline = "middle";
-            bgCtx.fillStyle = "#ecf0f1"; 
-            
-            let yOffset = fontSize * 0.05;
-            bgCtx.fillText(data.hanja, bgCanvas.width / 2, bgCanvas.height / 2 + yOffset);
         }
+        
+        clearBothCanvas();
+        
+        let charLen = data.hanja.length;
+        let fontSize = 100;
+        if (charLen === 1) fontSize = 150;
+        else if (charLen === 2) fontSize = 130;
+        else if (charLen === 3) fontSize = 105;
+        else if (charLen === 4) fontSize = 80;
+        else if (charLen >= 5) fontSize = 65;
+
+        bgCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'PingFang SC', sans-serif`;
+        bgCtx.textAlign = "center";
+        bgCtx.textBaseline = "middle";
+        bgCtx.fillStyle = "#ecf0f1"; 
+        
+        let yOffset = fontSize * 0.05;
+        bgCtx.fillText(data.hanja, bgCanvas.width / 2, bgCanvas.height / 2 + yOffset);
+    }
 
     function openImageModal() {
         document.getElementById('image-modal-title').innerText = currentWordName + " 그림";
@@ -1362,86 +1354,6 @@
         reader.readAsDataURL(file);
         
         event.target.value = '';
-    }
-
-    async function openDetail(word, data) {
-        document.getElementById('main-app').style.display = 'none'; 
-        document.getElementById('gosa-app').style.display = 'none'; 
-        document.getElementById('ranking-view').style.display = 'none';
-        document.getElementById('main-header').style.display = 'none'; 
-        document.getElementById('detail-view').style.display = 'flex'; 
-        window.scrollTo(0,0);
-        
-        currentWordName = word;
-        currentHanjaWord = data.hanja;
-        strokeCount = 0;
-        scoreRecorded = false;
-        totalQuizMistakes = 0;
-        totalExpectedStrokes = 0;
-
-        document.getElementById('detail-title').innerText = `${word} (${data.hanja})`;
-        document.getElementById('detail-hanja').innerText = data.detail;
-        document.getElementById('detail-meaning').innerText = data.meaning;
-        document.getElementById('detail-example').innerText = data.ex || "등록된 예문이 없습니다.";
-
-        document.getElementById('detail-example').style.display = 'block';
-        document.getElementById('writer-container').style.display = 'none';
-        document.getElementById('quiz-instruction').style.display = 'none';
-        document.getElementById('toggle-btn').innerHTML = '▶ 획순 퀴즈';
-
-        const container = document.getElementById('writer-container');
-        container.innerHTML = '';
-        
-        for(let i = 0; i < data.hanja.length; i++) {
-            let char = data.hanja[i];
-            let box = document.createElement('div');
-            box.className = 'hanja-box';
-            container.appendChild(box);
-            
-            try {
-                const charData = await HanziWriter.loadCharacterData(char);
-                if(charData) totalExpectedStrokes += charData.strokes.length;
-
-                let writer = HanziWriter.create(box, char, {
-                    width: 70, height: 70, padding: 5, strokeAnimationSpeed: 1.5,
-                    delayBetweenStrokes: 100, showOutline: true,
-                    showHintAfterMisses: 1, 
-                    highlightOnComplete: true 
-                });
-                
-                writer.quiz({
-                    onMistake: function(strokeData) { totalQuizMistakes++; }
-                });
-
-                box.onclick = () => {
-                    writer.quiz({
-                        onMistake: function(strokeData) { totalQuizMistakes++; }
-                    });
-                };
-            } catch(e) {
-                console.error("한자 데이터 로드 실패:", char, e);
-                box.innerHTML = `<span style="color:#bdc3c7; line-height:70px; font-size:40px;">${char}</span>`;
-                totalExpectedStrokes += 10;
-            }
-        }
-        
-        clearBothCanvas();
-        
-        let charLen = data.hanja.length;
-        let fontSize = 100;
-        if (charLen === 1) fontSize = 150;
-        else if (charLen === 2) fontSize = 130;
-        else if (charLen === 3) fontSize = 105;
-        else if (charLen === 4) fontSize = 80;
-        else if (charLen >= 5) fontSize = 65;
-
-        bgCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'PingFang SC', sans-serif`;
-        bgCtx.textAlign = "center";
-        bgCtx.textBaseline = "middle";
-        bgCtx.fillStyle = "#ecf0f1"; 
-        
-        let yOffset = fontSize * 0.05;
-        bgCtx.fillText(data.hanja, bgCanvas.width / 2, bgCanvas.height / 2 + yOffset);
     }
 
     function closeDetail() {
@@ -1680,63 +1592,57 @@
     }
 
     async function loadRank(type) {
-            currentRankTab = type;
-            document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
-            document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
+        currentRankTab = type;
+        document.getElementById('rank-btn-draw').className = type === 'draw' ? 'rank-tab-btn active' : 'rank-tab-btn';
+        document.getElementById('rank-btn-game').className = type === 'game' ? 'rank-tab-btn active' : 'rank-tab-btn';
+        document.getElementById('rank-col-3').innerText = type === 'draw' ? '단어' : '종목';
 
-            const tbody = document.getElementById('ranking-body');
-            tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
+        const tbody = document.getElementById('ranking-body');
+        tbody.innerHTML = '<tr><td colspan="4" style="color:#95a5a6; padding:20px;">서버에서 랭킹을 불러오는 중... ⏳</td></tr>';
 
-            const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
+        const rankKey = type === 'draw' ? 'HanjaApp_WeeklyRanking' : 'HanjaApp_GameRanking';
 
-            try {
-                const limitCount = (type === 'game') ? 10 : 5;
-                const sundayMidnight = getThisSundayMidnight();
+        try {
+            const limitCount = (type === 'game') ? 10 : 5;
+            const sundayMidnight = getThisSundayMidnight();
 
-                // 💡 [핵심 수정] 복합 인덱스 에러 원천 차단!
-                // 1. 서버에서는 오직 '이번 주 데이터'만 전부 가져옵니다. (에러 발생 안 함)
-                const snapshot = await db.collection(rankKey)
-                    .where('timestamp', '>=', sundayMidnight)
-                    .get();
+            const snapshot = await db.collection(rankKey)
+                .where('timestamp', '>=', sundayMidnight)
+                .get();
 
-                // 2. 가져온 데이터를 자바스크립트 배열로 변환합니다.
-                let results = [];
-                snapshot.forEach((doc) => {
-                    results.push(doc.data());
-                });
+            let results = [];
+            snapshot.forEach((doc) => {
+                results.push(doc.data());
+            });
 
-                // 3. 브라우저 메모리 안에서 점수(score) 내림차순으로 직접 정렬합니다.
-                results.sort((a, b) => b.score - a.score);
+            results.sort((a, b) => b.score - a.score);
+            results = results.slice(0, limitCount);
 
-                // 4. 화면에 보여줄 개수(limitCount)만큼만 잘라냅니다.
-                results = results.slice(0, limitCount);
+            tbody.innerHTML = ''; 
 
-                tbody.innerHTML = ''; 
-
-                if (results.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
-                    return;
-                }
-
-                let index = 0;
-                results.forEach((entry) => {
-                    let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
-                    let tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${rankIcon}</td>
-                        <td>${entry.name}</td>
-                        <td style="font-size:12px;">${entry.word || '-'}</td>
-                        <td style="font-weight:bold;">${entry.score}점</td>
-                    `;
-                    tbody.appendChild(tr);
-                    index++;
-                });
-            } catch (error) {
-                console.error("랭킹 로드 에러:", error);
-                tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. (파이어베이스 읽기 권한 등 확인 필요)</td></tr>';
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:#95a5a6; padding:20px;">이번 주 등록된 랭킹이 없습니다.<br>첫 번째 도전자가 되어보세요!</td></tr>`;
+                return;
             }
+
+            let index = 0;
+            results.forEach((entry) => {
+                let rankIcon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : `${index+1}위`;
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${rankIcon}</td>
+                    <td>${entry.name}</td>
+                    <td style="font-size:12px;">${entry.word || '-'}</td>
+                    <td style="font-weight:bold;">${entry.score}점</td>
+                `;
+                tbody.appendChild(tr);
+                index++;
+            });
+        } catch (error) {
+            console.error("랭킹 로드 에러:", error);
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#e74c3c; padding:20px;">랭킹을 불러오는데 실패했습니다. (파이어베이스 읽기 권한 등 확인 필요)</td></tr>';
         }
+    }
 </script>
 </body>
 </html>
