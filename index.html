@@ -1247,9 +1247,32 @@
 
         for(let i = 0; i < data.hanja.length; i++) {
             let char = data.hanja[i];
+            
+            // 💡 [수정] 한자 박스와 다시보기 버튼을 세로로 묶어줄 컨테이너 생성
+            let charWrapper = document.createElement('div');
+            charWrapper.style.display = 'flex';
+            charWrapper.style.flexDirection = 'column';
+            charWrapper.style.alignItems = 'center';
+
             let box = document.createElement('div');
             box.className = 'hanja-box';
-            container.appendChild(box);
+            
+            // 💡 [추가] 개별 한자 전용 '다시보기' 버튼
+            let replayBtn = document.createElement('button');
+            replayBtn.innerHTML = '🔄 다시보기';
+            replayBtn.style.marginTop = '6px';
+            replayBtn.style.padding = '4px 8px';
+            replayBtn.style.fontSize = '11px';
+            replayBtn.style.fontWeight = 'bold';
+            replayBtn.style.color = '#2c3e50';
+            replayBtn.style.border = '1px solid #bdc3c7';
+            replayBtn.style.borderRadius = '4px';
+            replayBtn.style.backgroundColor = '#ecf0f1';
+            replayBtn.style.cursor = 'pointer';
+
+            charWrapper.appendChild(box);
+            charWrapper.appendChild(replayBtn);
+            container.appendChild(charWrapper);
             
             try {
                 const charData = await HanziWriter.loadCharacterData(char);
@@ -1264,10 +1287,12 @@
                 
                 window.detailWriters.push(writer); 
                 
-                box.onclick = () => {
-                    writer.hideCharacter();
+                // 💡 [핵심 수정] 쓰기(퀴즈)와 충돌하지 않도록, 다시보기 버튼을 누를 때만 애니메이션 재생
+                replayBtn.onclick = () => {
+                    writer.hideCharacter(); // 다 쓰여진 한자 지우기
                     writer.animateCharacter({
                         onComplete: () => {
+                            // 애니메이션이 끝나면 다시 사용자가 쓸 수 있도록 퀴즈 모드로 전환
                             writer.quiz({
                                 onMistake: function() { totalQuizMistakes++; }
                             });
